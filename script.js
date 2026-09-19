@@ -35,12 +35,39 @@ if (menuToggle && mainNav) {
   });
 }
 
+// SCROLLSPY (DESTACAR SEÇÃO ATIVA NA NAVEGAÇÃO)
+const navLinks = document.querySelectorAll('#main-nav a');
+const sections = document.querySelectorAll('section[id]');
+
+if ('IntersectionObserver' in window && sections.length > 0 && navLinks.length > 0) {
+  const navObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          navLinks.forEach((link) => {
+            const href = link.getAttribute('href');
+            if (href === `#${id}`) {
+              link.classList.add('active');
+            } else {
+              link.classList.remove('active');
+            }
+          });
+        }
+      });
+    },
+    { threshold: 0.25, rootMargin: '-70px 0px -40% 0px' }
+  );
+
+  sections.forEach((section) => navObserver.observe(section));
+}
+
 // HERO: SIMULADOR DE FLUXO OPERACIONAL INTERATIVO
 const vtabButtons = document.querySelectorAll('.vtab-btn');
 const visualHeadline = document.getElementById('visual-headline');
-const cardDetailA = document.getElementById('card-detail-a');
-const cardDetailB = document.getElementById('card-detail-b');
-const cardDetailC = document.getElementById('card-detail-c');
+const flowStep1 = document.getElementById('flow-step-1');
+const flowStep2 = document.getElementById('flow-step-2');
+const flowStep3 = document.getElementById('flow-step-3');
 const cardLabelA = document.getElementById('card-label-a');
 const cardTextA = document.getElementById('card-text-a');
 const cardLabelB = document.getElementById('card-label-b');
@@ -51,24 +78,28 @@ const cardTextC = document.getElementById('card-text-c');
 const operationalData = {
   estoque: {
     headline: 'Problema → Solução → Eficiência',
+    flow: ['Entrada & Recebimento', 'Conferência de Saldo', 'Armazenagem & Posição'],
     cardA: { label: 'ESTOQUE & SALDOS', text: 'Controle de entradas e saídas' },
     cardB: { label: 'VISIBILIDADE', text: 'Dados sem ruído operacional' },
     cardC: { label: 'PROCESSOS', text: 'Menos digitação e retrabalho' }
   },
   expedicao: {
     headline: 'Separação → Conferência → Despacho',
+    flow: ['Ordem de Separação', 'Picking & Packing', 'Despacho Validado'],
     cardA: { label: 'CONFERÊNCIA', text: 'Validação rápida de volumes' },
     cardB: { label: 'AGILIDADE', text: 'Redução de filas na expedição' },
     cardC: { label: 'RASTREABILIDADE', text: 'Histórico claro de cada pedido' }
   },
   transporte: {
     headline: 'Roteirização → Monitoramento → Entrega',
+    flow: ['Emissão de Carga', 'Rastreamento em Rota', 'Comprovante de Entrega'],
     cardA: { label: 'STATUS DE ROTA', text: 'Acompanhamento de entregas' },
     cardB: { label: 'OCORRÊNCIAS', text: 'Registro imediato de pendências' },
     cardC: { label: 'COMPROVAÇÃO', text: 'Informações centralizadas' }
   },
   automacao: {
     headline: 'Captura → Processamento → Ação',
+    flow: ['Gatilho do Evento', 'Regras de Negócio', 'Sincronização Direta'],
     cardA: { label: 'INTEGRAÇÃO', text: 'Conexão direta entre ferramentas' },
     cardB: { label: 'NOTIFICAÇÕES', text: 'Alertas automáticos de rotina' },
     cardC: { label: 'PADRONIZAÇÃO', text: 'Menos falhas operacionais' }
@@ -90,6 +121,11 @@ if (vtabButtons.length > 0 && visualHeadline) {
 
       if (data) {
         visualHeadline.textContent = data.headline;
+        if (flowStep1 && flowStep2 && flowStep3 && data.flow) {
+          flowStep1.textContent = data.flow[0];
+          flowStep2.textContent = data.flow[1];
+          flowStep3.textContent = data.flow[2];
+        }
         if (cardLabelA && cardTextA) {
           cardLabelA.textContent = data.cardA.label;
           cardTextA.textContent = data.cardA.text;
@@ -180,32 +216,57 @@ if (diagButtons.length > 0 && diagTitle) {
 
 // FORMULÁRIO DE BRIEFING RÁPIDO PARA WHATSAPP
 const briefingForm = document.getElementById('briefing-form');
+const copyBriefingBtn = document.getElementById('copy-briefing-btn');
+const copyStatus = document.getElementById('copy-status');
+
+const getBriefingText = () => {
+  const nameInput = document.getElementById('lead-name');
+  const areaInput = document.getElementById('lead-area');
+  const msgInput = document.getElementById('lead-message');
+
+  const name = nameInput ? nameInput.value.trim() : '';
+  const area = areaInput ? areaInput.value : '';
+  const message = msgInput ? msgInput.value.trim() : '';
+
+  let text = 'Olá!';
+  if (name) {
+    text += ` Me chamo ${name}.`;
+  }
+  if (area) {
+    text += ` Tenho interesse em: ${area}.`;
+  }
+  if (message) {
+    text += ` Meu desafio principal é: ${message}.`;
+  } else {
+    text += ' Gostaria de conversar sobre um projeto com a VÉRTICE.';
+  }
+  return text;
+};
+
 if (briefingForm) {
   briefingForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const nameInput = document.getElementById('lead-name');
-    const areaInput = document.getElementById('lead-area');
-    const msgInput = document.getElementById('lead-message');
-
-    const name = nameInput ? nameInput.value.trim() : '';
-    const area = areaInput ? areaInput.value : '';
-    const message = msgInput ? msgInput.value.trim() : '';
-
-    let text = 'Olá!';
-    if (name) {
-      text += ` Me chamo ${name}.`;
-    }
-    if (area) {
-      text += ` Tenho interesse em: ${area}.`;
-    }
-    if (message) {
-      text += ` Meu desafio principal é: ${message}.`;
-    } else {
-      text += ' Gostaria de conversar sobre um projeto com a VÉRTICE.';
-    }
-
+    const text = getBriefingText();
     const waUrl = `https://wa.me/5521993836880?text=${encodeURIComponent(text)}`;
     window.open(waUrl, '_blank', 'noopener,noreferrer');
+  });
+}
+
+if (copyBriefingBtn) {
+  copyBriefingBtn.addEventListener('click', () => {
+    const text = getBriefingText();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        if (copyStatus) {
+          copyStatus.textContent = '✓ Mensagem copiada com sucesso!';
+          setTimeout(() => {
+            copyStatus.textContent = '';
+          }, 3000);
+        }
+      }).catch(() => {
+        if (copyStatus) copyStatus.textContent = 'Não foi possível copiar automaticamente.';
+      });
+    }
   });
 }
 

@@ -30,7 +30,8 @@
 
     <nav id="main-nav" aria-label="Navegação principal">
       <a href="#solucoes">Soluções</a>
-      <a href="#diagnostico">Diagnóstico</a>
+      <a href="#gargalos">Diagnóstico Operacional</a>
+      <a href="#diagnostico">Simulador</a>
       <a href="#logistica">Logística</a>
       <a href="#processo">Processo</a>
       <a href="#diferenciais">Por que VÉRTICE</a>
@@ -47,10 +48,14 @@
     <!-- HERO SECTION -->
     <section class="hero" id="inicio">
       <div class="hero-copy reveal">
-        <p class="eyebrow"><span class="eyebrow-line"></span> Desenvolvimento · Automação · Logística</p>
+        <div class="hero-badge">
+          <span class="badge-dot" aria-hidden="true"></span>
+          Atendimento direto com quem desenvolve · Soluções sem intermediários
+        </div>
+        <p class="eyebrow"><span class="eyebrow-line"></span> Desenvolvimento · Automação · Projetos Digitais · Logística</p>
         <h1>Tecnologia aplicada a <em>problemas reais.</em></h1>
         <p class="hero-text">
-          Criamos sites, sistemas, automações e soluções digitais sob medida para organizar operações, reduzir tarefas manuais e transformar informação em decisão.
+          Criamos sites, sistemas sob medida e automações para empresas que precisam organizar rotinas, eliminar tarefas manuais e ter clareza total sobre suas operações.
         </p>
 
         <div class="hero-actions">
@@ -66,7 +71,7 @@
           <span>Sistemas sob medida</span>
           <span>Automação de processos</span>
           <span>Estoque e transporte</span>
-          <span>Arquitetura mobile</span>
+          <span>Arquitetura mobile-first</span>
         </div>
       </div>
 
@@ -87,11 +92,11 @@
           <strong id="visual-headline">Problema → Solução → Eficiência</strong>
           
           <div class="visual-flow" id="visual-flow-steps">
-            <span class="flow-step active">Dados de entrada</span>
+            <span class="flow-step active" id="flow-step-1">Entrada & Recebimento</span>
             <span class="flow-arrow" aria-hidden="true">→</span>
-            <span class="flow-step active">Processamento & Regras</span>
+            <span class="flow-step active" id="flow-step-2">Conferência de Saldo</span>
             <span class="flow-arrow" aria-hidden="true">→</span>
-            <span class="flow-step active">Ação & Decisão</span>
+            <span class="flow-step active" id="flow-step-3">Armazenagem & Posição</span>
           </div>
         </div>
 
@@ -141,7 +146,7 @@
           <p class="eyebrow"><span class="eyebrow-line"></span> O que a VÉRTICE desenvolve</p>
           <h2>Digital que resolve,<br>não que complica.</h2>
         </div>
-        <p class="section-intro">Cada projeto parte de uma necessidade concreta. A tecnologia entra como ferramenta para simplificar, conectar e acelerar.</p>
+        <p class="section-intro">Cada projeto parte de uma necessidade concreta. A tecnologia entra como ferramenta para simplificar, conectar e acelerar sua empresa.</p>
       </div>
 
       <div class="service-grid">
@@ -155,12 +160,17 @@
             </svg>
           </div>
           <h3>Sites e landing pages</h3>
-          <p>Presença digital rápida, responsiva e orientada para transformar atenção em contato e oportunidade.</p>
+          <p>Presença digital rápida, responsiva e orientada para transformar atenção em contato e oportunidade comercial.</p>
+          <div class="service-target"><strong>Ideal para:</strong> Empresas e prestadores de serviços que precisam de apresentação séria e rápida no celular.</div>
           <ul>
-            <li>Landing pages de conversão</li>
-            <li>Sites institucionais e comerciais</li>
-            <li>Código leve e carregamento imediato</li>
+            <li>Landing pages focadas em conversão via WhatsApp</li>
+            <li>Sites institucionais leves e objetivos</li>
+            <li>Código limpo com carregamento instantâneo</li>
           </ul>
+          <a class="service-link" data-whatsapp href="https://wa.me/5521993836880?text=Ol%C3%A1%2C%20gostaria%20de%20conversar%20sobre%20Sites%20e%20Landing%20Pages%20com%20a%20V%C3%89RTICE." target="_blank" rel="noopener noreferrer">
+            Conversar sobre sites e páginas
+            <svg class="icon-inline" viewBox="0 0 24 24" aria-hidden="true" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
         </article>
 
         <article class="service-card reveal">
@@ -174,12 +184,17 @@
             </svg>
           </div>
           <h3>Sistemas sob medida</h3>
-          <p>Ferramentas digitais criadas para a rotina da empresa, sem forçar a operação a caber em uma solução genérica.</p>
+          <p>Ferramentas digitais criadas para a rotina específica da empresa, sem forçar a operação a caber em softwares genéricos.</p>
+          <div class="service-target"><strong>Ideal para:</strong> Negócios que superaram as planilhas e precisam de regras próprias sem mensalidades inflacionadas.</div>
           <ul>
-            <li>Painéis e portais operacionais</li>
-            <li>Fluxos de cadastro, validação e conferência</li>
-            <li>Centralização de dados sem planilhas dispersas</li>
+            <li>Painéis operacionais, cadastros e validações</li>
+            <li>Fluxos de conferência e aprovação interna</li>
+            <li>Centralização de dados com segurança e controle</li>
           </ul>
+          <a class="service-link" data-whatsapp href="https://wa.me/5521993836880?text=Ol%C3%A1%2C%20gostaria%20de%20conversar%20sobre%20Sistemas%20Sob%20Medida%20com%20a%20V%C3%89RTICE." target="_blank" rel="noopener noreferrer">
+            Conversar sobre sistemas internos
+            <svg class="icon-inline" viewBox="0 0 24 24" aria-hidden="true" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
         </article>
 
         <article class="service-card reveal">
@@ -190,12 +205,17 @@
             </svg>
           </div>
           <h3>Automação de processos</h3>
-          <p>Redução de tarefas repetitivas e etapas manuais para liberar tempo e diminuir pontos de falha.</p>
+          <p>Redução de etapas manuais e tarefas repetitivas para liberar tempo da equipe e diminuir pontos críticos de falha.</p>
+          <div class="service-target"><strong>Ideal para:</strong> Equipes que perdem tempo redigitando dados entre sistemas ou gerando relatórios manualmente.</div>
           <ul>
-            <li>Automação de rotinas e relatórios</li>
-            <li>Conexão de dados entre ferramentas</li>
-            <li>Alertas e acompanhamento em tempo hábil</li>
+            <li>Conexão de dados entre ferramentas existentes</li>
+            <li>Automação de rotinas diárias e fechamentos</li>
+            <li>Alertas operacionais automáticos em tempo hábil</li>
           </ul>
+          <a class="service-link" data-whatsapp href="https://wa.me/5521993836880?text=Ol%C3%A1%2C%20gostaria%20de%20conversar%20sobre%20Automa%C3%A7%C3%A3o%20de%20Processos%20com%20a%20V%C3%89RTICE." target="_blank" rel="noopener noreferrer">
+            Conversar sobre automação
+            <svg class="icon-inline" viewBox="0 0 24 24" aria-hidden="true" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
         </article>
 
         <article class="service-card featured reveal">
@@ -209,24 +229,74 @@
             </svg>
           </div>
           <h3>Tecnologia para logística</h3>
-          <p>Soluções pensadas para estoque, transporte, entregas e gestão operacional com informação útil no momento certo.</p>
+          <p>Soluções práticas para estoque, transporte, expedição e entregas com a informação certa disponível para quem opera.</p>
+          <div class="service-target featured-target"><strong>Ideal para:</strong> Armazéns, distribuidores e transportadores que precisam de controle sem complicação.</div>
           <ul>
             <li>Visibilidade operacional de ponta a ponta</li>
-            <li>Controles de estoque, separação e entrega</li>
-            <li>Estruturação de dados para tomada de decisão</li>
+            <li>Controles de estoque, separação e conferência</li>
+            <li>Acompanhamento de rotas e registro de ocorrências</li>
           </ul>
+          <a class="service-link featured-link" data-whatsapp href="https://wa.me/5521993836880?text=Ol%C3%A1%2C%20gostaria%20de%20conversar%20sobre%20Solu%C3%A7%C3%B5es%20para%20Log%C3%ADstica%20com%20a%20V%C3%89RTICE." target="_blank" rel="noopener noreferrer">
+            Conversar sobre logística
+            <svg class="icon-inline" viewBox="0 0 24 24" aria-hidden="true" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
         </article>
       </div>
     </section>
 
-    <!-- NEW INTERACTIVE DIAGNOSTIC WIDGET -->
+    <!-- OPERATIONAL FRICTION CHECKLIST (GARGALOS) -->
+    <section class="section section-gargalos" id="gargalos">
+      <div class="section-heading reveal">
+        <div>
+          <p class="eyebrow"><span class="eyebrow-line"></span> Diagnóstico Operacional</p>
+          <h2>Sua empresa enfrenta<br>algum destes gargalos?</h2>
+        </div>
+        <p class="section-intro">Identificar com precisão onde o fluxo trava é o primeiro passo para desenhar uma solução que realmente funciona na prática.</p>
+      </div>
+
+      <div class="friction-grid">
+        <div class="friction-card reveal">
+          <div class="friction-num">01</div>
+          <h3>Planilhas desconectadas e versões conflitantes</h3>
+          <p>Informações de saldo, clientes ou pedidos espalhadas em vários arquivos locais, gerando divergências e retrabalho frequente.</p>
+        </div>
+
+        <div class="friction-card reveal">
+          <div class="friction-num">02</div>
+          <h3>Digitação repetitiva de dados</h3>
+          <p>A equipe gasta horas copiando dados de um lugar para o outro, preenchendo relatórios manuais suscetíveis a erros humanos.</p>
+        </div>
+
+        <div class="friction-card reveal">
+          <div class="friction-num">03</div>
+          <h3>Falta de visibilidade na expedição e entrega</h3>
+          <p>Dificuldade para saber em tempo real o que já foi separado, o que está na doca e o status de cada entrega realizada.</p>
+        </div>
+
+        <div class="friction-card reveal">
+          <div class="friction-num">04</div>
+          <h3>Site lento ou sem geração de contato</h3>
+          <p>Presença digital desatualizada, lenta no celular ou que não transmite segurança para fechar novos negócios.</p>
+        </div>
+      </div>
+
+      <div class="friction-callout reveal">
+        <div class="callout-copy">
+          <strong>Identificou um ou mais desses desafios na sua rotina?</strong>
+          <p>Nós desenhamos e construímos o sistema, automação ou página ideal para resolver esse atrito sem complicar a sua operação.</p>
+        </div>
+        <a class="button button-primary" href="#diagnostico">Fazer diagnóstico guiado ↗</a>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE DIAGNOSTIC WIDGET -->
     <section class="section diagnostic-section" id="diagnostico">
       <div class="section-heading reveal">
         <div>
-          <p class="eyebrow"><span class="eyebrow-line"></span> Diagnóstico interativo</p>
-          <h2>Onde está o principal<br>atrito da sua rotina?</h2>
+          <p class="eyebrow"><span class="eyebrow-line"></span> Simulador de Necessidade</p>
+          <h2>Qual é a prioridade<br>do seu negócio agora?</h2>
         </div>
-        <p class="section-intro">Selecione o cenário que mais se aproxima da sua necessidade atual para visualizar a abordagem recomendada pela VÉRTICE.</p>
+        <p class="section-intro">Selecione o cenário que melhor representa sua demanda para ver a metodologia recomendada e falar diretamente com a VÉRTICE.</p>
       </div>
 
       <div class="diag-container reveal">
@@ -235,7 +305,7 @@
             <span class="diag-radio-indicator" aria-hidden="true"></span>
             <div>
               <strong>Presença Digital & Conversão</strong>
-              <small>Preciso de site ou landing page rápido para apresentar meu serviço e receber contatos.</small>
+              <small>Preciso de site ou landing page rápido para apresentar meu serviço e receber contatos no WhatsApp.</small>
             </div>
           </button>
 
@@ -243,7 +313,7 @@
             <span class="diag-radio-indicator" aria-hidden="true"></span>
             <div>
               <strong>Sistemas & Controle Interno</strong>
-              <small>Minha empresa depende de planilhas soltas e precisa centralizar cadastros e regras.</small>
+              <small>Minha empresa depende de planilhas soltas e precisa centralizar cadastros, fluxos e dados operacionais.</small>
             </div>
           </button>
 
@@ -251,7 +321,7 @@
             <span class="diag-radio-indicator" aria-hidden="true"></span>
             <div>
               <strong>Automação de Tarefas Manuais</strong>
-              <small>Perco tempo digitando os mesmos dados e preciso conectar ferramentas e rotinas.</small>
+              <small>Perco tempo digitando os mesmos dados e preciso conectar ferramentas para a informação fluir automaticamente.</small>
             </div>
           </button>
 
@@ -259,7 +329,7 @@
             <span class="diag-radio-indicator" aria-hidden="true"></span>
             <div>
               <strong>Estoque, Expedição & Entregas</strong>
-              <small>Falta de visibilidade entre o que está no armazém, em trânsito e entregue ao cliente.</small>
+              <small>Preciso de visibilidade clara entre o que entra no armazém, o que é expedido e o status final de transporte.</small>
             </div>
           </button>
         </div>
@@ -271,8 +341,8 @@
             Criamos uma página focada no seu público, com carregamento instantâneo, mensagem clara e chamada objetiva para o WhatsApp. Sem dependências pesadas, projetada para converter no mobile.
           </p>
           <div class="diag-steps">
-            <div><span class="step-dot"></span><span id="diag-step1">Estruturação da mensagem e proposta</span></div>
-            <div><span class="step-dot"></span><span id="diag-step2">Desenvolvimento rápido e responsivo</span></div>
+            <div><span class="step-dot"></span><span id="diag-step1">Estruturação da mensagem e proposta de valor</span></div>
+            <div><span class="step-dot"></span><span id="diag-step2">Desenvolvimento leve, rápido e responsivo</span></div>
             <div><span class="step-dot"></span><span id="diag-step3">Publicação com foco em contato direto</span></div>
           </div>
           <a class="button button-lime" id="diag-cta-btn" data-whatsapp href="https://wa.me/5521993836880?text=Ol%C3%A1%2C%20fiz%20o%20diagn%C3%B3stico%20no%20site%20da%20V%C3%89RTICE%20para%20Presen%C3%A7a%20Digital%20%26%20Convers%C3%A3o%20e%20gostaria%20de%20conversar." target="_blank" rel="noopener noreferrer">
@@ -496,10 +566,16 @@
             <label for="lead-message">Qual desafio você quer resolver?</label>
             <input type="text" id="lead-message" placeholder="Ex: Preciso organizar a conferência de pedidos e reduzir erros">
           </div>
-          <button class="button button-primary form-submit-btn" type="submit">
-            Iniciar conversa no WhatsApp
-            <svg class="icon-inline" viewBox="0 0 24 24" aria-hidden="true" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-          </button>
+          <div class="form-actions-row">
+            <button class="button button-primary form-submit-btn" type="submit">
+              Iniciar conversa no WhatsApp
+              <svg class="icon-inline" viewBox="0 0 24 24" aria-hidden="true" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+            </button>
+            <button class="button button-secondary form-copy-btn" id="copy-briefing-btn" type="button" aria-label="Copiar mensagem formatada">
+              Copiar mensagem
+            </button>
+          </div>
+          <div class="copy-status" id="copy-status" role="status" aria-live="polite"></div>
         </form>
 
         <div class="contact-direct-link">
