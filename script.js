@@ -308,3 +308,147 @@ document.querySelectorAll('[data-wa-message]').forEach((link) => {
     link.href = `https://wa.me/${VERTICE_WHATSAPP}?text=${encodeURIComponent(message)}`;
   }
 });
+
+
+// EXEMPLOS INTERATIVOS DOS CARDS DE TECNOLOGIA
+const solutionExamples = {
+  'Google Sheets': {
+    desc: 'Exemplos de como uma planilha pode deixar de ser apenas um arquivo e virar uma base organizada de operação.',
+    items: [
+      ['Controle operacional compartilhado', 'Pedidos, estoque, clientes, entregas ou financeiro organizados em uma base única.'],
+      ['Painel com filtros e validações', 'Consultas rápidas, campos padronizados e menos risco de preenchimento incorreto.'],
+      ['Fechamentos e consolidações', 'Resumos automáticos por período, responsável, rota, cliente ou status.']
+    ]
+  },
+  'Google Apps Script': {
+    desc: 'Exemplos de automações que trabalham junto ao Google Workspace sem exigir que a equipe repita tarefas.',
+    items: [
+      ['Alertas automáticos', 'Envio de avisos quando um prazo vence, um status muda ou uma pendência aparece.'],
+      ['Rotinas programadas', 'Atualizações, consolidações e verificações executadas em horários definidos.'],
+      ['Regras e validações', 'Bloqueios, permissões e tratamento automático de dados antes de gravar informações.']
+    ]
+  },
+  'Web Apps': {
+    desc: 'Exemplos de interfaces web para usar os dados sem expor a complexidade da planilha para o usuário final.',
+    items: [
+      ['Portal operacional', 'Tela de cadastro, busca, edição e acompanhamento acessível no celular e computador.'],
+      ['Área por perfil', 'Experiências diferentes para administração, operação, motorista, comercial ou cliente.'],
+      ['Fluxo com fotos e comprovantes', 'Registro de ocorrências, anexos, canhotos e dados de campo em uma interface simples.']
+    ]
+  },
+  'ERP sob medida': {
+    desc: 'Exemplos de módulos que podem ser combinados em um ERP criado em torno do processo real da empresa.',
+    items: [
+      ['Cadastros e permissões', 'Usuários, clientes, fornecedores, produtos e perfis de acesso em um único sistema.'],
+      ['Operação integrada', 'Pedidos, estoque, expedição, transporte e acompanhamento conectados entre si.'],
+      ['Histórico e auditoria', 'Registro de alterações, responsáveis, datas e etapas importantes do processo.']
+    ]
+  },
+  'Dashboards': {
+    desc: 'Exemplos de painéis para transformar dados do dia a dia em leitura rápida e útil para decisão.',
+    items: [
+      ['Indicadores operacionais', 'Pendências, volumes, entregas, produtividade e status em uma única visão.'],
+      ['Comparativos por período', 'Leitura diária, semanal ou mensal sem montar relatórios manualmente.'],
+      ['Visão por responsável', 'Acompanhamento por cliente, motorista, rota, equipe ou unidade.']
+    ]
+  },
+  'Automação de processos': {
+    desc: 'Exemplos de etapas manuais que podem ser substituídas por fluxos consistentes e automáticos.',
+    items: [
+      ['Eliminação de redigitação', 'Dados capturados uma vez e reaproveitados nas etapas seguintes.'],
+      ['Geração automática de documentos', 'Relatórios, comprovantes, resumos ou arquivos criados a partir do fluxo.'],
+      ['Tratamento de pendências', 'Regras que identificam exceções e direcionam o próximo passo automaticamente.']
+    ]
+  },
+  'Integrações': {
+    desc: 'Exemplos de conexões para evitar ilhas de informação entre ferramentas usadas pela empresa.',
+    items: [
+      ['Formulário → base → painel', 'Informação capturada em um ponto e disponibilizada imediatamente onde será usada.'],
+      ['APIs e serviços externos', 'Consulta ou envio de dados para plataformas compatíveis com integração.'],
+      ['Sincronização entre bases', 'Dados compartilhados entre planilhas, sistemas e rotinas com regras definidas.']
+    ]
+  },
+  'Estoque': {
+    desc: 'Exemplos de recursos para melhorar controle, conferência e visibilidade do que entra, sai e permanece armazenado.',
+    items: [
+      ['Entrada e saída', 'Movimentações registradas com responsável, data, item, quantidade e observação.'],
+      ['Conferência e divergências', 'Identificação de diferenças antes que elas avancem para as próximas etapas.'],
+      ['Posição e saldo', 'Consulta rápida do que existe, onde está e o que precisa de atenção.']
+    ]
+  },
+  'Transporte': {
+    desc: 'Exemplos de recursos para organizar a operação desde a preparação da rota até o acompanhamento em campo.',
+    items: [
+      ['Roteiro operacional', 'Entregas agrupadas e organizadas para facilitar execução e acompanhamento.'],
+      ['Motoristas e veículos', 'Vínculos, informações operacionais e histórico acessíveis em um único lugar.'],
+      ['Ocorrências em rota', 'Registro rápido de imprevistos para que a operação consiga tratar a exceção.']
+    ]
+  },
+  'Entregas': {
+    desc: 'Exemplos de recursos para acompanhar o ciclo da entrega e centralizar as evidências da operação.',
+    items: [
+      ['Status da entrega', 'Pendente, em rota, entregue ou ocorrência com histórico de atualização.'],
+      ['Comprovantes e canhotos', 'Fotos e documentos vinculados ao registro correto para consulta posterior.'],
+      ['Pendências e tratativas', 'Visão clara do que precisa ser resolvido antes do fechamento da operação.']
+    ]
+  }
+};
+
+const solutionModal = document.getElementById('solution-modal');
+const solutionModalTitle = document.getElementById('solution-modal-title');
+const solutionModalDesc = document.getElementById('solution-modal-desc');
+const solutionModalList = document.getElementById('solution-modal-list');
+const solutionModalCta = document.getElementById('solution-modal-cta');
+const solutionModalClose = document.getElementById('solution-modal-close');
+let solutionModalTrigger = null;
+
+const closeSolutionModal = () => {
+  if (!solutionModal || solutionModal.hidden) return;
+  solutionModal.hidden = true;
+  document.body.classList.remove('modal-open');
+  if (solutionModalTrigger) solutionModalTrigger.focus();
+};
+
+const openSolutionModal = (card) => {
+  if (!solutionModal || !card) return;
+  const key = card.getAttribute('data-solution');
+  const data = solutionExamples[key];
+  if (!data) return;
+
+  solutionModalTrigger = card;
+  solutionModalTitle.textContent = key;
+  solutionModalDesc.textContent = data.desc;
+  solutionModalList.innerHTML = data.items.map((item, index) => `
+    <div class="solution-example">
+      <span class="solution-example-num">${String(index + 1).padStart(2, '0')}</span>
+      <span><strong>${item[0]}</strong><span>${item[1]}</span></span>
+    </div>
+  `).join('');
+
+  const message = `Olá, vim pelo site VÉRTICE e quero conversar sobre uma solução de ${key}.`;
+  solutionModalCta.href = `https://wa.me/5521993836880?text=${encodeURIComponent(message)}`;
+
+  solutionModal.hidden = false;
+  document.body.classList.add('modal-open');
+  requestAnimationFrame(() => solutionModalClose.focus());
+};
+
+document.querySelectorAll('.tech-card[data-solution]').forEach((card) => {
+  card.addEventListener('click', () => openSolutionModal(card));
+  card.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      openSolutionModal(card);
+    }
+  });
+});
+
+if (solutionModalClose) solutionModalClose.addEventListener('click', closeSolutionModal);
+document.querySelectorAll('[data-modal-close]').forEach((el) => el.addEventListener('click', closeSolutionModal));
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && solutionModal && !solutionModal.hidden) {
+    event.preventDefault();
+    closeSolutionModal();
+  }
+});
