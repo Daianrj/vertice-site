@@ -418,6 +418,7 @@ const openSolutionModal = (card) => {
   solutionModalTrigger = card;
   solutionModalTitle.textContent = key;
   solutionModalDesc.textContent = data.desc;
+  renderPracticalDemo(key);
   solutionModalList.innerHTML = data.items.map((item, index) => `
     <div class="solution-example">
       <span class="solution-example-num">${String(index + 1).padStart(2, '0')}</span>
@@ -452,3 +453,244 @@ document.addEventListener('keydown', (event) => {
     closeSolutionModal();
   }
 });
+
+
+// MINI DEMONSTRAÇÕES PRÁTICAS — DADOS ILUSTRATIVOS
+const solutionDemoStage = document.getElementById('solution-demo-stage');
+
+const solutionDemoTemplates = {
+  'Google Sheets': () => `
+    <div class="demo-window">
+      <div class="demo-window-bar"><i class="demo-dot"></i><i class="demo-dot"></i><i class="demo-dot"></i><span class="demo-title">Controle_Operacional.xlsx — DEMO</span></div>
+      <div class="demo-toolbar"><button class="demo-btn demo-btn-primary" data-demo-action="sheet-add">+ Nova linha</button><span class="demo-status ok">Compartilhado</span></div>
+      <table class="demo-grid-table">
+        <thead><tr><th>Pedido</th><th>Cliente</th><th>Status</th><th>Volumes</th></tr></thead>
+        <tbody id="demo-sheet-body">
+          <tr><td contenteditable="true">PED-1041</td><td contenteditable="true">Cliente Alfa</td><td><span class="demo-status">Separação</span></td><td contenteditable="true">12</td></tr>
+          <tr><td contenteditable="true">PED-1042</td><td contenteditable="true">Cliente Beta</td><td><span class="demo-status ok">Expedido</span></td><td contenteditable="true">7</td></tr>
+          <tr><td contenteditable="true">PED-1043</td><td contenteditable="true">Cliente Gama</td><td><span class="demo-status warn">Pendente</span></td><td contenteditable="true">4</td></tr>
+        </tbody>
+      </table>
+    </div>`,
+
+  'Google Apps Script': () => `
+    <div class="demo-window">
+      <div class="demo-window-bar"><i class="demo-dot"></i><i class="demo-dot"></i><i class="demo-dot"></i><span class="demo-title">Automação de fechamento — DEMO</span></div>
+      <div class="demo-flow">
+        <div class="demo-flow-node active" id="demo-auto-1">1. Ler dados<br><small>Planilha operacional</small></div>
+        <div class="demo-flow-node" id="demo-auto-2">2. Validar<br><small>Regras e pendências</small></div>
+        <div class="demo-flow-node" id="demo-auto-3">3. Entregar<br><small>Resumo + alerta</small></div>
+      </div>
+      <div class="demo-toolbar"><button class="demo-btn demo-btn-primary" data-demo-action="automation-run">Executar automação</button></div>
+      <div class="demo-log" id="demo-log">Pronto para executar…</div>
+    </div>`,
+
+  'Web Apps': () => `
+    <div class="demo-window">
+      <div class="demo-window-bar"><i class="demo-dot"></i><i class="demo-dot"></i><i class="demo-dot"></i><span class="demo-title">Portal Operacional — DEMO</span></div>
+      <div class="demo-form">
+        <input id="demo-web-client" value="Cliente Exemplo" aria-label="Cliente">
+        <select id="demo-web-status" aria-label="Status"><option>Pendente</option><option>Em rota</option><option>Entregue</option></select>
+      </div>
+      <div class="demo-toolbar"><button class="demo-btn demo-btn-primary" data-demo-action="webapp-save">Registrar</button><span class="demo-status" id="demo-web-result">Aguardando</span></div>
+      <div class="demo-route-list" id="demo-web-list">
+        <div class="demo-route"><span class="demo-route-num">01</span><div><strong>NF 45821</strong><small>Cliente Exemplo</small></div><span class="demo-status">Pendente</span></div>
+      </div>
+    </div>`,
+
+  'ERP sob medida': () => `
+    <div class="demo-window demo-erp">
+      <aside class="demo-erp-nav"><strong>VÉRTICE ERP</strong>
+        <button class="active" data-demo-action="erp-tab" data-tab="Operação">Operação</button>
+        <button data-demo-action="erp-tab" data-tab="Estoque">Estoque</button>
+        <button data-demo-action="erp-tab" data-tab="Entregas">Entregas</button>
+      </aside>
+      <div class="demo-erp-body">
+        <div class="demo-kpis">
+          <div class="demo-kpi"><small id="demo-erp-k1">Pedidos abertos</small><strong id="demo-erp-v1">18</strong></div>
+          <div class="demo-kpi"><small id="demo-erp-k2">Em separação</small><strong id="demo-erp-v2">7</strong></div>
+          <div class="demo-kpi"><small id="demo-erp-k3">Pendências</small><strong id="demo-erp-v3">3</strong></div>
+        </div>
+        <table class="demo-grid-table"><thead><tr><th>Documento</th><th>Etapa</th><th>Responsável</th></tr></thead><tbody id="demo-erp-table"><tr><td>OP-2301</td><td>Conferência</td><td>Equipe A</td></tr><tr><td>OP-2302</td><td>Separação</td><td>Equipe B</td></tr></tbody></table>
+      </div>
+    </div>`,
+
+  'Dashboards': () => `
+    <div class="demo-window">
+      <div class="demo-window-bar"><i class="demo-dot"></i><i class="demo-dot"></i><i class="demo-dot"></i><span class="demo-title">Dashboard Operacional — DEMO</span></div>
+      <div class="demo-kpis">
+        <div class="demo-kpi"><small>Entregas hoje</small><strong>42</strong></div>
+        <div class="demo-kpi"><small>Em rota</small><strong>11</strong></div>
+        <div class="demo-kpi"><small>Pendências</small><strong>4</strong></div>
+      </div>
+      <div class="demo-chart" aria-label="Gráfico demonstrativo">
+        <div class="demo-bar" style="height:42%"><span>Seg</span></div>
+        <div class="demo-bar" style="height:64%"><span>Ter</span></div>
+        <div class="demo-bar" style="height:51%"><span>Qua</span></div>
+        <div class="demo-bar" style="height:78%"><span>Qui</span></div>
+        <div class="demo-bar" style="height:88%"><span>Sex</span></div>
+      </div>
+    </div>`,
+
+  'Automação de processos': () => `
+    <div class="demo-window">
+      <div class="demo-window-bar"><i class="demo-dot"></i><i class="demo-dot"></i><i class="demo-dot"></i><span class="demo-title">Fluxo automático — DEMO</span></div>
+      <div class="demo-flow">
+        <div class="demo-flow-node active" id="demo-proc-1">Pedido recebido</div>
+        <div class="demo-flow-node" id="demo-proc-2">Validação automática</div>
+        <div class="demo-flow-node" id="demo-proc-3">Equipe notificada</div>
+      </div>
+      <div class="demo-toolbar"><button class="demo-btn demo-btn-primary" data-demo-action="process-next">Simular fluxo</button><span class="demo-status" id="demo-process-status">Etapa 1/3</span></div>
+    </div>`,
+
+  'Integrações': () => `
+    <div class="demo-window">
+      <div class="demo-window-bar"><i class="demo-dot"></i><i class="demo-dot"></i><i class="demo-dot"></i><span class="demo-title">Integração de dados — DEMO</span></div>
+      <div class="demo-flow">
+        <div class="demo-flow-node active">Google Forms<br><small>Entrada</small></div>
+        <div class="demo-flow-node" id="demo-int-mid">Apps Script / API<br><small>Processamento</small></div>
+        <div class="demo-flow-node" id="demo-int-end">ERP / Dashboard<br><small>Destino</small></div>
+      </div>
+      <div class="demo-toolbar"><button class="demo-btn demo-btn-primary" data-demo-action="integration-sync">Sincronizar agora</button><span class="demo-status" id="demo-int-status">Pronto</span></div>
+    </div>`,
+
+  'Estoque': () => `
+    <div class="demo-window">
+      <div class="demo-window-bar"><i class="demo-dot"></i><i class="demo-dot"></i><i class="demo-dot"></i><span class="demo-title">Controle de Estoque — DEMO</span></div>
+      <div class="demo-toolbar"><button class="demo-btn demo-btn-primary" data-demo-action="stock-in">+ Entrada 10</button><button class="demo-btn" data-demo-action="stock-out">- Saída 5</button></div>
+      <table class="demo-grid-table"><thead><tr><th>SKU</th><th>Produto</th><th>Posição</th><th>Saldo</th></tr></thead><tbody><tr><td>SKU-001</td><td>Caixa padrão</td><td>A-01-03</td><td id="demo-stock-balance">35</td></tr><tr><td>SKU-002</td><td>Embalagem</td><td>B-04-02</td><td>82</td></tr></tbody></table>
+      <div class="demo-log" id="demo-stock-log">Última movimentação: nenhuma nesta demonstração.</div>
+    </div>`,
+
+  'Transporte': () => `
+    <div class="demo-window">
+      <div class="demo-window-bar"><i class="demo-dot"></i><i class="demo-dot"></i><i class="demo-dot"></i><span class="demo-title">Roteiro de Transporte — DEMO</span></div>
+      <div class="demo-route-list">
+        <div class="demo-route"><span class="demo-route-num">01</span><div><strong>Barra → Recreio</strong><small>Motorista A · 8 entregas</small></div><span class="demo-status ok">Em rota</span></div>
+        <div class="demo-route"><span class="demo-route-num">02</span><div><strong>Campo Grande → Santa Cruz</strong><small>Motorista B · 6 entregas</small></div><span class="demo-status" id="demo-route-status">Programada</span></div>
+      </div>
+      <div class="demo-toolbar"><button class="demo-btn demo-btn-primary" data-demo-action="route-start">Iniciar rota 02</button></div>
+    </div>`,
+
+  'Entregas': () => `
+    <div class="demo-window">
+      <div class="demo-window-bar"><i class="demo-dot"></i><i class="demo-dot"></i><i class="demo-dot"></i><span class="demo-title">Comprovante de Entrega — DEMO</span></div>
+      <div class="demo-form">
+        <input value="NF 45821" readonly aria-label="Nota fiscal">
+        <select id="demo-delivery-status" aria-label="Status"><option>Em rota</option><option>Entregue</option><option>Ocorrência</option></select>
+      </div>
+      <div style="padding:0 14px 14px"><div class="demo-proof" id="demo-proof">📷 Área demonstrativa de canhoto / comprovante</div></div>
+      <div class="demo-toolbar"><button class="demo-btn demo-btn-primary" data-demo-action="delivery-finish">Finalizar entrega</button><span class="demo-status" id="demo-delivery-result">Em rota</span></div>
+    </div>`
+};
+
+const renderPracticalDemo = (key) => {
+  if (!solutionDemoStage) return;
+  const template = solutionDemoTemplates[key];
+  solutionDemoStage.innerHTML = template ? template() : '<div class="demo-proof">Demonstração em preparação.</div>';
+};
+
+let demoProcessStep = 1;
+
+const handleDemoAction = (button) => {
+  const action = button.getAttribute('data-demo-action');
+
+  if (action === 'sheet-add') {
+    const body = document.getElementById('demo-sheet-body');
+    if (body) {
+      const next = body.children.length + 1041;
+      body.insertAdjacentHTML('beforeend', `<tr><td contenteditable="true">PED-${next}</td><td contenteditable="true">Novo cliente</td><td><span class="demo-status">Novo</span></td><td contenteditable="true">1</td></tr>`);
+    }
+  }
+
+  if (action === 'automation-run') {
+    const log = document.getElementById('demo-log');
+    ['demo-auto-1','demo-auto-2','demo-auto-3'].forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el) setTimeout(() => el.classList.add('active'), i * 350);
+    });
+    if (log) {
+      log.textContent = 'Lendo dados…';
+      setTimeout(() => { log.textContent = 'Validando regras e pendências…'; }, 450);
+      setTimeout(() => { log.textContent = '✓ Processo concluído. Resumo demonstrativo gerado e alerta enviado.'; }, 900);
+    }
+  }
+
+  if (action === 'webapp-save') {
+    const client = document.getElementById('demo-web-client');
+    const status = document.getElementById('demo-web-status');
+    const result = document.getElementById('demo-web-result');
+    const list = document.getElementById('demo-web-list');
+    if (list && client && status) {
+      const count = list.children.length + 1;
+      list.insertAdjacentHTML('beforeend', `<div class="demo-route"><span class="demo-route-num">${String(count).padStart(2,'0')}</span><div><strong>NF DEMO-${45000+count}</strong><small>${client.value || 'Cliente Exemplo'}</small></div><span class="demo-status">${status.value}</span></div>`);
+      if (result) { result.textContent = 'Registrado'; result.classList.add('ok'); }
+    }
+  }
+
+  if (action === 'erp-tab') {
+    document.querySelectorAll('.demo-erp-nav button').forEach(btn => btn.classList.toggle('active', btn === button));
+    const tab = button.getAttribute('data-tab');
+    const data = {
+      'Operação':['Pedidos abertos','18','Em separação','7','Pendências','3'],
+      'Estoque':['SKUs ativos','126','Itens baixos','9','Movimentos hoje','31'],
+      'Entregas':['Programadas','24','Em rota','11','Ocorrências','2']
+    }[tab];
+    if (data) {
+      ['demo-erp-k1','demo-erp-v1','demo-erp-k2','demo-erp-v2','demo-erp-k3','demo-erp-v3'].forEach((id,i) => {
+        const el = document.getElementById(id); if (el) el.textContent = data[i];
+      });
+    }
+  }
+
+  if (action === 'process-next') {
+    demoProcessStep = demoProcessStep >= 3 ? 1 : demoProcessStep + 1;
+    ['demo-proc-1','demo-proc-2','demo-proc-3'].forEach((id,i) => {
+      const el = document.getElementById(id); if (el) el.classList.toggle('active', i < demoProcessStep);
+    });
+    const s = document.getElementById('demo-process-status'); if (s) s.textContent = `Etapa ${demoProcessStep}/3`;
+  }
+
+  if (action === 'integration-sync') {
+    const mid = document.getElementById('demo-int-mid');
+    const end = document.getElementById('demo-int-end');
+    const st = document.getElementById('demo-int-status');
+    if (st) st.textContent = 'Sincronizando…';
+    if (mid) mid.classList.add('active');
+    setTimeout(() => { if (end) end.classList.add('active'); if (st) { st.textContent='Sincronizado'; st.classList.add('ok'); } }, 550);
+  }
+
+  if (action === 'stock-in' || action === 'stock-out') {
+    const bal = document.getElementById('demo-stock-balance');
+    const log = document.getElementById('demo-stock-log');
+    if (bal) {
+      let value = Number(bal.textContent || 0);
+      value += action === 'stock-in' ? 10 : -5;
+      bal.textContent = String(Math.max(0, value));
+      if (log) log.textContent = action === 'stock-in' ? 'Última movimentação: entrada demonstrativa de +10 unidades.' : 'Última movimentação: saída demonstrativa de -5 unidades.';
+    }
+  }
+
+  if (action === 'route-start') {
+    const st = document.getElementById('demo-route-status');
+    if (st) { st.textContent = 'Em rota'; st.classList.add('ok'); }
+    button.textContent = 'Rota iniciada ✓';
+  }
+
+  if (action === 'delivery-finish') {
+    const select = document.getElementById('demo-delivery-status');
+    const result = document.getElementById('demo-delivery-result');
+    const proof = document.getElementById('demo-proof');
+    if (select) select.value = 'Entregue';
+    if (result) { result.textContent = 'Entregue'; result.classList.add('ok'); }
+    if (proof) proof.innerHTML = '✓ Comprovante demonstrativo vinculado<br><small>Registro concluído com sucesso</small>';
+    button.textContent = 'Entrega finalizada ✓';
+  }
+};
+
+if (solutionDemoStage) {
+  solutionDemoStage.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-demo-action]');
+    if (button) handleDemoAction(button);
+  });
+}
