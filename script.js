@@ -694,3 +694,106 @@ if (solutionDemoStage) {
     if (button) handleDemoAction(button);
   });
 }
+
+
+// LABORATÓRIO VÉRTICE: DIAGNÓSTICO, CONSTRUTOR E JORNADA
+const maturityRun = document.getElementById('maturity-run');
+const maturityResult = document.getElementById('maturity-result');
+const maturityTitle = document.getElementById('maturity-title');
+const maturityDesc = document.getElementById('maturity-desc');
+const maturityRoute = document.getElementById('maturity-route');
+const maturityWa = document.getElementById('maturity-wa');
+
+if (maturityRun) {
+  maturityRun.addEventListener('click', () => {
+    const checked = [...document.querySelectorAll('#maturity-questions input:checked')].map(i => i.value);
+    const score = checked.length;
+    let title = 'Operação organizada, pronta para evoluir';
+    let desc = 'Sua base parece relativamente estruturada. O próximo ganho tende a vir de automação, interface e integração.';
+    let route = ['Automação', 'Dashboard', 'Integrações'];
+
+    if (score >= 4) {
+      title = 'Operação muito manual e fragmentada';
+      desc = 'Há sinais de retrabalho e baixa visibilidade. O melhor caminho é organizar a base primeiro e evoluir em etapas.';
+      route = ['Google Sheets', 'Apps Script', 'Web App', 'ERP'];
+    } else if (score >= 2) {
+      title = 'Operação organizada, mas pouco integrada';
+      desc = 'Você já tem controles, mas ainda existe esforço manual. Vale conectar dados e criar uma camada de automação.';
+      route = ['Apps Script', 'Web App', 'Dashboard'];
+    } else if (score === 0) {
+      title = 'Operação com boa base de controle';
+      desc = 'Poucos sinais de atrito foram marcados. A oportunidade está em ganho de escala, integração e experiência do usuário.';
+      route = ['Web App', 'ERP', 'Integrações'];
+    }
+
+    maturityTitle.textContent = title;
+    maturityDesc.textContent = desc;
+    maturityRoute.innerHTML = route.map(item => '<span>'+item+'</span>').join('');
+    maturityResult.hidden = false;
+    const msg = 'Olá, fiz o diagnóstico de maturidade no site VÉRTICE. Resultado: '+title+'. Quero conversar sobre o próximo passo.';
+    maturityWa.href = 'https://wa.me/5521993836880?text='+encodeURIComponent(msg);
+  });
+}
+
+const builderButtons = document.querySelectorAll('#solution-builder [data-module]');
+const builderSummary = document.getElementById('builder-summary');
+const builderWa = document.getElementById('builder-wa');
+const builderSelection = new Set();
+
+builderButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const module = button.getAttribute('data-module');
+    if (builderSelection.has(module)) builderSelection.delete(module);
+    else builderSelection.add(module);
+    button.classList.toggle('active', builderSelection.has(module));
+
+    const items = [...builderSelection];
+    if (!items.length) {
+      builderSummary.textContent = 'Selecione os módulos acima.';
+      builderWa.classList.add('disabled-link');
+      builderWa.setAttribute('aria-disabled','true');
+      builderWa.removeAttribute('href');
+      return;
+    }
+
+    builderSummary.textContent = items.join(' + ');
+    const msg = 'Olá, montei uma solução no site VÉRTICE com: '+items.join(', ')+'. Quero conversar sobre este sistema.';
+    builderWa.href = 'https://wa.me/5521993836880?text='+encodeURIComponent(msg);
+    builderWa.classList.remove('disabled-link');
+    builderWa.setAttribute('aria-disabled','false');
+  });
+});
+
+const evolutionData = {
+  sheet:{tag:'ETAPA 01',title:'Planilha organizada',text:'Estruturamos dados, campos, validações e visão operacional para eliminar bagunça e criar uma base confiável.',gains:['Base única','Validações','Filtros e consultas']},
+  automation:{tag:'ETAPA 02',title:'Automação inteligente',text:'Apps Script assume tarefas repetitivas, dispara alertas, consolida informações e executa regras automaticamente.',gains:['Menos digitação','Alertas','Rotinas programadas']},
+  webapp:{tag:'ETAPA 03',title:'Web App para a equipe',text:'A operação passa a usar uma interface simples no celular e computador, sem depender de navegar diretamente pela planilha.',gains:['Interface mobile','Perfis de acesso','Fluxo guiado']},
+  erp:{tag:'ETAPA 04',title:'ERP sob medida',text:'Módulos, cadastros, permissões e processos ficam conectados em uma experiência única desenhada para a empresa.',gains:['Módulos integrados','Auditoria','Gestão centralizada']},
+  integration:{tag:'ETAPA 05',title:'Integrações e escala',text:'Conectamos APIs, sistemas e fontes externas para eliminar ilhas de informação e permitir que a operação cresça sem retrabalho.',gains:['APIs','Sincronização','Escalabilidade']}
+};
+
+const evolutionButtons = document.querySelectorAll('.evolution-step');
+const evolutionTag = document.getElementById('evolution-tag');
+const evolutionTitle = document.getElementById('evolution-title');
+const evolutionText = document.getElementById('evolution-text');
+const evolutionGains = document.getElementById('evolution-gains');
+
+const renderEvolution = (key) => {
+  const data = evolutionData[key];
+  if (!data) return;
+  evolutionTag.textContent=data.tag;
+  evolutionTitle.textContent=data.title;
+  evolutionText.textContent=data.text;
+  evolutionGains.innerHTML=data.gains.map(g => '<span>'+g+'</span>').join('');
+};
+
+renderEvolution('sheet');
+
+evolutionButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    evolutionButtons.forEach(b => {b.classList.remove('active');b.setAttribute('aria-selected','false');});
+    button.classList.add('active');
+    button.setAttribute('aria-selected','true');
+    renderEvolution(button.getAttribute('data-stage'));
+  });
+});

@@ -31,6 +31,7 @@
     <nav id="main-nav" aria-label="Navegação principal">
       <a href="#solucoes">Soluções</a>
       <a href="#tecnologia">Tecnologia</a>
+      <a href="#laboratorio">Laboratório</a>
       <a href="#gargalos">Diagnóstico Operacional</a>
       <a href="#diagnostico">Simulador</a>
       <a href="#logistica">Logística</a>
@@ -345,6 +346,88 @@
           <span>Logística</span><strong>Tenho um problema logístico</strong><i aria-hidden="true">↗</i>
         </a>
       </div>
+    </section>
+
+
+    <!-- DIFFERENTIAL: OPERATIONAL MATURITY -->
+    <section class="section vertice-lab" id="laboratorio">
+      <div class="section-heading reveal">
+        <div>
+          <p class="eyebrow"><span class="eyebrow-line"></span> Laboratório VÉRTICE</p>
+          <h2>Descubra o próximo passo<br>da sua operação.</h2>
+        </div>
+        <p class="section-intro">Três experiências rápidas para transformar uma necessidade abstrata em um caminho prático: diagnosticar, montar e evoluir.</p>
+      </div>
+
+      <div class="lab-grid">
+        <article class="lab-panel reveal" id="maturidade">
+          <div class="lab-panel-head">
+            <span class="lab-number">01</span>
+            <div><small>DIAGNÓSTICO DE MATURIDADE</small><h3>Como sua operação funciona hoje?</h3></div>
+          </div>
+          <div class="maturity-questions" id="maturity-questions">
+            <label><span>Os dados ficam espalhados em várias planilhas?</span><input type="checkbox" value="planilhas"></label>
+            <label><span>A equipe digita a mesma informação mais de uma vez?</span><input type="checkbox" value="redigitacao"></label>
+            <label><span>Você depende de mensagens para descobrir pendências?</span><input type="checkbox" value="pendencias"></label>
+            <label><span>Faltam indicadores rápidos para decidir?</span><input type="checkbox" value="indicadores"></label>
+            <label><span>Estoque, transporte e entrega não conversam entre si?</span><input type="checkbox" value="integracao"></label>
+          </div>
+          <button class="button button-primary lab-action" id="maturity-run" type="button">Gerar diagnóstico</button>
+          <div class="maturity-result" id="maturity-result" hidden>
+            <span class="result-label">LEITURA DA OPERAÇÃO</span>
+            <h4 id="maturity-title"></h4>
+            <p id="maturity-desc"></p>
+            <div class="maturity-route" id="maturity-route"></div>
+            <a id="maturity-wa" class="text-link" data-whatsapp target="_blank" rel="noopener noreferrer">Conversar sobre este diagnóstico ↗</a>
+          </div>
+        </article>
+
+        <article class="lab-panel reveal" id="construtor">
+          <div class="lab-panel-head">
+            <span class="lab-number">02</span>
+            <div><small>CONSTRUTOR DE SOLUÇÃO</small><h3>Monte o sistema que sua operação precisa.</h3></div>
+          </div>
+          <div class="solution-builder" id="solution-builder">
+            <button type="button" data-module="Estoque">Estoque</button>
+            <button type="button" data-module="Entregas">Entregas</button>
+            <button type="button" data-module="Transporte">Transporte</button>
+            <button type="button" data-module="Dashboard">Dashboard</button>
+            <button type="button" data-module="Permissões">Permissões</button>
+            <button type="button" data-module="Fotos e comprovantes">Fotos e comprovantes</button>
+            <button type="button" data-module="Automação">Automação</button>
+            <button type="button" data-module="Integrações">Integrações</button>
+          </div>
+          <div class="builder-preview">
+            <span>SEU SISTEMA</span>
+            <strong id="builder-summary">Selecione os módulos acima.</strong>
+          </div>
+          <a class="button button-primary lab-action disabled-link" id="builder-wa" aria-disabled="true" target="_blank" rel="noopener noreferrer">Quero esta solução no WhatsApp ↗</a>
+        </article>
+      </div>
+
+      <article class="evolution-panel reveal" id="evolucao">
+        <div class="evolution-copy">
+          <span class="lab-number">03</span>
+          <div>
+            <small>JORNADA DE EVOLUÇÃO</small>
+            <h3>Comece simples. Evolua quando fizer sentido.</h3>
+            <p>A VÉRTICE pode modernizar sua operação por etapas, aproveitando o que já funciona e adicionando complexidade somente quando ela gera valor.</p>
+          </div>
+        </div>
+        <div class="evolution-steps" role="tablist" aria-label="Jornada de evolução digital">
+          <button class="evolution-step active" type="button" data-stage="sheet" aria-selected="true"><span>01</span><strong>Planilha</strong><small>Organizar</small></button>
+          <button class="evolution-step" type="button" data-stage="automation" aria-selected="false"><span>02</span><strong>Automação</strong><small>Ganhar tempo</small></button>
+          <button class="evolution-step" type="button" data-stage="webapp" aria-selected="false"><span>03</span><strong>Web App</strong><small>Simplificar uso</small></button>
+          <button class="evolution-step" type="button" data-stage="erp" aria-selected="false"><span>04</span><strong>ERP</strong><small>Integrar gestão</small></button>
+          <button class="evolution-step" type="button" data-stage="integration" aria-selected="false"><span>05</span><strong>Integrações</strong><small>Escalar</small></button>
+        </div>
+        <div class="evolution-detail" id="evolution-detail">
+          <span id="evolution-tag">ETAPA 01</span>
+          <h4 id="evolution-title">Planilha organizada</h4>
+          <p id="evolution-text">Estruturamos dados, campos, validações e visão operacional para eliminar bagunça e criar uma base confiável.</p>
+          <div id="evolution-gains" class="evolution-gains"></div>
+        </div>
+      </article>
     </section>
 
     <!-- OPERATIONAL FRICTION CHECKLIST (GARGALOS) -->
