@@ -298,3 +298,13 @@ document.querySelectorAll('[data-whatsapp]').forEach((link) => {
     link.dataset.clicked = 'true';
   });
 });
+
+// CTAs CONTEXTUAIS DA SEÇÃO DE TECNOLOGIA
+// Mantém o número oficial em um único ponto e gera a mensagem conforme o interesse.
+const VERTICE_WHATSAPP = '5521993836880';
+document.querySelectorAll('[data-wa-message]').forEach((link) => {
+  const message = link.getAttribute('data-wa-message');
+  if (message) {
+    link.href = `https://wa.me/${VERTICE_WHATSAPP}?text=${encodeURIComponent(message)}`;
+  }
+});
