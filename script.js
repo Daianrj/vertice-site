@@ -218,6 +218,23 @@ if (diagButtons.length > 0 && diagTitle) {
 const briefingForm = document.getElementById('briefing-form');
 const copyBriefingBtn = document.getElementById('copy-briefing-btn');
 const copyStatus = document.getElementById('copy-status');
+const briefingError = document.getElementById('briefing-error');
+
+const validateBriefing = () => {
+  const msgInput = document.getElementById('lead-message');
+  const value = msgInput ? msgInput.value.trim() : '';
+  if (value.length < 8) {
+    if (briefingError) briefingError.textContent = 'Conte em poucas palavras o desafio que você quer resolver.';
+    if (msgInput) {
+      msgInput.setAttribute('aria-invalid', 'true');
+      msgInput.focus();
+    }
+    return false;
+  }
+  if (briefingError) briefingError.textContent = '';
+  if (msgInput) msgInput.removeAttribute('aria-invalid');
+  return true;
+};
 
 const getBriefingText = () => {
   const nameInput = document.getElementById('lead-name');
@@ -246,26 +263,52 @@ const getBriefingText = () => {
 if (briefingForm) {
   briefingForm.addEventListener('submit', (e) => {
     e.preventDefault();
+    if (!validateBriefing()) return;
     const text = getBriefingText();
     const waUrl = `https://wa.me/5521993836880?text=${encodeURIComponent(text)}`;
     window.open(waUrl, '_blank', 'noopener,noreferrer');
   });
+
+  const msgInput = document.getElementById('lead-message');
+  if (msgInput) {
+    msgInput.addEventListener('input', () => {
+      if (msgInput.value.trim().length >= 8) {
+        msgInput.removeAttribute('aria-invalid');
+        if (briefingError) briefingError.textContent = '';
+      }
+    });
+  }
 }
 
 if (copyBriefingBtn) {
-  copyBriefingBtn.addEventListener('click', () => {
+  copyBriefingBtn.addEventListener('click', async () => {
+    if (!validateBriefing()) return;
     const text = getBriefingText();
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(() => {
-        if (copyStatus) {
-          copyStatus.textContent = '✓ Mensagem copiada com sucesso!';
-          setTimeout(() => {
-            copyStatus.textContent = '';
-          }, 3000);
-        }
-      }).catch(() => {
-        if (copyStatus) copyStatus.textContent = 'Não foi possível copiar automaticamente.';
-      });
+
+    const showCopySuccess = () => {
+      if (copyStatus) {
+        copyStatus.textContent = '✓ Mensagem copiada com sucesso!';
+        setTimeout(() => { copyStatus.textContent = ''; }, 3000);
+      }
+    };
+
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const fallback = document.createElement('textarea');
+        fallback.value = text;
+        fallback.setAttribute('readonly', '');
+        fallback.style.position = 'fixed';
+        fallback.style.opacity = '0';
+        document.body.appendChild(fallback);
+        fallback.select();
+        document.execCommand('copy');
+        fallback.remove();
+      }
+      showCopySuccess();
+    } catch {
+      if (copyStatus) copyStatus.textContent = 'Não foi possível copiar automaticamente. Selecione a mensagem e tente novamente.';
     }
   });
 }
@@ -434,7 +477,7 @@ const openSolutionModal = (card) => {
   requestAnimationFrame(() => solutionModalClose.focus());
 };
 
-document.querySelectorAll('.tech-card[data-solution]').forEach((card) => {
+document.querySelectorAll('.tech-card[data-solution], [data-open-solution][data-solution]').forEach((card) => {
   card.addEventListener('click', () => openSolutionModal(card));
   card.addEventListener('keydown', (event) => {
     if (event.key === 'Enter' || event.key === ' ') {
@@ -448,9 +491,28 @@ if (solutionModalClose) solutionModalClose.addEventListener('click', closeSoluti
 document.querySelectorAll('[data-modal-close]').forEach((el) => el.addEventListener('click', closeSolutionModal));
 
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && solutionModal && !solutionModal.hidden) {
+  if (!solutionModal || solutionModal.hidden) return;
+
+  if (event.key === 'Escape') {
     event.preventDefault();
     closeSolutionModal();
+    return;
+  }
+
+  if (event.key === 'Tab') {
+    const focusable = [...solutionModal.querySelectorAll(
+      'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    )].filter(el => !el.hidden && el.offsetParent !== null);
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
   }
 });
 
