@@ -1164,6 +1164,7 @@ document.addEventListener('keydown', (event) => {
     if (!node) return;
     node.addEventListener('mouseenter', () => {
       interactionPaused = true;
+      architectureShell?.classList.add('has-node-hover');
       node.classList.add('is-hovered');
       highlightPaths(key);
       const meta = architectureCopy[key];
@@ -1176,6 +1177,7 @@ document.addEventListener('keydown', (event) => {
 
     node.addEventListener('mouseleave', () => {
       interactionPaused = false;
+      architectureShell?.classList.remove('has-node-hover');
       node.classList.remove('is-hovered');
       document.querySelectorAll('.architecture-path').forEach((path) => path.classList.remove('is-hover-path'));
       hideModuleDiscovery();
@@ -1183,6 +1185,7 @@ document.addEventListener('keydown', (event) => {
 
     node.addEventListener('focus', () => {
       interactionPaused = true;
+      architectureShell?.classList.add('has-node-hover');
       node.classList.add('is-hovered');
       highlightPaths(key);
       setModuleDiscovery(key, node);
@@ -1190,6 +1193,7 @@ document.addEventListener('keydown', (event) => {
 
     node.addEventListener('blur', () => {
       interactionPaused = false;
+      architectureShell?.classList.remove('has-node-hover');
       node.classList.remove('is-hovered');
       hideModuleDiscovery();
     });
@@ -1354,6 +1358,9 @@ document.addEventListener('keydown', (event) => {
   const resetStates = () => {
     clearNodeClasses();
     clearTrails();
+    orders = 127;
+    if (ordersKpi) ordersKpi.textContent = '127';
+    if (kpiBar) kpiBar.style.setProperty('--kpi-width', '54%');
     setNodeState('sheets', 'Nova entrada');
     setNodeState('automation', 'Aguardando');
     setNodeState('webapp', 'Aguardando');
@@ -1366,100 +1373,69 @@ document.addEventListener('keydown', (event) => {
 
   const runOperationalCycle = async (token) => {
     resetStates();
-    cycleIndex += 1;
-    const errorCycle = cycleIndex % 4 === 0;
-    const ids = ['PED-8841', 'PED-8842', 'PED-8843'];
-    currentPacketId = errorCycle ? 'PED-8844' : ids[(cycleIndex - 1) % ids.length];
+    currentPacketId = 'PED-8841';
 
     activateNode('sheets');
     setNodeState('sheets', 'Nova entrada');
-    setLegend('input', currentPacketId + ' recebido.', 'Uma nova entrada nasce no Google Sheets.');
-    if (!(await sleep(650, token))) return;
+    setLegend('input', 'Novo pedido recebido.', 'O dado entrou pelo Google Sheets.');
+    if (!(await sleep(700, token))) return;
 
-    if (!(await animatePacket('path-sheets-script', 980, token, { label: currentPacketId, kind: 'data' }))) return;
+    if (!(await animatePacket('path-sheets-script', 1050, token, { label: currentPacketId, kind: 'data' }))) return;
     activateNode('automation', 'processing');
     setNodeState('automation', 'Validando…');
-    setLegend('automation');
+    setLegend('automation', 'Validando...', 'Apps Script está processando PED-8841.');
     if (!(await sleep(720, token))) return;
+    activateNode('automation', 'success');
+    setNodeState('automation', '✓ Validado');
+    if (!(await sleep(480, token))) return;
 
-    if (errorCycle) {
-      activateNode('automation', 'error');
-      setNodeState('automation', '⚠ CEP incompleto');
-      setLegend('automation', 'Correção necessária.', 'Apps Script detectou CEP incompleto e pausou o fluxo.');
-      if (!(await sleep(1300, token))) return;
-      activateNode('automation', 'processing');
-      setNodeState('automation', 'Corrigindo…');
-      if (!(await sleep(650, token))) return;
-      activateNode('automation', 'success');
-      setNodeState('automation', 'Dado corrigido ✓');
-      setLegend('automation', 'Dado corrigido ✓', 'A validação tratou a inconsistência e liberou o processamento.');
-      if (!(await sleep(650, token))) return;
-    } else {
-      activateNode('automation', 'success');
-      setNodeState('automation', '✓ Dados válidos');
-      if (!(await sleep(460, token))) return;
-    }
-
-    if (!(await animatePacket('path-script-webapp', 900, token, { label: currentPacketId, kind: 'data' }))) return;
+    if (!(await animatePacket('path-script-webapp', 980, token, { label: currentPacketId, kind: 'data' }))) return;
     activateNode('webapp', 'processing');
-    setNodeState('webapp', 'Recebendo…');
-    setLegend('system');
-    if (!(await sleep(520, token))) return;
-    activateNode('webapp', 'success');
-    setNodeState('webapp', '✓ Registro criado');
+    setNodeState('webapp', 'Sincronizando…');
+    setLegend('system', 'Sincronizando...', 'O Web App recebeu o pedido processado.');
+    if (!(await sleep(620, token))) return;
 
-    if (!(await animatePacket('path-webapp-erp', 900, token, { label: currentPacketId, kind: 'data' }))) return;
-    activateNode('erp', 'processing');
-    setNodeState('erp', 'Sincronizando…');
-    setLegend('central');
-    if (!(await sleep(560, token))) return;
+    if (!(await animatePacket('path-webapp-erp', 980, token, { label: currentPacketId, kind: 'data' }))) return;
     activateNode('erp', 'success');
-    setNodeState('erp', '✓ Pedido centralizado');
+    setNodeState('erp', 'Pedido criado');
+    setLegend('central', 'Pedido criado.', 'O ERP centralizou PED-8841.');
+    if (!(await sleep(620, token))) return;
 
-    if (!(await animatePacket('path-erp-dashboard', 960, token, { label: currentPacketId, kind: 'data' }))) return;
+    if (!(await animatePacket('path-erp-dashboard', 1000, token, { label: currentPacketId, kind: 'data' }))) return;
     activateNode('dashboard', 'success');
     const [before, after] = updateDashboard();
     setLegend('intelligence', 'Dashboard atualizado.', before + ' → ' + after + ' pedidos.');
-    if (!(await sleep(950, token))) return;
+    if (!(await sleep(1000, token))) return;
 
     if (!(await animatePacket('path-dashboard-stock', 1250, token, { label: currentPacketId, kind: 'operation' }))) return;
-    activateNode('estoque');
-    setNodeState('estoque', 'Pedido recebido');
-    setLegend('operation', 'Pedido liberado para execução.', currentPacketId + ' chegou ao estoque.');
-    if (!(await sleep(650, token))) return;
+    activateNode('estoque', 'success');
+    setNodeState('estoque', 'Saldo atualizado');
+    setLegend('operation', 'Saldo atualizado.', 'O pedido chegou ao estoque.');
+    if (!(await sleep(700, token))) return;
 
-    if (!(await animatePacket('path-stock-expedition', 960, token, { label: currentPacketId, kind: 'operation' }))) return;
+    if (!(await animatePacket('path-stock-expedition', 980, token, { label: currentPacketId, kind: 'operation' }))) return;
     activateNode('expedicao', 'processing');
-    setNodeState('expedicao', 'Separando volumes…');
-    if (captionTitle) captionTitle.textContent = 'Expedição em processamento.';
-    if (captionText) captionText.textContent = 'Separação e conferência preparam os volumes.';
+    setNodeState('expedicao', 'Separação iniciada');
+    if (captionTitle) captionTitle.textContent = 'Separação iniciada.';
+    if (captionText) captionText.textContent = 'A expedição começou a preparar PED-8841.';
     if (!(await sleep(760, token))) return;
-    activateNode('expedicao', 'success');
-    setNodeState('expedicao', 'Expedido ✓');
 
-    if (!(await animatePacket('path-expedition-transport', 950, token, { label: currentPacketId, kind: 'operation' }))) return;
-    activateNode('transporte');
-    setNodeState('transporte', 'Em rota');
-    if (captionTitle) captionTitle.textContent = 'Transporte em rota.';
-    if (captionText) captionText.textContent = 'O pedido agora está sendo executado em campo.';
-    if (!(await sleep(650, token))) return;
+    if (!(await animatePacket('path-expedition-transport', 980, token, { label: currentPacketId, kind: 'operation' }))) return;
+    activateNode('transporte', 'success');
+    setNodeState('transporte', 'Rota atribuída');
+    if (captionTitle) captionTitle.textContent = 'Rota atribuída.';
+    if (captionText) captionText.textContent = 'PED-8841 foi encaminhado ao transporte.';
+    if (!(await sleep(720, token))) return;
 
-    if (!(await animatePacket('path-transport-delivery', 980, token, { label: currentPacketId, kind: 'operation' }))) return;
-    activateNode('entrega', 'success');
-    setNodeState('entrega', 'Concluída ✓');
-    setLegend('result', 'Entrega concluída ✓', currentPacketId + ' finalizou o ciclo operacional.');
-    if (!(await sleep(900, token))) return;
-
-    // Small return path communicates that the result is recorded back in management.
-    if (!(await animatePacket('path-delivery-dashboard', 1120, token, { label: 'RESULTADO', kind: 'feedback' }))) return;
-    activateNode('dashboard', 'success');
-    if (captionTitle) captionTitle.textContent = 'Resultado registrado.';
-    if (captionText) captionText.textContent = 'A execução voltou para a gestão como informação confiável.';
-    if (!(await sleep(900, token))) return;
+    if (!(await animatePacket('path-transport-delivery', 1000, token, { label: currentPacketId, kind: 'operation' }))) return;
+    activateNode('entrega');
+    setNodeState('entrega', 'Pendente');
+    setLegend('result', 'Entrega pendente.', 'PED-8841 chegou à etapa final da operação.');
+    if (!(await sleep(1800, token))) return;
 
     clearNodeClasses();
-    setLegend('result', 'Operação registrada de ponta a ponta.', 'Entrada → processamento → sistema → gestão → operação → resultado.');
-    await sleep(3400, token);
+    setLegend('input', 'Novo pedido recebido.', 'O dado entrou pelo Google Sheets.');
+    await sleep(2400, token);
   };
 
   const startCycle = async () => {
