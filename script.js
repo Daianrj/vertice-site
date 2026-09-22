@@ -941,3 +941,269 @@ document.addEventListener('keydown', (event) => {
     }
   }
 });
+
+
+// =========================================================
+// STRATEGIC 3D — HERO ARCHITECTURE + SHEET → SYSTEM
+// =========================================================
+(() => {
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // HERO: accessible DOM architecture with subtle pointer depth.
+  const architectureShell = document.getElementById('hero-architecture-shell');
+  const architectureScene = document.getElementById('hero-iso-scene');
+  const architectureCaption = document.getElementById('architecture-caption');
+  const heroVisual3d = architectureShell ? architectureShell.closest('.hero-visual') : null;
+
+  const architectureCopy = {
+    sheets: ['Google Sheets organiza a base.', 'Dados estruturados criam uma fonte operacional confiável para as próximas etapas.'],
+    automation: ['Apps Script automatiza as regras.', 'Validações, gatilhos e rotinas reduzem digitação e trabalho repetitivo.'],
+    webapp: ['Web App simplifica a operação.', 'A equipe usa uma interface objetiva sem depender de trabalhar diretamente na planilha.'],
+    erp: ['ERP conecta os processos.', 'Cadastros, permissões e fluxos passam a funcionar em uma experiência integrada.'],
+    dashboard: ['Dashboard transforma dados em decisão.', 'Indicadores deixam pendências, volumes e desempenho visíveis para gestão.'],
+    estoque: ['Estoque inicia o fluxo físico.', 'Entradas, posições e saldos alimentam uma operação com informação rastreável.'],
+    expedicao: ['Expedição valida a saída.', 'Separação e conferência conectam estoque ao transporte com menos ruído.'],
+    transporte: ['Transporte leva o plano para a rua.', 'Rotas, motoristas e ocorrências passam a fazer parte do mesmo fluxo de informação.'],
+    entrega: ['Entrega fecha o ciclo.', 'Status e comprovação retornam ao sistema e atualizam a visão operacional.']
+  };
+
+  const setArchitectureNode = (key, sourceButton = null) => {
+    const copy = architectureCopy[key];
+    if (!copy || !architectureCaption) return;
+    architectureCaption.innerHTML = '<strong>' + copy[0] + '</strong><span>' + copy[1] + '</span>';
+
+    document.querySelectorAll('[data-architecture-node]').forEach((node) => {
+      node.classList.toggle('is-active', node === sourceButton);
+    });
+
+    const tabMap = { estoque: 'estoque', expedicao: 'expedicao', transporte: 'transporte', automation: 'automacao' };
+    const tabKey = tabMap[key];
+    if (tabKey) {
+      const tab = document.querySelector('.vtab-btn[data-tab="' + tabKey + '"]');
+      if (tab) tab.click();
+    }
+  };
+
+  document.querySelectorAll('[data-architecture-node]').forEach((button) => {
+    button.addEventListener('click', () => setArchitectureNode(button.getAttribute('data-architecture-node'), button));
+    button.addEventListener('focus', () => setArchitectureNode(button.getAttribute('data-architecture-node'), button));
+  });
+
+  const finePointer = window.matchMedia('(pointer: fine)').matches;
+  if (architectureShell && architectureScene && finePointer && !reducedMotion) {
+    architectureShell.addEventListener('pointermove', (event) => {
+      const rect = architectureShell.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+      architectureShell.style.setProperty('--tilt-x', (-y * 2.8).toFixed(2) + 'deg');
+      architectureShell.style.setProperty('--tilt-y', (x * 3.8).toFixed(2) + 'deg');
+    }, { passive: true });
+
+    architectureShell.addEventListener('pointerleave', () => {
+      architectureShell.style.setProperty('--tilt-x', '0deg');
+      architectureShell.style.setProperty('--tilt-y', '0deg');
+    });
+  }
+
+  // Lazy-load Three.js only for capable desktop devices and only when hero enters viewport.
+  const canUseWebGL = () => {
+    try {
+      const canvas = document.createElement('canvas');
+      return Boolean(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+    } catch {
+      return false;
+    }
+  };
+
+  const canLoadHeroWebGL = () => {
+    if (!architectureShell || reducedMotion || window.innerWidth < 900 || !canUseWebGL()) return false;
+    const memory = Number(navigator.deviceMemory || 8);
+    const saveData = Boolean(navigator.connection && navigator.connection.saveData);
+    return memory >= 4 && !saveData;
+  };
+
+  let heroWebGLStarted = false;
+
+  const initHeroWebGL = async () => {
+    if (heroWebGLStarted || !canLoadHeroWebGL()) return;
+    heroWebGLStarted = true;
+
+    const canvas = document.getElementById('hero-webgl');
+    if (!canvas) return;
+
+    try {
+      const THREE = await import('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js');
+
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: false,
+        powerPreference: 'low-power'
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+      camera.position.z = 7;
+
+      const pointCount = 28;
+      const positions = new Float32Array(pointCount * 3);
+      const speeds = new Float32Array(pointCount);
+
+      for (let i = 0; i < pointCount; i += 1) {
+        const ix = i * 3;
+        positions[ix] = (Math.random() - 0.5) * 8.5;
+        positions[ix + 1] = (Math.random() - 0.5) * 4.2;
+        positions[ix + 2] = (Math.random() - 0.5) * 2;
+        speeds[i] = 0.0015 + Math.random() * 0.0025;
+      }
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const material = new THREE.PointsMaterial({
+        size: 0.035,
+        color: 0xc9ff4a,
+        transparent: true,
+        opacity: 0.58,
+        depthWrite: false
+      });
+      const points = new THREE.Points(geometry, material);
+      scene.add(points);
+
+      const lineGeometry = new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(-3.7, 1.15, -0.8),
+        new THREE.Vector3(3.6, 1.15, -0.8),
+        new THREE.Vector3(2.8, -1.35, -0.8),
+        new THREE.Vector3(-2.9, -1.35, -0.8)
+      ]);
+      const lineMaterial = new THREE.LineBasicMaterial({
+        color: 0x3157ff,
+        transparent: true,
+        opacity: 0.14
+      });
+      scene.add(new THREE.Line(lineGeometry, lineMaterial));
+
+      const resize = () => {
+        const width = Math.max(1, architectureShell.clientWidth);
+        const height = Math.max(1, architectureShell.clientHeight);
+        renderer.setSize(width, height, false);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+      };
+
+      let visible = true;
+      let rafId = 0;
+      let lastTime = 0;
+
+      const animate = (time) => {
+        if (!visible) return;
+        const delta = Math.min(32, time - lastTime || 16);
+        lastTime = time;
+
+        const attr = geometry.getAttribute('position');
+        for (let i = 0; i < pointCount; i += 1) {
+          const ix = i * 3;
+          attr.array[ix] += speeds[i] * delta;
+          if (attr.array[ix] > 4.4) attr.array[ix] = -4.4;
+        }
+        attr.needsUpdate = true;
+        points.rotation.z = Math.sin(time * 0.00018) * 0.025;
+
+        renderer.render(scene, camera);
+        rafId = requestAnimationFrame(animate);
+      };
+
+      const visibilityObserver = new IntersectionObserver((entries) => {
+        visible = entries.some((entry) => entry.isIntersecting);
+        if (visible && !rafId) rafId = requestAnimationFrame(animate);
+        if (!visible && rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = 0;
+        }
+      }, { threshold: 0.02 });
+
+      resize();
+      visibilityObserver.observe(architectureShell);
+      window.addEventListener('resize', resize, { passive: true });
+      rafId = requestAnimationFrame(animate);
+      if (heroVisual3d) heroVisual3d.classList.add('webgl-ready');
+    } catch {
+      // DOM/CSS architecture is the intentional fallback.
+      if (heroVisual3d) heroVisual3d.classList.add('webgl-fallback');
+    }
+  };
+
+  if (canLoadHeroWebGL()) {
+    const lazyObserver = new IntersectionObserver((entries, observer) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        observer.disconnect();
+        initHeroWebGL();
+      }
+    }, { rootMargin: '180px 0px', threshold: 0.01 });
+    lazyObserver.observe(architectureShell);
+  } else if (heroVisual3d) {
+    heroVisual3d.classList.add('webgl-fallback');
+  }
+
+  // SHEET → SYSTEM: scroll-driven DOM/CSS evolution (no WebGL needed here).
+  const evolution = document.getElementById('sheet-system-evolution');
+  if (!evolution) return;
+
+  const stageButtons = [...evolution.querySelectorAll('[data-sheet-stage]')];
+  const stageTitle = document.getElementById('sheet-stage-title');
+  const stageDesc = document.getElementById('sheet-stage-desc');
+
+  const stageContent = [
+    ['Planilha organizada', 'A base atual é estruturada sem romper a rotina da equipe.'],
+    ['Automação aplicada', 'Regras repetitivas passam a rodar automaticamente e os dados começam a fluir.'],
+    ['Web App operacional', 'A equipe ganha uma interface simples, rápida e adequada ao celular e computador.'],
+    ['ERP e gestão integrada', 'Módulos, indicadores e permissões passam a funcionar em uma experiência profissional única.']
+  ];
+
+  let currentStage = -1;
+  const applyStage = (stage) => {
+    const next = Math.max(0, Math.min(3, Number(stage) || 0));
+    if (next === currentStage) return;
+    currentStage = next;
+    evolution.setAttribute('data-evolution-stage', String(next));
+
+    stageButtons.forEach((button) => {
+      const active = Number(button.getAttribute('data-sheet-stage')) === next;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+
+    if (stageTitle) stageTitle.textContent = stageContent[next][0];
+    if (stageDesc) stageDesc.textContent = stageContent[next][1];
+  };
+
+  stageButtons.forEach((button) => {
+    button.setAttribute('aria-pressed', button.classList.contains('active') ? 'true' : 'false');
+    button.addEventListener('click', () => applyStage(button.getAttribute('data-sheet-stage')));
+  });
+
+  applyStage(0);
+
+  if (!reducedMotion && window.matchMedia('(min-width: 821px)').matches) {
+    let ticking = false;
+
+    const updateByScroll = () => {
+      ticking = false;
+      const rect = evolution.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const progress = Math.max(0, Math.min(0.999, (vh * 0.82 - rect.top) / (rect.height + vh * 0.22)));
+      applyStage(Math.floor(progress * 4));
+    };
+
+    const requestScrollUpdate = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(updateByScroll);
+      }
+    };
+
+    window.addEventListener('scroll', requestScrollUpdate, { passive: true });
+    window.addEventListener('resize', requestScrollUpdate, { passive: true });
+    updateByScroll();
+  }
+})();
