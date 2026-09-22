@@ -1,4 +1,4 @@
-import {esc,wait} from './shared.js?v=20260922-showroom3';
+import {esc,wait} from './shared.js?v=20260922-showroom4';
 
 const steps=[
   'Nova linha detectada',
