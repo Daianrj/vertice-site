@@ -41,3 +41,24 @@ https://daianrj.github.io/vertice-site/
 ---
 
 VÉRTICE — desenvolvimento, automação e tecnologia aplicada a problemas reais.
+
+
+## Showroom de Demonstrações
+
+A página `demonstracoes.html` funciona como showroom interativo da VÉRTICE. Ela não carrega todas as miniaplicações de uma vez.
+
+Estrutura:
+
+- `demos.js` — shell, filtros, modal, lazy loading, reset e WhatsApp contextual
+- `demos.css` — estilos isolados do showroom e das miniaplicações
+- `demos/shared.js` — utilitários compartilhados
+- `demos/stock.js` — Controle de Estoque
+- `demos/deliveries.js` — Sistema de Entregas
+- `demos/erp.js` — ERP Operacional
+- `demos/automation.js` — Automação / Apps Script
+- `demos/dashboard.js` — Dashboard Executivo
+- `demos/routing.js` — Logística / Roteirizador
+- `demos/driver.js` — Aplicativo do Motorista
+- `demos/integrations.js` — Integrações
+
+Cada módulo é importado dinamicamente somente quando o visitante clica em **Testar demonstração**. Todos os dados são fictícios e locais ao navegador.
