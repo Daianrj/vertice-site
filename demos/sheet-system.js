@@ -1,4 +1,4 @@
-import {wait,esc} from './shared.js?v=20260922-showroom3';
+import {wait,esc} from './shared.js?v=20260922-showroom4';
 
 const stages=['Planilha','Automação','Banco / Dados','Web App','Dashboard','Sistema Operacional'];
 let rootRef=null,stage=0,running=false,guideText='',guideToken=0,feedback='Pronto para transformar a operação.',elapsed='—';
