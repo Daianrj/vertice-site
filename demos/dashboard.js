@@ -1,4 +1,4 @@
-import {clone,barChart,wait,esc} from './shared.js?v=20260922-showroom4';
+import {clone,barChart,wait,esc} from './shared.js?v=20260922-showroom5';
 const initial=[
 {period:'Hoje',status:'Entregue',category:'Logística',value:42,revenue:12800},
 {period:'Hoje',status:'Pendente',category:'Logística',value:7,revenue:2100},
