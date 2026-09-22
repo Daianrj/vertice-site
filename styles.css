@@ -4895,3 +4895,197 @@ body:not([data-page="home"]) main > .logistics {
     font-size:5.5px !important;
   }
 }
+
+
+/* =========================================================
+   HERO 4.0B — COMPOSITION HOTFIX
+   Two clean architecture rows + exclusive status + separate CTA.
+   ========================================================= */
+.hero-architecture-shell.hero-architecture-v4{
+  min-height:350px !important;
+}
+
+.hero-architecture-shell.hero-architecture-v4 .hero-iso-scene{
+  inset:14px 14px 82px !important;
+}
+
+/* Clean two-row composition. Depth remains in translateZ, not overlapping text. */
+.hero-architecture-shell.hero-architecture-v4 .iso-node{
+  width:clamp(70px,7vw,84px) !important;
+  min-height:68px !important;
+  padding:9px 8px 8px !important;
+}
+
+.hero-architecture-shell.hero-architecture-v4 [data-arch-pos="sheets"]{left:10% !important;top:25% !important}
+.hero-architecture-shell.hero-architecture-v4 [data-arch-pos="automation"]{left:30% !important;top:25% !important}
+.hero-architecture-shell.hero-architecture-v4 [data-arch-pos="webapp"]{left:50% !important;top:25% !important}
+.hero-architecture-shell.hero-architecture-v4 [data-arch-pos="erp"]{left:70% !important;top:25% !important}
+.hero-architecture-shell.hero-architecture-v4 [data-arch-pos="dashboard"]{left:90% !important;top:25% !important}
+
+.hero-architecture-shell.hero-architecture-v4 [data-arch-pos="estoque"]{left:17% !important;top:73% !important}
+.hero-architecture-shell.hero-architecture-v4 [data-arch-pos="expedicao"]{left:39% !important;top:73% !important}
+.hero-architecture-shell.hero-architecture-v4 [data-arch-pos="transporte"]{left:63% !important;top:73% !important}
+.hero-architecture-shell.hero-architecture-v4 [data-arch-pos="entrega"]{left:85% !important;top:73% !important}
+
+/* No layer words in the visual plane. */
+.hero-architecture-shell.hero-architecture-v4 .architecture-depth-label{
+  display:none !important;
+}
+
+/* Tooltip is hover/focus-only and positioned by JS; never occupies the center by default. */
+.hero-architecture-shell.hero-architecture-v4 .architecture-tooltip{
+  display:none !important;
+  width:220px !important;
+  max-width:calc(100% - 16px) !important;
+  margin:0 !important;
+  padding:9px 10px !important;
+  border:1px solid rgba(255,255,255,.12) !important;
+  border-radius:9px !important;
+  background:rgba(5,12,22,.97) !important;
+  box-shadow:0 12px 28px rgba(0,0,0,.28) !important;
+  opacity:0 !important;
+  visibility:hidden !important;
+  transform:translateZ(62px) !important;
+  pointer-events:none !important;
+}
+.hero-architecture-shell.hero-architecture-v4 .architecture-tooltip.visible{
+  display:block !important;
+  opacity:1 !important;
+  visibility:visible !important;
+}
+.hero-architecture-shell.hero-architecture-v4 .architecture-tooltip strong{
+  color:#fff !important;
+  font-size:8px !important;
+  line-height:1.2 !important;
+}
+.hero-architecture-shell.hero-architecture-v4 .architecture-tooltip span{
+  color:#8797aa !important;
+  font-size:6.5px !important;
+  line-height:1.35 !important;
+}
+.hero-architecture-shell.hero-architecture-v4 .architecture-tooltip .architecture-tooltip-link{
+  display:block !important;
+  margin-top:5px !important;
+  color:var(--lime) !important;
+  font-size:6.6px !important;
+  font-weight:900 !important;
+}
+
+/* Status owns its own horizontal strip. No CTA inside it. */
+.hero-architecture-shell.hero-architecture-v4 .architecture-caption-v4{
+  left:14px !important;
+  right:14px !important;
+  bottom:30px !important;
+  min-height:43px !important;
+  padding:8px 0 7px !important;
+  grid-template-columns:82px minmax(0,1fr) !important;
+  gap:12px !important;
+  border-top:1px solid rgba(255,255,255,.08) !important;
+  border-bottom:1px solid rgba(255,255,255,.045) !important;
+}
+.hero-architecture-shell.hero-architecture-v4 .architecture-caption-copy strong{
+  font-size:8px !important;
+}
+.hero-architecture-shell.hero-architecture-v4 .architecture-caption-copy span{
+  font-size:6.4px !important;
+}
+.hero-architecture-shell.hero-architecture-v4 .architecture-step-badge{
+  padding:5px 6px !important;
+  font-size:5.9px !important;
+}
+
+/* One small CTA, in its own area below the status strip. */
+.hero-architecture-shell.hero-architecture-v4 .architecture-panel-cta{
+  position:absolute !important;
+  z-index:22 !important;
+  right:14px !important;
+  bottom:8px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  min-height:16px !important;
+  margin:0 !important;
+  padding:0 !important;
+  color:#c9ff4a !important;
+  font-size:6.3px !important;
+  line-height:1 !important;
+  font-weight:900 !important;
+  text-decoration:none !important;
+  white-space:nowrap !important;
+}
+.hero-architecture-shell.hero-architecture-v4 .architecture-panel-cta:hover,
+.hero-architecture-shell.hero-architecture-v4 .architecture-panel-cta:focus-visible{
+  color:#fff !important;
+  outline:none !important;
+}
+
+/* Motherboard: restrained traces and one stable foreground plane. */
+.hero-architecture-shell.hero-architecture-v4 .architecture-grid3d{
+  opacity:.19 !important;
+}
+.hero-architecture-shell.hero-architecture-v4 .architecture-path{
+  opacity:.28;
+}
+.hero-architecture-shell.hero-architecture-v4 .architecture-path.is-active-path{
+  opacity:1;
+}
+.hero-architecture-shell.hero-architecture-v4 .architecture-path.is-hover-path{
+  opacity:.86;
+}
+
+/* Tablet: preserve two rows without squeezing labels. */
+@media (max-width:1024px){
+  .hero-architecture-shell.hero-architecture-v4 .iso-node{
+    width:66px !important;
+    min-height:62px !important;
+    padding:8px 6px 7px !important;
+  }
+  .hero-architecture-shell.hero-architecture-v4 .iso-node-top{
+    font-size:8px !important;
+  }
+  .hero-architecture-shell.hero-architecture-v4 .iso-node small{
+    font-size:6.2px !important;
+  }
+  .hero-architecture-shell.hero-architecture-v4 .node-microstate{
+    font-size:5.4px !important;
+  }
+}
+
+/* Mobile: simplified perspective; no tooltip; cards remain readable. */
+@media (max-width:620px){
+  .hero-architecture-shell.hero-architecture-v4{
+    min-height:300px !important;
+  }
+  .hero-architecture-shell.hero-architecture-v4 .hero-iso-scene{
+    inset:9px 4px 78px !important;
+  }
+  .hero-architecture-shell.hero-architecture-v4 .architecture-tooltip{
+    display:none !important;
+  }
+  .hero-architecture-shell.hero-architecture-v4 .iso-node{
+    width:50px !important;
+    min-height:46px !important;
+    padding:6px 4px 5px !important;
+  }
+  .hero-architecture-shell.hero-architecture-v4 [data-arch-pos="sheets"]{left:10% !important;top:23% !important}
+  .hero-architecture-shell.hero-architecture-v4 [data-arch-pos="automation"]{left:30% !important;top:23% !important}
+  .hero-architecture-shell.hero-architecture-v4 [data-arch-pos="webapp"]{left:50% !important;top:23% !important}
+  .hero-architecture-shell.hero-architecture-v4 [data-arch-pos="erp"]{left:70% !important;top:23% !important}
+  .hero-architecture-shell.hero-architecture-v4 [data-arch-pos="dashboard"]{left:90% !important;top:23% !important}
+  .hero-architecture-shell.hero-architecture-v4 [data-arch-pos="estoque"]{left:15% !important;top:72% !important}
+  .hero-architecture-shell.hero-architecture-v4 [data-arch-pos="expedicao"]{left:38% !important;top:72% !important}
+  .hero-architecture-shell.hero-architecture-v4 [data-arch-pos="transporte"]{left:63% !important;top:72% !important}
+  .hero-architecture-shell.hero-architecture-v4 [data-arch-pos="entrega"]{left:86% !important;top:72% !important}
+
+  .hero-architecture-shell.hero-architecture-v4 .architecture-caption-v4{
+    left:8px !important;
+    right:8px !important;
+    bottom:29px !important;
+    grid-template-columns:68px minmax(0,1fr) !important;
+    gap:6px !important;
+  }
+  .hero-architecture-shell.hero-architecture-v4 .architecture-panel-cta{
+    right:8px !important;
+    bottom:8px !important;
+    font-size:5.7px !important;
+  }
+}
