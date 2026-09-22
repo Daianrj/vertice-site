@@ -149,7 +149,7 @@
         </article>
       </div>
 
-      <div class="sheet-to-system reveal">
+      <div class="sheet-to-system reveal" id="sheet-system-evolution" data-evolution-stage="0">
         <div class="sheet-to-system-copy">
           <p class="eyebrow light"><span class="eyebrow-line"></span> Evolução sem ruptura</p>
           <h3>Sua planilha pode virar sistema.</h3>
@@ -161,7 +161,60 @@
             <span>Dashboards</span>
             <span>Integrações</span>
           </div>
+
+          <div class="evolution-progress" aria-label="Etapas de evolução da operação">
+            <button type="button" class="evolution-progress-step active" data-sheet-stage="0"><span>01</span><strong>Planilha</strong><small>Organizar dados</small></button>
+            <button type="button" class="evolution-progress-step" data-sheet-stage="1"><span>02</span><strong>Automação</strong><small>Eliminar tarefas</small></button>
+            <button type="button" class="evolution-progress-step" data-sheet-stage="2"><span>03</span><strong>Web App</strong><small>Simplificar uso</small></button>
+            <button type="button" class="evolution-progress-step" data-sheet-stage="3"><span>04</span><strong>ERP</strong><small>Integrar gestão</small></button>
+          </div>
         </div>
+
+        <div class="sheet-system-visual" aria-label="Transformação visual de planilha em sistema">
+          <div class="sheet-system-glow" aria-hidden="true"></div>
+          <div class="sheet-system-frame">
+            <div class="transform-layer transform-sheet">
+              <div class="transform-window-bar"><i></i><i></i><i></i><span>Base_Operacional.xlsx</span></div>
+              <div class="mini-sheet-grid">
+                <span>Pedido</span><span>Cliente</span><span>Status</span><span>Qtd.</span>
+                <b>1041</b><b>Alfa</b><b>Separação</b><b>12</b>
+                <b>1042</b><b>Beta</b><b>Expedido</b><b>7</b>
+                <b>1043</b><b>Gama</b><b>Pendente</b><b>4</b>
+              </div>
+            </div>
+
+            <div class="transform-layer transform-automation" aria-hidden="true">
+              <div class="automation-core"><span>Apps Script</span><strong>AUTOMAÇÃO</strong></div>
+              <div class="automation-rule r1">Validar dados</div>
+              <div class="automation-rule r2">Atualizar status</div>
+              <div class="automation-rule r3">Enviar alerta</div>
+              <div class="automation-flow-line"></div>
+            </div>
+
+            <div class="transform-layer transform-webapp" aria-hidden="true">
+              <aside><strong>V/</strong><i></i><i></i><i></i></aside>
+              <div class="webapp-body">
+                <div class="webapp-top"><span>Operação</span><small>online</small></div>
+                <div class="webapp-cards"><b>24<small>Pedidos</small></b><b>11<small>Em rota</small></b><b>3<small>Pendências</small></b></div>
+                <div class="webapp-table"><i></i><i></i><i></i><i></i></div>
+              </div>
+            </div>
+
+            <div class="transform-layer transform-erp" aria-hidden="true">
+              <aside><strong>VÉRTICE ERP</strong><span>Visão geral</span><span>Estoque</span><span>Entregas</span></aside>
+              <div class="erp-dashboard">
+                <div class="erp-kpis"><b>98%<small>OTIF</small></b><b>42<small>Entregas</small></b><b>2<small>Alertas</small></b></div>
+                <div class="erp-chart"><i style="height:36%"></i><i style="height:54%"></i><i style="height:44%"></i><i style="height:72%"></i><i style="height:86%"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sheet-system-caption" aria-live="polite">
+            <strong id="sheet-stage-title">Planilha organizada</strong>
+            <span id="sheet-stage-desc">A base atual é estruturada sem romper a rotina da equipe.</span>
+          </div>
+        </div>
+
         <div class="sheet-to-system-actions">
           <a class="button button-lime tech-wa" data-whatsapp data-wa-message="Olá, vim pelo site VÉRTICE e quero transformar minha planilha em um sistema." href="https://wa.me/5521993836880?text=Ol%C3%A1%2C%20vim%20pelo%20site%20V%C3%89RTICE%20e%20quero%20transformar%20minha%20planilha%20em%20um%20sistema." target="_blank" rel="noopener noreferrer">Quero transformar minha planilha em sistema ↗</a>
           <a class="button button-ghost-light tech-wa" data-whatsapp data-wa-message="Olá, vim pelo site VÉRTICE e quero criar um ERP sob medida para minha operação." href="https://wa.me/5521993836880?text=Ol%C3%A1%2C%20vim%20pelo%20site%20V%C3%89RTICE%20e%20quero%20criar%20um%20ERP%20sob%20medida%20para%20minha%20opera%C3%A7%C3%A3o." target="_blank" rel="noopener noreferrer">Quero criar um ERP sob medida</a>
