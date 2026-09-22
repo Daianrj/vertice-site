@@ -1,4 +1,4 @@
-import {clone,esc,wait} from './shared.js';
+import {clone,esc,wait} from './shared.js?v=20260922-showroom3';
 const initial={drivers:[{id:'M01',name:'Carlos Souza',route:'Oeste 01'},{id:'M02',name:'Marcos Lima',route:'Zona Sul 02'}],routes:{
 'Oeste 01':[{seq:1,nf:'45821',client:'Mercado Horizonte',city:'Bangu',km:6.8,status:'Pendente'},{seq:2,nf:'45834',client:'Drogaria Central',city:'Campo Grande',km:11.4,status:'Pendente'},{seq:3,nf:'45842',client:'Casa Popular',city:'Santa Cruz',km:14.2,status:'Pendente'}],
 'Zona Sul 02':[{seq:1,nf:'45901',client:'Loja Atlântico',city:'Botafogo',km:4.1,status:'Em rota'},{seq:2,nf:'45911',client:'Mercado Praia',city:'Copacabana',km:5.7,status:'Pendente'}]
