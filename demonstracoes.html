@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Demonstrações interativas da VÉRTICE: mini sistemas funcionais de estoque, entregas, ERP, automação, dashboards, logística e integrações.">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Demonstrações | VÉRTICE">
+  <meta property="og:description" content="Experimente miniaplicações reais desenvolvidas em JavaScript com dados fictícios locais.">
+  <meta property="og:url" content="https://daianrj.github.io/vertice-site/demonstracoes.html">
+  <link rel="canonical" href="https://daianrj.github.io/vertice-site/demonstracoes.html">
+  <title>Demonstrações | VÉRTICE</title>
+  <link rel="stylesheet" href="styles.css?v=20260922-menu2">
+  <link rel="stylesheet" href="demos.css?v=20260922-showroom1">
+</head>
+<body data-page="demonstracoes">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
+  <header class="site-header" id="topo">
+    <a class="brand" href="index.html#inicio" aria-label="VÉRTICE — página inicial">
+      <span class="brand-mark" aria-hidden="true">V/</span>
+      <span class="brand-name">VÉRTICE</span>
+    </a>
+
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Abrir menu de navegação">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+
+    <nav id="main-nav" aria-label="Navegação principal">
+      <a href="solucoes.html" data-nav-page="solucoes">Soluções</a>
+      <a href="tecnologia.html" data-nav-page="tecnologia">Tecnologia</a>
+      <a href="demonstracoes.html" data-nav-page="demonstracoes">Demonstrações</a>
+      <a href="laboratorio.html" data-nav-page="laboratorio">Laboratório</a>
+
+      <div class="nav-dropdown" data-nav-group="diagnostico">
+        <button class="nav-dropdown-toggle nav-dropdown-main" type="button" aria-expanded="false" aria-haspopup="true">
+          <span class="nav-dropdown-label">Diagnóstico</span>
+          <svg class="nav-chevron" viewBox="0 0 20 20" width="14" height="14" aria-hidden="true"><path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="nav-dropdown-menu">
+          <a href="diagnostico.html" data-nav-page="diagnostico">Visão geral</a>
+          <a href="diagnostico.html#gargalos">Diagnóstico Operacional</a>
+          <a href="diagnostico.html#diagnostico">Simulador</a>
+        </div>
+      </div>
+
+      <div class="nav-dropdown" data-nav-group="mais">
+        <button class="nav-dropdown-toggle nav-dropdown-main" type="button" aria-expanded="false" aria-haspopup="true">
+          <span class="nav-dropdown-label">Mais</span>
+          <svg class="nav-chevron" viewBox="0 0 20 20" width="14" height="14" aria-hidden="true"><path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="nav-dropdown-menu">
+          <a href="mais.html" data-nav-page="mais">Visão geral</a>
+          <a href="logistica.html">Logística</a>
+          <a href="processo.html">Processo</a>
+          <a href="diferenciais.html">Por que VÉRTICE</a>
+          <a href="contato.html">Contato</a>
+        </div>
+      </div>
+    </nav>
+
+    <a class="button button-small header-cta" data-whatsapp href="https://wa.me/5521993836880?text=Ol%C3%A1%2C%20vim%20pelo%20site%20V%C3%89RTICE%20e%20quero%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener noreferrer">
+      Falar no WhatsApp
+      <svg class="icon-inline" viewBox="0 0 24 24" aria-hidden="true" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+    </a>
+  </header>
+  <main id="conteudo">
+    <section class="page-hero showroom-hero">
+      <a class="page-back" href="index.html">← Voltar à Home</a>
+      <div class="page-hero-grid">
+        <div>
+          <p class="eyebrow"><span class="eyebrow-line"></span> Showroom tecnológico</p>
+          <h1>Entre. Clique.<br><em>Experimente.</em></h1>
+        </div>
+        <div>
+          <p>Não são imagens nem mockups. São miniaplicações JavaScript funcionais, executadas no seu navegador com dados fictícios e isolados.</p>
+          <div class="showroom-proof"><span>Dados locais fictícios</span><span>Sem backend real</span><span>CRUD funcional</span><span>Estado reativo</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section showroom-section">
+      <div class="showroom-intro reveal">
+        <div><p class="eyebrow"><span class="eyebrow-line"></span> Sistemas para testar</p><h2>Veja a tecnologia<br>funcionando na prática.</h2></div>
+        <p>Cadastre, edite, pesquise, altere status, execute processos e acompanhe KPIs. Ao fechar uma demo, nada é enviado para sistemas reais.</p>
+      </div>
+      <div class="showroom-filters" role="toolbar" aria-label="Filtrar demonstrações">
+        <button type="button" class="active" data-demo-filter="Todos" aria-pressed="true">Todos</button><button type="button" class="" data-demo-filter="Planilhas" aria-pressed="false">Planilhas</button><button type="button" class="" data-demo-filter="Apps Script" aria-pressed="false">Apps Script</button><button type="button" class="" data-demo-filter="Web Apps" aria-pressed="false">Web Apps</button><button type="button" class="" data-demo-filter="ERP" aria-pressed="false">ERP</button><button type="button" class="" data-demo-filter="Dashboards" aria-pressed="false">Dashboards</button><button type="button" class="" data-demo-filter="Logística" aria-pressed="false">Logística</button><button type="button" class="" data-demo-filter="Automação" aria-pressed="false">Automação</button>
+      </div>
+      <div class="showroom-grid" id="showroom-grid">
+        <article class="showroom-card reveal" data-category="Planilhas" data-demo-card="stock">
+          <div class="showroom-card-top"><span>01</span><small>Planilhas</small></div>
+          <div class="showroom-preview showroom-preview-stock" aria-hidden="true">
+            <i></i><i></i><i></i><i></i>
+          </div>
+          <h2>Controle de Estoque</h2>
+          <p>Entradas, saídas, estoque mínimo, pesquisa, filtros, KPIs e alertas reagindo em tempo real.</p>
+          <div class="showroom-tech"><span>Planilhas</span><span>Web App</span><span>Dashboard</span></div>
+          <button class="button button-primary showroom-launch" type="button" data-demo="stock">Testar demonstração ↗</button>
+        </article>
+        <article class="showroom-card reveal" data-category="Web Apps" data-demo-card="deliveries">
+          <div class="showroom-card-top"><span>02</span><small>Web Apps</small></div>
+          <div class="showroom-preview showroom-preview-deliveries" aria-hidden="true">
+            <i></i><i></i><i></i><i></i>
+          </div>
+          <h2>Sistema de Entregas</h2>
+          <p>Pesquise NF e cliente, filtre entregas, abra registros e avance Pendente → Em rota → Entregue.</p>
+          <div class="showroom-tech"><span>Web App</span><span>Logística</span><span>Status</span></div>
+          <button class="button button-primary showroom-launch" type="button" data-demo="deliveries">Testar demonstração ↗</button>
+        </article>
+        <article class="showroom-card reveal" data-category="ERP" data-demo-card="erp">
+          <div class="showroom-card-top"><span>03</span><small>ERP</small></div>
+          <div class="showroom-preview showroom-preview-erp" aria-hidden="true">
+            <i></i><i></i><i></i><i></i>
+          </div>
+          <h2>ERP Operacional</h2>
+          <p>Mini ERP navegável com Dashboard, Clientes, Produtos, Estoque, Pedidos e Entregas.</p>
+          <div class="showroom-tech"><span>ERP</span><span>CRUD</span><span>Gestão</span></div>
+          <button class="button button-primary showroom-launch" type="button" data-demo="erp">Testar demonstração ↗</button>
+        </article>
+        <article class="showroom-card reveal" data-category="Apps Script" data-demo-card="automation">
+          <div class="showroom-card-top"><span>04</span><small>Apps Script</small></div>
+          <div class="showroom-preview showroom-preview-automation" aria-hidden="true">
+            <i></i><i></i><i></i><i></i>
+          </div>
+          <h2>Automação / Apps Script</h2>
+          <p>Execute um fluxo completo com validação, processamento, atualização, relatório e logs.</p>
+          <div class="showroom-tech"><span>Apps Script</span><span>Automação</span></div>
+          <button class="button button-primary showroom-launch" type="button" data-demo="automation">Testar demonstração ↗</button>
+        </article>
+        <article class="showroom-card reveal" data-category="Dashboards" data-demo-card="dashboard">
+          <div class="showroom-card-top"><span>05</span><small>Dashboards</small></div>
+          <div class="showroom-preview showroom-preview-dashboard" aria-hidden="true">
+            <i></i><i></i><i></i><i></i>
+          </div>
+          <h2>Dashboard Executivo</h2>
+          <p>KPIs e gráficos filtráveis por período, status e categoria com atualização imediata.</p>
+          <div class="showroom-tech"><span>Dashboards</span><span>Indicadores</span></div>
+          <button class="button button-primary showroom-launch" type="button" data-demo="dashboard">Testar demonstração ↗</button>
+        </article>
+        <article class="showroom-card reveal" data-category="Logística" data-demo-card="routing">
+          <div class="showroom-card-top"><span>06</span><small>Logística</small></div>
+          <div class="showroom-preview showroom-preview-routing" aria-hidden="true">
+            <i></i><i></i><i></i><i></i>
+          </div>
+          <h2>Logística / Roteirizador</h2>
+          <p>Motoristas, rotas, sequência de paradas, distância e indicadores operacionais.</p>
+          <div class="showroom-tech"><span>Logística</span><span>Rotas</span><span>Operação</span></div>
+          <button class="button button-primary showroom-launch" type="button" data-demo="routing">Testar demonstração ↗</button>
+        </article>
+        <article class="showroom-card reveal" data-category="Web Apps" data-demo-card="driver">
+          <div class="showroom-card-top"><span>07</span><small>Web Apps</small></div>
+          <div class="showroom-preview showroom-preview-driver" aria-hidden="true">
+            <i></i><i></i><i></i><i></i>
+          </div>
+          <h2>Aplicativo do Motorista</h2>
+          <p>Fluxo mobile: minhas entregas, iniciar rota, finalizar, comprovante e entrega concluída.</p>
+          <div class="showroom-tech"><span>Web App</span><span>Mobile</span><span>Logística</span></div>
+          <button class="button button-primary showroom-launch" type="button" data-demo="driver">Testar demonstração ↗</button>
+        </article>
+        <article class="showroom-card reveal" data-category="Automação" data-demo-card="integrations">
+          <div class="showroom-card-top"><span>08</span><small>Automação</small></div>
+          <div class="showroom-preview showroom-preview-integrations" aria-hidden="true">
+            <i></i><i></i><i></i><i></i>
+          </div>
+          <h2>Integrações</h2>
+          <p>Execute o fluxo Sheets → Automação → Web App → ERP → Dashboard → Notificação.</p>
+          <div class="showroom-tech"><span>Integrações</span><span>Automação</span><span>Dados</span></div>
+          <button class="button button-primary showroom-launch" type="button" data-demo="integrations">Testar demonstração ↗</button>
+        </article></div>
+    </section>
+
+    <section class="section showroom-note">
+      <div class="showroom-note-inner reveal">
+        <div><p class="eyebrow light"><span class="eyebrow-line"></span> Ambiente seguro de demonstração</p><h2>Teste à vontade.</h2></div>
+        <p>Todos os registros são fictícios e existem apenas no navegador durante a demonstração. Cada miniaplicação possui a opção <strong>Restaurar dados</strong>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-brand-wrap">
+      <a class="brand" href="index.html#inicio" aria-label="Voltar ao início">
+        <span class="brand-mark" aria-hidden="true">V/</span>
+        <span class="brand-name">VÉRTICE</span>
+      </a>
+      <p class="footer-tagline">Desenvolvimento · Automação · Projetos digitais · Logística</p>
+    </div>
+    <div class="footer-copy">
+      <p>© <span id="year"></span> VÉRTICE. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <div class="demo-shell" id="demo-shell" hidden>
+    <div class="demo-shell-backdrop" data-demo-close aria-hidden="true"></div>
+    <section class="demo-shell-panel" role="dialog" aria-modal="true" aria-labelledby="demo-shell-title">
+      <header class="demo-shell-header">
+        <div>
+          <span class="demo-shell-kicker">VÉRTICE / DEMONSTRAÇÃO INTERATIVA</span>
+          <h2 id="demo-shell-title">Demonstração</h2>
+        </div>
+        <div class="demo-shell-actions">
+          <button class="demo-shell-reset" id="demo-shell-reset" type="button">↻ Restaurar dados</button>
+          <button class="demo-shell-back" data-demo-close type="button">← Voltar</button>
+          <button class="demo-shell-close" id="demo-shell-close" data-demo-close type="button" aria-label="Fechar demonstração">×</button>
+        </div>
+      </header>
+      <div class="demo-shell-loading" id="demo-shell-loading" aria-live="polite"><span></span>Carregando miniaplicação…</div>
+      <div class="demo-shell-stage" id="demo-shell-stage"></div>
+      <footer class="demo-shell-footer">
+        <div><strong>Gostou desta solução?</strong><span>Esta demonstração usa somente dados fictícios locais.</span></div>
+        <a class="button button-lime" id="demo-shell-whatsapp" href="https://wa.me/5521993836880" target="_blank" rel="noopener noreferrer">Quero algo assim na minha empresa ↗</a>
+      </footer>
+    </section>
+  </div>
+
+  <script src="script.js?v=20260922-menu2" defer></script>
+  <script type="module" src="demos.js?v=20260922-showroom1"></script>
+</body>
+</html>
