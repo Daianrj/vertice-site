@@ -106,6 +106,62 @@
           <span class="visual-badge">VÉRTICE / ARQUITETURA</span>
         </div>
 
+        <div class="hero-architecture-shell" id="hero-architecture-shell">
+          <canvas class="hero-webgl" id="hero-webgl" aria-hidden="true"></canvas>
+          <div class="hero-iso-scene" id="hero-iso-scene" aria-label="Arquitetura operacional conectando tecnologia e logística">
+            <div class="iso-plane iso-plane-tech" aria-hidden="true"></div>
+            <div class="iso-plane iso-plane-ops" aria-hidden="true"></div>
+
+            <div class="iso-lane iso-lane-tech" aria-label="Ecossistema digital">
+              <span class="iso-lane-label">ECOSSISTEMA DIGITAL</span>
+              <button class="iso-node node-sheets" type="button" data-architecture-node="sheets" aria-label="Google Sheets: base de dados e operação">
+                <span class="iso-node-top">Sheets</span><small>Base operacional</small>
+              </button>
+              <span class="iso-connector c-tech-1" aria-hidden="true"></span>
+              <button class="iso-node node-script" type="button" data-architecture-node="automation" aria-label="Apps Script e automação">
+                <span class="iso-node-top">Apps Script</span><small>Automação</small>
+              </button>
+              <span class="iso-connector c-tech-2" aria-hidden="true"></span>
+              <button class="iso-node node-webapp" type="button" data-architecture-node="webapp" aria-label="Web App operacional">
+                <span class="iso-node-top">Web App</span><small>Interface</small>
+              </button>
+              <span class="iso-connector c-tech-3" aria-hidden="true"></span>
+              <button class="iso-node node-erp" type="button" data-architecture-node="erp" aria-label="ERP sob medida">
+                <span class="iso-node-top">ERP</span><small>Gestão</small>
+              </button>
+              <span class="iso-connector c-tech-4" aria-hidden="true"></span>
+              <button class="iso-node node-dashboard" type="button" data-architecture-node="dashboard" aria-label="Dashboard e indicadores">
+                <span class="iso-node-top">Dashboard</span><small>Decisão</small>
+              </button>
+            </div>
+
+            <div class="iso-lane iso-lane-ops" aria-label="Ecossistema logístico">
+              <span class="iso-lane-label">OPERAÇÃO LOGÍSTICA</span>
+              <button class="iso-node node-stock" type="button" data-architecture-node="estoque" aria-label="Estoque">
+                <span class="iso-node-top">Estoque</span><small>Entrada & saldo</small>
+              </button>
+              <span class="iso-connector c-ops-1" aria-hidden="true"></span>
+              <button class="iso-node node-expedition" type="button" data-architecture-node="expedicao" aria-label="Expedição">
+                <span class="iso-node-top">Expedição</span><small>Conferência</small>
+              </button>
+              <span class="iso-connector c-ops-2" aria-hidden="true"></span>
+              <button class="iso-node node-transport" type="button" data-architecture-node="transporte" aria-label="Transporte">
+                <span class="iso-node-top">Transporte</span><small>Rota</small>
+              </button>
+              <span class="iso-connector c-ops-3" aria-hidden="true"></span>
+              <button class="iso-node node-delivery" type="button" data-architecture-node="entrega" aria-label="Entrega">
+                <span class="iso-node-top">Entrega</span><small>Comprovação</small>
+              </button>
+            </div>
+
+            <span class="iso-bridge" aria-hidden="true"></span>
+          </div>
+          <div class="architecture-caption" id="architecture-caption" aria-live="polite">
+            <strong>Dados conectados à operação.</strong>
+            <span>Do controle em planilha à execução logística, cada módulo conversa com o próximo.</span>
+          </div>
+        </div>
+
         <div class="visual-panel panel-main">
           <div class="visual-flow-label">Fluxo contínuo de trabalho</div>
           <strong id="visual-headline">Problema → Solução → Eficiência</strong>
