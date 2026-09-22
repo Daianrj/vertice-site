@@ -964,8 +964,9 @@ document.addEventListener('keydown', (event) => {
 });
 
 // =========================================================
-// HERO ARCHITECTURE — LIVE OPERATIONAL CYCLE
-// CSS 3D + SVG + JS. No decorative WebGL.
+// HERO 4.0 — LIVING 3D DIGITAL ARCHITECTURE
+// CSS 3D + SVG + vanilla JS. Infrastructure stays stable.
+// The data packet is what moves.
 // =========================================================
 (() => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -974,32 +975,77 @@ document.addEventListener('keydown', (event) => {
   const architectureCaption = document.getElementById('architecture-caption');
   const captionTitle = document.getElementById('architecture-caption-title');
   const captionText = document.getElementById('architecture-caption-text');
+  const stepBadge = document.getElementById('architecture-step-badge');
   const packetLayer = document.getElementById('architecture-packet-layer');
+  const trailLayer = document.getElementById('architecture-trail-layer');
   const ordersKpi = document.getElementById('architecture-orders-kpi');
+  const kpiBar = document.getElementById('architecture-kpi-bar');
+  const moduleInfo = document.getElementById('architecture-module-info');
+  const moduleTitle = document.getElementById('architecture-module-title');
+  const moduleFeatures = document.getElementById('architecture-module-features');
+  const moduleDemo = document.getElementById('architecture-module-demo');
 
   const architectureCopy = {
-    sheets: ['Sheets recebe o dado.', 'Um novo pedido entra na base e inicia o fluxo digital.'],
-    automation: ['Apps Script processa.', 'Validação, regras e automação transformam dado bruto em ação confiável.'],
-    webapp: ['Web App leva a ação para a operação.', 'A equipe recebe uma interface simples para executar e atualizar o processo.'],
-    erp: ['ERP centraliza o processo.', 'Pedido, estoque, entrega e histórico passam a compartilhar o mesmo contexto.'],
-    dashboard: ['Dashboard fecha o ciclo de gestão.', 'O resultado operacional volta como indicador para apoiar a próxima decisão.'],
-    estoque: ['Estoque recebe a demanda.', 'O pedido gera necessidade real de separação e movimentação de saldo.'],
-    expedicao: ['Expedição prepara a saída.', 'Separação e conferência transformam demanda em carga pronta.'],
-    transporte: ['Transporte executa a rota.', 'A carga deixa a expedição e passa a ser acompanhada em campo.'],
-    entrega: ['Entrega comprova o resultado.', 'A finalização retorna ao sistema como dado confiável e rastreável.']
+    sheets: {
+      title: 'SHEETS',
+      caption: ['Entrada de dados.', 'Uma nova linha operacional nasce e inicia o ciclo.'],
+      features: 'Base operacional · cadastros · pedidos · dados',
+      demo: 'sheet-system'
+    },
+    automation: {
+      title: 'APPS SCRIPT',
+      caption: ['Automação e validação.', 'Regras verificam, tratam e processam os dados antes de seguir.'],
+      features: 'Automação · validação · integrações · processamento',
+      demo: 'automation'
+    },
+    webapp: {
+      title: 'WEB APP',
+      caption: ['Interface operacional.', 'O registro processado chega a uma interface utilizável pela equipe.'],
+      features: 'Interface · operação · status · execução',
+      demo: 'deliveries'
+    },
+    erp: {
+      title: 'ERP',
+      caption: ['Gestão centralizada.', 'Clientes, estoque, pedidos e operação compartilham o mesmo contexto.'],
+      features: 'Gestão centralizada · clientes · estoque · pedidos',
+      demo: 'erp'
+    },
+    dashboard: {
+      title: 'DASHBOARD',
+      caption: ['Inteligência operacional.', 'O dado processado vira indicador para apoiar a decisão.'],
+      features: 'KPIs · indicadores · performance · decisão',
+      demo: 'dashboard'
+    },
+    estoque: {
+      title: 'ESTOQUE',
+      caption: ['Operação iniciada.', 'O pedido digital gera uma demanda física de separação e saldo.'],
+      features: 'Entradas · saídas · saldo · estoque mínimo',
+      demo: 'stock'
+    },
+    expedicao: {
+      title: 'EXPEDIÇÃO',
+      caption: ['Separação e conferência.', 'Volumes são preparados e liberados para transporte.'],
+      features: 'Separação · conferência · expedição · volumes',
+      demo: 'deliveries'
+    },
+    transporte: {
+      title: 'TRANSPORTE',
+      caption: ['Execução em campo.', 'O pedido entra em rota e passa a ser acompanhado operacionalmente.'],
+      features: 'Rotas · motoristas · paradas · status',
+      demo: 'routing'
+    },
+    entrega: {
+      title: 'ENTREGA',
+      caption: ['Resultado comprovado.', 'A entrega concluída fecha a operação e registra o resultado.'],
+      features: 'Entrega · comprovante · finalização · resultado',
+      demo: 'deliveries'
+    }
   };
 
-  const nodeMap = {
-    sheets: document.querySelector('[data-architecture-node="sheets"]'),
-    automation: document.querySelector('[data-architecture-node="automation"]'),
-    webapp: document.querySelector('[data-architecture-node="webapp"]'),
-    erp: document.querySelector('[data-architecture-node="erp"]'),
-    dashboard: document.querySelector('[data-architecture-node="dashboard"]'),
-    estoque: document.querySelector('[data-architecture-node="estoque"]'),
-    expedicao: document.querySelector('[data-architecture-node="expedicao"]'),
-    transporte: document.querySelector('[data-architecture-node="transporte"]'),
-    entrega: document.querySelector('[data-architecture-node="entrega"]')
-  };
+  const nodeMap = {};
+  document.querySelectorAll('[data-architecture-node]').forEach((node) => {
+    nodeMap[node.getAttribute('data-architecture-node')] = node;
+  });
 
   const stateEls = {};
   document.querySelectorAll('[data-node-state]').forEach((el) => {
@@ -1009,18 +1055,38 @@ document.addEventListener('keydown', (event) => {
   const pathMap = {
     sheets: ['path-sheets-script'],
     automation: ['path-sheets-script', 'path-script-webapp'],
-    webapp: ['path-script-webapp', 'path-webapp-erp', 'path-delivery-webapp'],
-    erp: ['path-webapp-erp', 'path-erp-dashboard', 'path-erp-stock'],
-    dashboard: ['path-erp-dashboard'],
-    estoque: ['path-erp-stock', 'path-stock-expedition'],
+    webapp: ['path-script-webapp', 'path-webapp-erp'],
+    erp: ['path-webapp-erp', 'path-erp-dashboard'],
+    dashboard: ['path-erp-dashboard', 'path-dashboard-stock'],
+    estoque: ['path-dashboard-stock', 'path-stock-expedition'],
     expedicao: ['path-stock-expedition', 'path-expedition-transport'],
     transporte: ['path-expedition-transport', 'path-transport-delivery'],
-    entrega: ['path-transport-delivery', 'path-delivery-webapp']
+    entrega: ['path-transport-delivery', 'path-delivery-dashboard']
   };
 
-  const setCaption = (title, text) => {
-    if (captionTitle) captionTitle.textContent = title;
-    if (captionText) captionText.textContent = text;
+  const legends = {
+    input: ['01 — ENTRADA', 'Novo pedido recebido.', 'O dado entra pelo Google Sheets.'],
+    automation: ['02 — AUTOMAÇÃO', 'Validando informações.', 'Apps Script verifica, trata e processa os dados.'],
+    system: ['03 — SISTEMA', 'Registro criado.', 'O Web App recebe a operação.'],
+    central: ['04 — CENTRALIZAÇÃO', 'Pedido sincronizado.', 'O ERP centraliza os processos.'],
+    intelligence: ['05 — INTELIGÊNCIA', 'Dashboard atualizado.', 'O dado virou informação para decisão.'],
+    operation: ['06 — OPERAÇÃO', 'Pedido liberado para execução.', 'A gestão digital movimenta a operação física.'],
+    result: ['07 — RESULTADO', 'Entrega concluída.', 'Operação registrada de ponta a ponta.']
+  };
+
+  let architectureVisible = false;
+  let interactionPaused = false;
+  let cycleToken = 0;
+  let cycleIndex = 0;
+  let orders = Number(ordersKpi?.textContent || 127);
+  let currentPacketId = 'PED-8841';
+
+  const setLegend = (key, titleOverride = '', textOverride = '') => {
+    const item = legends[key];
+    if (!item) return;
+    if (stepBadge) stepBadge.textContent = item[0];
+    if (captionTitle) captionTitle.textContent = titleOverride || item[1];
+    if (captionText) captionText.textContent = textOverride || item[2];
   };
 
   const setNodeState = (key, text) => {
@@ -1030,7 +1096,7 @@ document.addEventListener('keydown', (event) => {
   const clearNodeClasses = () => {
     Object.values(nodeMap).forEach((node) => {
       if (!node) return;
-      node.classList.remove('is-active', 'is-processing', 'is-success');
+      node.classList.remove('is-active', 'is-processing', 'is-success', 'is-error', 'is-hovered');
     });
     document.querySelectorAll('.architecture-path').forEach((path) => {
       path.classList.remove('is-active-path', 'is-hover-path');
@@ -1038,71 +1104,145 @@ document.addEventListener('keydown', (event) => {
   };
 
   const activateNode = (key, mode = 'active') => {
-    Object.values(nodeMap).forEach((node) => node?.classList.remove('is-active', 'is-processing', 'is-success'));
+    Object.values(nodeMap).forEach((node) => {
+      node?.classList.remove('is-active', 'is-processing', 'is-success', 'is-error');
+    });
     const node = nodeMap[key];
     if (!node) return;
-    node.classList.add(mode === 'processing' ? 'is-processing' : mode === 'success' ? 'is-success' : 'is-active');
+    const className =
+      mode === 'processing' ? 'is-processing' :
+      mode === 'success' ? 'is-success' :
+      mode === 'error' ? 'is-error' :
+      'is-active';
+    node.classList.add(className);
   };
 
-  const setArchitectureNode = (key, sourceButton = null) => {
-    const copy = architectureCopy[key];
-    if (!copy || !architectureCaption) return;
-    setCaption(copy[0], copy[1]);
-
-    document.querySelectorAll('[data-architecture-node]').forEach((node) => {
-      node.classList.toggle('is-hovered', node === sourceButton);
-    });
+  const highlightPaths = (key) => {
     document.querySelectorAll('.architecture-path').forEach((path) => path.classList.remove('is-hover-path'));
     (pathMap[key] || []).forEach((id) => document.getElementById(id)?.classList.add('is-hover-path'));
-
-    const tabMap = { estoque: 'estoque', expedicao: 'expedicao', transporte: 'transporte', automation: 'automacao' };
-    const tabKey = tabMap[key];
-    if (tabKey) {
-      const tab = document.querySelector('.vtab-btn[data-tab="' + tabKey + '"]');
-      if (tab) tab.click();
-    }
   };
 
-  Object.entries(nodeMap).forEach(([key, button]) => {
-    if (!button) return;
-    button.addEventListener('mouseenter', () => setArchitectureNode(key, button));
-    button.addEventListener('focus', () => setArchitectureNode(key, button));
-    button.addEventListener('click', () => setArchitectureNode(key, button));
-    button.addEventListener('mouseleave', () => {
-      button.classList.remove('is-hovered');
+  const setModuleDiscovery = (key) => {
+    const meta = architectureCopy[key];
+    if (!meta) return;
+    if (moduleTitle) moduleTitle.textContent = meta.title;
+    if (moduleFeatures) moduleFeatures.textContent = meta.features;
+    if (moduleDemo) {
+      moduleDemo.href = 'demonstracoes.html?demo=' + encodeURIComponent(meta.demo);
+      moduleDemo.textContent = key === 'erp' ? 'Testar ERP →' : 'Ver demonstração →';
+    }
+    moduleInfo?.classList.add('visible');
+  };
+
+  Object.entries(nodeMap).forEach(([key, node]) => {
+    if (!node) return;
+    node.addEventListener('mouseenter', () => {
+      interactionPaused = true;
+      node.classList.add('is-hovered');
+      highlightPaths(key);
+      const meta = architectureCopy[key];
+      if (meta) {
+        if (captionTitle) captionTitle.textContent = meta.caption[0];
+        if (captionText) captionText.textContent = meta.caption[1];
+      }
+      setModuleDiscovery(key);
+    });
+
+    node.addEventListener('mouseleave', () => {
+      interactionPaused = false;
+      node.classList.remove('is-hovered');
       document.querySelectorAll('.architecture-path').forEach((path) => path.classList.remove('is-hover-path'));
+      moduleInfo?.classList.remove('visible');
+    });
+
+    node.addEventListener('focus', () => {
+      interactionPaused = true;
+      node.classList.add('is-hovered');
+      highlightPaths(key);
+      setModuleDiscovery(key);
+    });
+
+    node.addEventListener('blur', () => {
+      interactionPaused = false;
+      node.classList.remove('is-hovered');
+      moduleInfo?.classList.remove('visible');
+    });
+
+    node.addEventListener('click', () => {
+      const demoKey = node.getAttribute('data-demo-key');
+      if (demoKey) window.location.href = 'demonstracoes.html?demo=' + encodeURIComponent(demoKey);
     });
   });
 
+  // 1–2 degree scene movement on desktop only.
   const finePointer = window.matchMedia('(pointer: fine)').matches;
   if (architectureShell && architectureScene && finePointer && !reducedMotion) {
     architectureShell.addEventListener('pointermove', (event) => {
       const rect = architectureShell.getBoundingClientRect();
       const x = (event.clientX - rect.left) / rect.width - 0.5;
       const y = (event.clientY - rect.top) / rect.height - 0.5;
-      architectureShell.style.setProperty('--tilt-x', (-y * 1.7).toFixed(2) + 'deg');
-      architectureShell.style.setProperty('--tilt-y', (x * 2.2).toFixed(2) + 'deg');
+      architectureShell.style.setProperty('--tilt-x', (-y * 1.55).toFixed(2) + 'deg');
+      architectureShell.style.setProperty('--tilt-y', (x * 1.85).toFixed(2) + 'deg');
+      architectureShell.style.setProperty('--parallax-x', (x * 4).toFixed(2) + 'px');
+      architectureShell.style.setProperty('--parallax-y', (y * 3).toFixed(2) + 'px');
     }, { passive: true });
 
     architectureShell.addEventListener('pointerleave', () => {
       architectureShell.style.setProperty('--tilt-x', '0deg');
       architectureShell.style.setProperty('--tilt-y', '0deg');
+      architectureShell.style.setProperty('--parallax-x', '0px');
+      architectureShell.style.setProperty('--parallax-y', '0px');
     });
   }
 
-  let architectureVisible = false;
-  let cycleToken = 0;
-  let orders = Number(ordersKpi?.textContent || 127);
-
   const sleep = (ms, token) => new Promise((resolve) => {
-    const started = performance.now();
-    const tick = () => {
+    let elapsed = 0;
+    let last = performance.now();
+    const tick = (time) => {
       if (token !== cycleToken || !architectureVisible) return resolve(false);
-      if (performance.now() - started >= ms) return resolve(true);
+      if (!interactionPaused) elapsed += Math.min(34, time - last);
+      last = time;
+      if (elapsed >= ms) return resolve(true);
       requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
   });
+
+  const clearTrails = () => {
+    trailLayer?.querySelectorAll('*').forEach((el) => el.remove());
+  };
+
+  const createPacketGroup = (label, kind = 'data') => {
+    const ns = 'http://www.w3.org/2000/svg';
+    const group = document.createElementNS(ns, 'g');
+    group.setAttribute('class', 'architecture-data-packet ' + kind);
+
+    const shadow = document.createElementNS(ns, 'rect');
+    shadow.setAttribute('x', '-39');
+    shadow.setAttribute('y', '-13');
+    shadow.setAttribute('width', '78');
+    shadow.setAttribute('height', '26');
+    shadow.setAttribute('rx', '8');
+    shadow.setAttribute('class', 'packet-shadow');
+
+    const body = document.createElementNS(ns, 'rect');
+    body.setAttribute('x', '-39');
+    body.setAttribute('y', '-15');
+    body.setAttribute('width', '78');
+    body.setAttribute('height', '26');
+    body.setAttribute('rx', '8');
+    body.setAttribute('class', 'packet-body');
+
+    const text = document.createElementNS(ns, 'text');
+    text.setAttribute('x', '0');
+    text.setAttribute('y', '2');
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('class', 'packet-label');
+    text.textContent = label;
+
+    group.append(shadow, body, text);
+    return group;
+  };
 
   const animatePacket = (pathId, duration, token, options = {}) => new Promise((resolve) => {
     if (!packetLayer || token !== cycleToken || !architectureVisible) return resolve(false);
@@ -1110,31 +1250,55 @@ document.addEventListener('keydown', (event) => {
     if (!path || typeof path.getTotalLength !== 'function') return resolve(false);
 
     const length = path.getTotalLength();
-    const packet = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    packet.setAttribute('r', options.size || '5.5');
-    packet.setAttribute('class', 'architecture-packet ' + (options.kind || 'data'));
+    const packet = createPacketGroup(options.label || currentPacketId, options.kind || 'data');
     packetLayer.appendChild(packet);
-
     path.classList.add('is-active-path');
-    let last = null;
+
+    const trail = [];
+    const ns = 'http://www.w3.org/2000/svg';
+    for (let i = 0; i < 3; i += 1) {
+      const dot = document.createElementNS(ns, 'circle');
+      dot.setAttribute('r', String(3.2 - i * 0.65));
+      dot.setAttribute('class', 'architecture-trail-dot');
+      dot.style.opacity = String(0.42 - i * 0.11);
+      trailLayer?.appendChild(dot);
+      trail.push(dot);
+    }
+
+    const history = [];
     let elapsed = 0;
+    let last = performance.now();
 
     const frame = (time) => {
       if (token !== cycleToken || !architectureVisible) {
         packet.remove();
+        trail.forEach((dot) => dot.remove());
         path.classList.remove('is-active-path');
         return resolve(false);
       }
-      if (last !== null) elapsed += Math.min(34, time - last);
+
+      if (!interactionPaused) elapsed += Math.min(34, time - last);
       last = time;
       const progress = Math.min(1, elapsed / duration);
       const distance = options.reverse ? length * (1 - progress) : length * progress;
       const point = path.getPointAtLength(distance);
-      packet.setAttribute('cx', point.x);
-      packet.setAttribute('cy', point.y);
+
+      packet.setAttribute('transform', 'translate(' + point.x.toFixed(2) + ' ' + point.y.toFixed(2) + ')');
+      history.unshift({ x: point.x, y: point.y });
+      if (history.length > 12) history.pop();
+
+      trail.forEach((dot, index) => {
+        const p = history[Math.min(history.length - 1, (index + 1) * 3)] || point;
+        dot.setAttribute('cx', p.x.toFixed(2));
+        dot.setAttribute('cy', p.y.toFixed(2));
+      });
 
       if (progress >= 1) {
         packet.remove();
+        trail.forEach((dot) => {
+          dot.classList.add('fade');
+          setTimeout(() => dot.remove(), 360);
+        });
         path.classList.remove('is-active-path');
         return resolve(true);
       }
@@ -1144,94 +1308,132 @@ document.addEventListener('keydown', (event) => {
     requestAnimationFrame(frame);
   });
 
-  const runOperationalCycle = async (token) => {
-    clearNodeClasses();
-    setNodeState('sheets', 'Novo pedido');
-    setNodeState('automation', 'Aguardando');
-    setNodeState('webapp', 'Operação');
-    setNodeState('erp', 'Sincronizado');
-    setNodeState('estoque', 'Pedido recebido');
-    setNodeState('expedicao', 'Aguardando');
-    setNodeState('transporte', 'Aguardando');
-    setNodeState('entrega', 'Pendente');
-
-    activateNode('sheets');
-    setCaption('Novo pedido recebido.', 'O dado nasce no Sheets e inicia o ciclo.');
-    if (!(await sleep(700, token))) return;
-
-    if (!(await animatePacket('path-sheets-script', 950, token, { kind: 'data' }))) return;
-    activateNode('automation', 'processing');
-    setNodeState('automation', 'Validando…');
-    setCaption('Apps Script validando.', 'Regras verificam o pedido antes de liberar a próxima etapa.');
-    if (!(await sleep(850, token))) return;
-    setNodeState('automation', 'Validado ✓');
-    nodeMap.automation?.classList.remove('is-processing');
-    nodeMap.automation?.classList.add('is-success');
-
-    if (!(await animatePacket('path-script-webapp', 900, token, { kind: 'data' }))) return;
-    activateNode('webapp');
-    setNodeState('webapp', 'Pedido disponível');
-    setCaption('Web App recebeu a operação.', 'A equipe agora enxerga e executa o pedido em uma interface operacional.');
-    if (!(await sleep(650, token))) return;
-
-    if (!(await animatePacket('path-webapp-erp', 900, token, { kind: 'data' }))) return;
-    activateNode('erp', 'processing');
-    setNodeState('erp', 'Registrando…');
-    setCaption('ERP centralizando.', 'O pedido entra no contexto de gestão e gera demanda para a operação física.');
-    if (!(await sleep(700, token))) return;
-    setNodeState('erp', 'Pedido registrado ✓');
-
-    if (!(await animatePacket('path-erp-stock', 1250, token, { kind: 'operation', size: '6' }))) return;
-    activateNode('estoque');
-    setNodeState('estoque', 'Pedido recebido');
-    setCaption('Estoque recebeu a demanda.', 'O dado digital agora movimenta uma etapa física da operação.');
-    if (!(await sleep(700, token))) return;
-
-    if (!(await animatePacket('path-stock-expedition', 1000, token, { kind: 'operation', size: '6' }))) return;
-    activateNode('expedicao', 'processing');
-    setNodeState('expedicao', 'Separando…');
-    setCaption('Expedição em processamento.', 'Separação e conferência preparam o pedido para saída.');
-    if (!(await sleep(850, token))) return;
-    setNodeState('expedicao', 'Expedido ✓');
-
-    if (!(await animatePacket('path-expedition-transport', 1000, token, { kind: 'operation', size: '6' }))) return;
-    activateNode('transporte');
-    setNodeState('transporte', 'Em rota');
-    setCaption('Transporte iniciado.', 'A entrega passa a ser acompanhada em campo.');
-    if (!(await sleep(700, token))) return;
-
-    if (!(await animatePacket('path-transport-delivery', 1000, token, { kind: 'operation', size: '6' }))) return;
-    activateNode('entrega', 'success');
-    setNodeState('entrega', 'Entregue ✓');
-    setCaption('Entrega concluída.', 'A comprovação agora precisa voltar ao sistema como informação de gestão.');
-    if (!(await sleep(850, token))) return;
-
-    if (!(await animatePacket('path-delivery-webapp', 1350, token, { kind: 'feedback', size: '5.5' }))) return;
-    activateNode('webapp', 'success');
-    setNodeState('webapp', 'Comprovante recebido');
-    setCaption('Resultado voltou ao Web App.', 'A operação de campo devolve evidência e status ao fluxo digital.');
-    if (!(await sleep(550, token))) return;
-
-    if (!(await animatePacket('path-webapp-erp', 850, token, { kind: 'feedback' }))) return;
-    activateNode('erp', 'success');
-    setNodeState('erp', 'Atualizado ✓');
-    setCaption('ERP atualizado.', 'A entrega finalizada passa a fazer parte do histórico central.');
-    if (!(await sleep(550, token))) return;
-
-    if (!(await animatePacket('path-erp-dashboard', 950, token, { kind: 'feedback' }))) return;
-    activateNode('dashboard', 'success');
+  const updateDashboard = () => {
+    const before = orders;
     orders += 1;
     if (ordersKpi) {
       ordersKpi.textContent = String(orders);
       ordersKpi.closest('.node-kpi')?.classList.add('kpi-updated');
-      setTimeout(() => ordersKpi.closest('.node-kpi')?.classList.remove('kpi-updated'), 850);
+      setTimeout(() => ordersKpi.closest('.node-kpi')?.classList.remove('kpi-updated'), 700);
     }
-    setCaption('Dashboard atualizado.', 'O resultado operacional virou informação para decisão: pedidos ' + (orders - 1) + ' → ' + orders + '.');
-    if (!(await sleep(1700, token))) return;
+    if (kpiBar) {
+      const pct = 54 + ((orders - 127) % 5) * 7;
+      kpiBar.style.setProperty('--kpi-width', Math.min(88, pct) + '%');
+      kpiBar.classList.add('updated');
+      setTimeout(() => kpiBar.classList.remove('updated'), 700);
+    }
+    return [before, orders];
+  };
+
+  const resetStates = () => {
+    clearNodeClasses();
+    clearTrails();
+    setNodeState('sheets', 'Nova entrada');
+    setNodeState('automation', 'Aguardando');
+    setNodeState('webapp', 'Aguardando');
+    setNodeState('erp', 'Aguardando');
+    setNodeState('estoque', 'Aguardando');
+    setNodeState('expedicao', 'Aguardando');
+    setNodeState('transporte', 'Aguardando');
+    setNodeState('entrega', 'Pendente');
+  };
+
+  const runOperationalCycle = async (token) => {
+    resetStates();
+    cycleIndex += 1;
+    const errorCycle = cycleIndex % 4 === 0;
+    const ids = ['PED-8841', 'PED-8842', 'PED-8843'];
+    currentPacketId = errorCycle ? 'PED-8844' : ids[(cycleIndex - 1) % ids.length];
+
+    activateNode('sheets');
+    setNodeState('sheets', 'Nova entrada');
+    setLegend('input', currentPacketId + ' recebido.', 'Uma nova entrada nasce no Google Sheets.');
+    if (!(await sleep(650, token))) return;
+
+    if (!(await animatePacket('path-sheets-script', 980, token, { label: currentPacketId, kind: 'data' }))) return;
+    activateNode('automation', 'processing');
+    setNodeState('automation', 'Validando…');
+    setLegend('automation');
+    if (!(await sleep(720, token))) return;
+
+    if (errorCycle) {
+      activateNode('automation', 'error');
+      setNodeState('automation', '⚠ CEP incompleto');
+      setLegend('automation', 'Correção necessária.', 'Apps Script detectou CEP incompleto e pausou o fluxo.');
+      if (!(await sleep(1300, token))) return;
+      activateNode('automation', 'processing');
+      setNodeState('automation', 'Corrigindo…');
+      if (!(await sleep(650, token))) return;
+      activateNode('automation', 'success');
+      setNodeState('automation', 'Dado corrigido ✓');
+      setLegend('automation', 'Dado corrigido ✓', 'A validação tratou a inconsistência e liberou o processamento.');
+      if (!(await sleep(650, token))) return;
+    } else {
+      activateNode('automation', 'success');
+      setNodeState('automation', '✓ Dados válidos');
+      if (!(await sleep(460, token))) return;
+    }
+
+    if (!(await animatePacket('path-script-webapp', 900, token, { label: currentPacketId, kind: 'data' }))) return;
+    activateNode('webapp', 'processing');
+    setNodeState('webapp', 'Recebendo…');
+    setLegend('system');
+    if (!(await sleep(520, token))) return;
+    activateNode('webapp', 'success');
+    setNodeState('webapp', '✓ Registro criado');
+
+    if (!(await animatePacket('path-webapp-erp', 900, token, { label: currentPacketId, kind: 'data' }))) return;
+    activateNode('erp', 'processing');
+    setNodeState('erp', 'Sincronizando…');
+    setLegend('central');
+    if (!(await sleep(560, token))) return;
+    activateNode('erp', 'success');
+    setNodeState('erp', '✓ Pedido centralizado');
+
+    if (!(await animatePacket('path-erp-dashboard', 960, token, { label: currentPacketId, kind: 'data' }))) return;
+    activateNode('dashboard', 'success');
+    const [before, after] = updateDashboard();
+    setLegend('intelligence', 'Dashboard atualizado.', before + ' → ' + after + ' pedidos.');
+    if (!(await sleep(950, token))) return;
+
+    if (!(await animatePacket('path-dashboard-stock', 1250, token, { label: currentPacketId, kind: 'operation' }))) return;
+    activateNode('estoque');
+    setNodeState('estoque', 'Pedido recebido');
+    setLegend('operation', 'Pedido liberado para execução.', currentPacketId + ' chegou ao estoque.');
+    if (!(await sleep(650, token))) return;
+
+    if (!(await animatePacket('path-stock-expedition', 960, token, { label: currentPacketId, kind: 'operation' }))) return;
+    activateNode('expedicao', 'processing');
+    setNodeState('expedicao', 'Separando volumes…');
+    if (captionTitle) captionTitle.textContent = 'Expedição em processamento.';
+    if (captionText) captionText.textContent = 'Separação e conferência preparam os volumes.';
+    if (!(await sleep(760, token))) return;
+    activateNode('expedicao', 'success');
+    setNodeState('expedicao', 'Expedido ✓');
+
+    if (!(await animatePacket('path-expedition-transport', 950, token, { label: currentPacketId, kind: 'operation' }))) return;
+    activateNode('transporte');
+    setNodeState('transporte', 'Em rota');
+    if (captionTitle) captionTitle.textContent = 'Transporte em rota.';
+    if (captionText) captionText.textContent = 'O pedido agora está sendo executado em campo.';
+    if (!(await sleep(650, token))) return;
+
+    if (!(await animatePacket('path-transport-delivery', 980, token, { label: currentPacketId, kind: 'operation' }))) return;
+    activateNode('entrega', 'success');
+    setNodeState('entrega', 'Concluída ✓');
+    setLegend('result', 'Entrega concluída ✓', currentPacketId + ' finalizou o ciclo operacional.');
+    if (!(await sleep(900, token))) return;
+
+    // Small return path communicates that the result is recorded back in management.
+    if (!(await animatePacket('path-delivery-dashboard', 1120, token, { label: 'RESULTADO', kind: 'feedback' }))) return;
+    activateNode('dashboard', 'success');
+    if (captionTitle) captionTitle.textContent = 'Resultado registrado.';
+    if (captionText) captionText.textContent = 'A execução voltou para a gestão como informação confiável.';
+    if (!(await sleep(900, token))) return;
 
     clearNodeClasses();
-    setCaption('Ciclo concluído.', 'OPERAÇÃO → DADOS → AUTOMAÇÃO → SISTEMA → DECISÃO → OPERAÇÃO');
-    await sleep(1900, token);
+    setLegend('result', 'Operação registrada de ponta a ponta.', 'Entrada → processamento → sistema → gestão → operação → resultado.');
+    await sleep(3400, token);
   };
 
   const startCycle = async () => {
@@ -1245,14 +1447,16 @@ document.addEventListener('keydown', (event) => {
 
   const stopCycle = () => {
     cycleToken += 1;
-    packetLayer?.querySelectorAll('.architecture-packet').forEach((packet) => packet.remove());
+    packetLayer?.querySelectorAll('*').forEach((el) => el.remove());
+    clearTrails();
     clearNodeClasses();
   };
 
   if (architectureShell) {
     if (reducedMotion) {
       architectureShell.classList.add('architecture-static');
-      setCaption('Arquitetura integrada.', 'Dados, automação, sistema e operação conectados em um único ciclo.');
+      resetStates();
+      setLegend('input', 'Arquitetura integrada.', 'Dados, automação, sistema e operação conectados em um único ciclo.');
     } else if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
         const visible = entries.some((entry) => entry.isIntersecting);
