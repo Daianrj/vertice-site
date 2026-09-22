@@ -150,13 +150,7 @@
               <g id="architecture-trail-layer"></g>
               <g id="architecture-packet-layer" filter="url(#arch-soft-glow)"></g>
             </svg>
-
-            <div class="architecture-depth-label depth-data">DADOS</div>
-            <div class="architecture-depth-label depth-processing">PROCESSAMENTO</div>
-            <div class="architecture-depth-label depth-intelligence">INTELIGÊNCIA</div>
-            <div class="architecture-depth-label depth-operation">OPERAÇÃO</div>
-
-            <button class="iso-node node-sheets depth-layer-data" type="button"
+<button class="iso-node node-sheets depth-layer-data" type="button"
               data-architecture-node="sheets" data-arch-pos="sheets" data-demo-key="sheet-system"
               aria-label="Google Sheets: entrada de dados. Abrir demonstração Planilha para Sistema">
               <span class="iso-node-top">Sheets</span>
@@ -229,10 +223,10 @@
               <span class="node-microstate" data-node-state="entrega">Pendente</span>
             </button>
 
-            <div class="architecture-module-info" id="architecture-module-info" aria-live="polite">
-              <strong id="architecture-module-title">Arquitetura interativa</strong>
-              <span id="architecture-module-features">Passe o mouse sobre um módulo para explorar.</span>
-              <a id="architecture-module-demo" href="demonstracoes.html">Explorar sistema →</a>
+            <div class="architecture-module-info architecture-tooltip" id="architecture-module-info" role="tooltip" aria-hidden="true">
+              <strong id="architecture-module-title"></strong>
+              <span id="architecture-module-features"></span>
+              <span class="architecture-tooltip-link" id="architecture-module-demo">Ver demonstração →</span>
             </div>
           </div>
 
@@ -240,13 +234,10 @@
             <div class="architecture-step-badge" id="architecture-step-badge">01 — ENTRADA</div>
             <div class="architecture-caption-copy">
               <strong id="architecture-caption-title">Novo pedido recebido.</strong>
-              <span id="architecture-caption-text">O dado entra pelo Google Sheets.</span>
+              <span id="architecture-caption-text">O dado entrou pelo Google Sheets.</span>
             </div>
-            <a class="architecture-discovery-cta" href="demonstracoes.html">
-              <span>● Arquitetura interativa</span>
-              <strong>Explorar sistema →</strong>
-            </a>
           </div>
+          <a class="architecture-panel-cta" href="demonstracoes.html">Explorar demonstrações →</a>
         </div>
 
         <div class="visual-panel panel-main">
