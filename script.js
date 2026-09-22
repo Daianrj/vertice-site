@@ -36,7 +36,7 @@ if (menuToggle && mainNav) {
 }
 
 // SCROLLSPY (DESTACAR SEÇÃO ATIVA NA NAVEGAÇÃO)
-const navLinks = document.querySelectorAll('#main-nav a');
+const navLinks = document.querySelectorAll('#main-nav a[href^="#"]');
 const sections = document.querySelectorAll('section[id]');
 
 if ('IntersectionObserver' in window && sections.length > 0 && navLinks.length > 0) {
@@ -61,6 +61,39 @@ if ('IntersectionObserver' in window && sections.length > 0 && navLinks.length >
 
   sections.forEach((section) => navObserver.observe(section));
 }
+
+// NAVEGAÇÃO MULTIPÁGINAS: DESTACAR PÁGINA ATUAL
+const currentPageName = (() => {
+  const file = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  if (file === '' || file === 'index.html') return 'home';
+  return file.replace('.html', '');
+})();
+
+document.querySelectorAll('#main-nav [data-nav-page]').forEach((link) => {
+  const target = link.getAttribute('data-nav-page');
+  const directActive = target === currentPageName;
+  const moreChildren = ['logistica', 'processo', 'diferenciais', 'contato'];
+  const groupedActive = target === 'mais' && moreChildren.includes(currentPageName);
+  const isActive = directActive || groupedActive;
+
+  link.classList.toggle('active', isActive);
+  if (isActive) link.setAttribute('aria-current', 'page');
+  else link.removeAttribute('aria-current');
+});
+
+if (['logistica', 'processo', 'diferenciais', 'contato'].includes(currentPageName)) {
+  const moreGroup = document.querySelector('[data-nav-group="mais"]');
+  if (moreGroup) moreGroup.classList.add('group-active');
+}
+
+// Fecha o menu mobile ao redimensionar para desktop, evitando estado visual preso.
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 820 && mainNav && menuToggle) {
+    mainNav.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.setAttribute('aria-label', 'Abrir menu de navegação');
+  }
+});
 
 // HERO: SIMULADOR DE FLUXO OPERACIONAL INTERATIVO
 const vtabButtons = document.querySelectorAll('.vtab-btn');
