@@ -1053,15 +1053,15 @@ document.addEventListener('keydown', (event) => {
   });
 
   const pathMap = {
-    sheets: ['path-sheets-script'],
-    automation: ['path-sheets-script', 'path-script-webapp'],
-    webapp: ['path-script-webapp', 'path-webapp-erp'],
-    erp: ['path-webapp-erp', 'path-erp-dashboard'],
-    dashboard: ['path-erp-dashboard', 'path-dashboard-stock'],
-    estoque: ['path-dashboard-stock', 'path-stock-expedition'],
-    expedicao: ['path-stock-expedition', 'path-expedition-transport'],
-    transporte: ['path-expedition-transport', 'path-transport-delivery'],
-    entrega: ['path-transport-delivery', 'path-delivery-dashboard']
+    sheets: [],
+    automation: ['path-sheets-script'],
+    webapp: ['path-sheets-script', 'path-script-webapp'],
+    erp: ['path-sheets-script', 'path-script-webapp', 'path-webapp-erp'],
+    dashboard: ['path-sheets-script', 'path-script-webapp', 'path-webapp-erp', 'path-erp-dashboard'],
+    estoque: ['path-sheets-script', 'path-script-webapp', 'path-webapp-erp', 'path-erp-dashboard', 'path-dashboard-stock'],
+    expedicao: ['path-sheets-script', 'path-script-webapp', 'path-webapp-erp', 'path-erp-dashboard', 'path-dashboard-stock', 'path-stock-expedition'],
+    transporte: ['path-sheets-script', 'path-script-webapp', 'path-webapp-erp', 'path-erp-dashboard', 'path-dashboard-stock', 'path-stock-expedition', 'path-expedition-transport'],
+    entrega: ['path-sheets-script', 'path-script-webapp', 'path-webapp-erp', 'path-erp-dashboard', 'path-dashboard-stock', 'path-stock-expedition', 'path-expedition-transport', 'path-transport-delivery']
   };
 
   const legends = {
@@ -1122,16 +1122,42 @@ document.addEventListener('keydown', (event) => {
     (pathMap[key] || []).forEach((id) => document.getElementById(id)?.classList.add('is-hover-path'));
   };
 
-  const setModuleDiscovery = (key) => {
+  const setModuleDiscovery = (key, node) => {
     const meta = architectureCopy[key];
-    if (!meta) return;
+    if (!meta || !moduleInfo || !architectureScene || !node) return;
+
     if (moduleTitle) moduleTitle.textContent = meta.title;
     if (moduleFeatures) moduleFeatures.textContent = meta.features;
-    if (moduleDemo) {
-      moduleDemo.href = 'demonstracoes.html?demo=' + encodeURIComponent(meta.demo);
-      moduleDemo.textContent = key === 'erp' ? 'Testar ERP →' : 'Ver demonstração →';
-    }
-    moduleInfo?.classList.add('visible');
+    if (moduleDemo) moduleDemo.textContent = key === 'erp' ? 'Testar ERP →' : 'Ver demonstração →';
+
+    moduleInfo.setAttribute('aria-hidden', 'false');
+    moduleInfo.classList.add('visible');
+
+    // Position tooltip outside the card and clamp it inside the architecture.
+    requestAnimationFrame(() => {
+      const sceneRect = architectureScene.getBoundingClientRect();
+      const nodeRect = node.getBoundingClientRect();
+      const tooltipWidth = moduleInfo.offsetWidth || 220;
+      const tooltipHeight = moduleInfo.offsetHeight || 54;
+
+      let left = nodeRect.left - sceneRect.left + nodeRect.width / 2 - tooltipWidth / 2;
+      const lowerHalf = (nodeRect.top - sceneRect.top) > sceneRect.height * 0.52;
+      let top = lowerHalf
+        ? nodeRect.top - sceneRect.top - tooltipHeight - 10
+        : nodeRect.bottom - sceneRect.top + 10;
+
+      left = Math.max(8, Math.min(sceneRect.width - tooltipWidth - 8, left));
+      top = Math.max(8, Math.min(sceneRect.height - tooltipHeight - 8, top));
+
+      moduleInfo.style.left = left + 'px';
+      moduleInfo.style.top = top + 'px';
+    });
+  };
+
+  const hideModuleDiscovery = () => {
+    if (!moduleInfo) return;
+    moduleInfo.classList.remove('visible');
+    moduleInfo.setAttribute('aria-hidden', 'true');
   };
 
   Object.entries(nodeMap).forEach(([key, node]) => {
@@ -1145,27 +1171,27 @@ document.addEventListener('keydown', (event) => {
         if (captionTitle) captionTitle.textContent = meta.caption[0];
         if (captionText) captionText.textContent = meta.caption[1];
       }
-      setModuleDiscovery(key);
+      setModuleDiscovery(key, node);
     });
 
     node.addEventListener('mouseleave', () => {
       interactionPaused = false;
       node.classList.remove('is-hovered');
       document.querySelectorAll('.architecture-path').forEach((path) => path.classList.remove('is-hover-path'));
-      moduleInfo?.classList.remove('visible');
+      hideModuleDiscovery();
     });
 
     node.addEventListener('focus', () => {
       interactionPaused = true;
       node.classList.add('is-hovered');
       highlightPaths(key);
-      setModuleDiscovery(key);
+      setModuleDiscovery(key, node);
     });
 
     node.addEventListener('blur', () => {
       interactionPaused = false;
       node.classList.remove('is-hovered');
-      moduleInfo?.classList.remove('visible');
+      hideModuleDiscovery();
     });
 
     node.addEventListener('click', () => {
