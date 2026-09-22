@@ -81,9 +81,17 @@ document.querySelectorAll('#main-nav [data-nav-page]').forEach((link) => {
   else link.removeAttribute('aria-current');
 });
 
-if (['logistica', 'processo', 'diferenciais', 'contato'].includes(currentPageName)) {
+const moreChildren = ['mais', 'logistica', 'processo', 'diferenciais', 'contato'];
+const diagnosticChildren = ['diagnostico'];
+
+if (moreChildren.includes(currentPageName)) {
   const moreGroup = document.querySelector('[data-nav-group="mais"]');
   if (moreGroup) moreGroup.classList.add('group-active');
+}
+
+if (diagnosticChildren.includes(currentPageName)) {
+  const diagnosticGroup = document.querySelector('[data-nav-group="diagnostico"]');
+  if (diagnosticGroup) diagnosticGroup.classList.add('group-active');
 }
 
 // Fecha o menu mobile ao redimensionar para desktop, evitando estado visual preso.
