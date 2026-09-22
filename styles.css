@@ -3819,3 +3819,25 @@ body:not([data-page="home"]) main > .logistics {
     width: 100%;
   }
 }
+
+
+/* HOTFIX HEADER SHOWROOM — compact desktop nav after Demonstracoes */
+@media (min-width: 821px) and (max-width: 1320px) {
+  .site-header {
+    padding-inline: 3vw;
+    gap: 14px;
+  }
+  .site-header nav {
+    gap: 8px;
+  }
+  .site-header nav > a,
+  .nav-dropdown .nav-dropdown-main {
+    font-size: 12.5px;
+    padding-inline: 8px;
+  }
+  .button-small.header-cta {
+    padding: 10px 13px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+}
