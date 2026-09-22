@@ -1,4 +1,4 @@
-import {clone,esc,wait} from './shared.js?v=20260922-showroom4';
+import {clone,esc,wait} from './shared.js?v=20260922-showroom5';
 
 const initial={
   drivers:[
