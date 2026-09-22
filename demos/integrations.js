@@ -1,4 +1,4 @@
-import {wait,esc} from './shared.js?v=20260922-showroom3';
+import {wait,esc} from './shared.js?v=20260922-showroom4';
 const steps=['Google Sheets','Automação','Web App','ERP','Dashboard','Notificação'];let rootRef=null,active=-1,running=false,guideText='',guideToken=0,startedAt=0,elapsed='—';
 const done=()=>active>=steps.length;
 const render=()=>{if(!rootRef)return;rootRef.innerHTML=`<div class="miniapp"><div class="miniapp-shell">${guideText?'<div class="demo-guide-banner"><strong>DEMONSTRAÇÃO GUIADA</strong><span>'+esc(guideText)+'</span></div>':''}<div class="miniapp-top"><div class="miniapp-brand"><span class="miniapp-mark">V/</span><div>Integrações<small class="miniapp-muted">O dado viaja de sistema para sistema</small></div></div><button class="mini-btn primary" id="int-run" ${running?'disabled':''}>${running?'Fluxo em execução…':'Executar fluxo'}</button></div>
