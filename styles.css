@@ -2731,7 +2731,8 @@ body.modal-open {
   outline: none;
 }
 .nav-dropdown.open .nav-dropdown-toggle {
-  transform: rotate(180deg);
+  background: rgba(49,87,255,.08);
+  color: var(--blue);
 }
 .nav-dropdown-menu {
   position: absolute;
@@ -3720,4 +3721,19 @@ body:not([data-page="home"]) main > .logistics {
   .iso-connector::after,
   .iso-bridge::after { animation:none !important; opacity:.7; }
   .transform-layer { transition:none !important; }
+}
+
+
+/* HOTFIX DROPDOWN CHEVRON — rotate only the indicator, never the whole button */
+.nav-dropdown-toggle {
+  transform: none !important;
+}
+.nav-dropdown-toggle span {
+  display: inline-block;
+  transform: rotate(0deg);
+  transform-origin: center;
+  transition: transform .18s ease;
+}
+.nav-dropdown.open .nav-dropdown-toggle span {
+  transform: rotate(180deg);
 }
