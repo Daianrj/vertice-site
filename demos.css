@@ -369,3 +369,17 @@
   .sheet-data-packet,.automation-data-packet,.route-vehicle{transition:none!important}
   .route-track-progress{transition:none!important}
 }
+
+
+/* Mobile semantic table cards — prevents horizontal overflow */
+@media(max-width:560px){
+  .mini-table-wrap{overflow:visible;border:0;background:transparent}
+  .responsive-demo-table{display:block;width:100%;min-width:0!important;border-collapse:separate}
+  .responsive-demo-table thead{display:none}
+  .responsive-demo-table tbody{display:grid;gap:8px}
+  .responsive-demo-table tr{display:grid;gap:0;padding:8px 10px;border:1px solid #dfe5ec;border-radius:10px;background:#fff}
+  .responsive-demo-table td{display:grid;grid-template-columns:minmax(88px,.42fr) minmax(0,.58fr);gap:10px;align-items:center;padding:7px 0!important;border:0!important;border-bottom:1px solid #edf1f5!important;white-space:normal!important;overflow-wrap:anywhere}
+  .responsive-demo-table td:last-child{border-bottom:0!important}
+  .responsive-demo-table td::before{content:attr(data-label);color:#778597;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.05em}
+  .responsive-demo-table td .mini-btn{margin:2px 3px 2px 0}
+}
