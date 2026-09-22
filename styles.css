@@ -3737,3 +3737,17 @@ body:not([data-page="home"]) main > .logistics {
 .nav-dropdown.open .nav-dropdown-toggle span {
   transform: rotate(180deg);
 }
+
+
+/* DROPDOWN VISIBILITY — JS is source of truth */
+.nav-dropdown-menu[hidden] {
+  display: none !important;
+}
+.nav-dropdown.open > .nav-dropdown-menu:not([hidden]) {
+  display: grid !important;
+}
+@media (max-width: 820px) {
+  .nav-dropdown.open > .nav-dropdown-menu:not([hidden]) {
+    display: block !important;
+  }
+}
