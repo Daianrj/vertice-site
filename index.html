@@ -10,6 +10,12 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="VÉRTICE — Tecnologia aplicada a problemas reais">
   <meta property="og:description" content="Google Sheets, Apps Script, Web Apps, ERP, dashboards, automações, integrações e tecnologia aplicada à logística e à operação.">
+  <meta property="og:url" content="https://daianrj.github.io/vertice-site/">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="VÉRTICE — Tecnologia aplicada a problemas reais">
+  <meta name="twitter:description" content="Sistemas, automações, Google Workspace, dashboards e tecnologia para operações reais.">
+  <link rel="canonical" href="https://daianrj.github.io/vertice-site/">
   <title>VÉRTICE — Apps Script, ERP, Automação & Logística</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -363,6 +369,37 @@
         <a class="tech-cta tech-wa" data-whatsapp data-wa-message="Olá, vim pelo site VÉRTICE e tenho um problema logístico que quero resolver." href="https://wa.me/5521993836880?text=Ol%C3%A1%2C%20vim%20pelo%20site%20V%C3%89RTICE%20e%20tenho%20um%20problema%20log%C3%ADstico%20que%20quero%20resolver." target="_blank" rel="noopener noreferrer">
           <span>Logística</span><strong>Tenho um problema logístico</strong><i aria-hidden="true">↗</i>
         </a>
+      </div>
+
+      <div class="proof-showcase reveal" id="demonstracoes">
+        <div class="proof-showcase-head">
+          <div>
+            <span class="proof-kicker">VEJA FUNCIONANDO</span>
+            <h3>Não fique só na promessa.<br>Teste algumas ideias na prática.</h3>
+          </div>
+          <p>As demonstrações usam dados fictícios e mostram como uma solução pode se comportar antes de qualquer projeto real. Clique, altere dados e simule ações.</p>
+        </div>
+        <div class="proof-grid">
+          <button class="proof-card" type="button" data-open-solution data-solution="Google Sheets" aria-haspopup="dialog">
+            <span class="proof-type">PLANILHA INTELIGENTE</span>
+            <strong>Controle operacional</strong>
+            <p>Edite linhas e adicione registros em uma visão inspirada em Google Sheets.</p>
+            <i>Explorar demonstração ↗</i>
+          </button>
+          <button class="proof-card" type="button" data-open-solution data-solution="Web Apps" aria-haspopup="dialog">
+            <span class="proof-type">WEB APP</span>
+            <strong>Portal de entregas</strong>
+            <p>Cadastre uma entrega demonstrativa e veja o registro aparecer no fluxo.</p>
+            <i>Explorar demonstração ↗</i>
+          </button>
+          <button class="proof-card" type="button" data-open-solution data-solution="ERP sob medida" aria-haspopup="dialog">
+            <span class="proof-type">ERP OPERACIONAL</span>
+            <strong>Painel integrado</strong>
+            <p>Navegue entre operação, estoque e entregas com indicadores por contexto.</p>
+            <i>Explorar demonstração ↗</i>
+          </button>
+        </div>
+        <small class="proof-note">Demonstrações ilustrativas. Nenhum dado exibido representa cliente, operação ou resultado real.</small>
       </div>
     </section>
 
@@ -753,7 +790,7 @@
           <div class="form-row">
             <div class="form-group">
               <label for="lead-name">Seu nome ou empresa</label>
-              <input type="text" id="lead-name" placeholder="Ex: Carlos / Silva Logística" autocomplete="name">
+              <input type="text" id="lead-name" placeholder="Ex: Carlos / Silva Logística" autocomplete="name" maxlength="80">
             </div>
             <div class="form-group">
               <label for="lead-area">Área de interesse</label>
@@ -768,7 +805,7 @@
           </div>
           <div class="form-group">
             <label for="lead-message">Qual desafio você quer resolver?</label>
-            <input type="text" id="lead-message" placeholder="Ex: Preciso organizar a conferência de pedidos e reduzir erros">
+            <input type="text" id="lead-message" placeholder="Ex: Preciso organizar a conferência de pedidos e reduzir erros" required minlength="8" maxlength="240" aria-describedby="briefing-error">
           </div>
           <div class="form-actions-row">
             <button class="button button-primary form-submit-btn" type="submit">
@@ -780,6 +817,7 @@
             </button>
           </div>
           <div class="copy-status" id="copy-status" role="status" aria-live="polite"></div>
+          <div class="form-error" id="briefing-error" role="alert" aria-live="polite"></div>
         </form>
 
         <div class="contact-direct-link">
