@@ -109,106 +109,143 @@
           <span class="visual-badge">VÉRTICE / ARQUITETURA</span>
         </div>
 
-        <div class="hero-architecture-shell" id="hero-architecture-shell">
-          <div class="hero-iso-scene" id="hero-iso-scene" aria-label="Arquitetura operacional viva conectando dados, sistemas e logística">
-            <svg class="architecture-network" viewBox="0 0 1000 360" preserveAspectRatio="none" aria-hidden="true">
+        <div class="hero-architecture-shell hero-architecture-v4" id="hero-architecture-shell">
+          <div class="architecture-grid3d" aria-hidden="true"></div>
+
+          <div class="hero-iso-scene" id="hero-iso-scene" aria-label="Arquitetura digital 3D viva da VÉRTICE">
+            <svg class="architecture-network" viewBox="0 0 1000 390" preserveAspectRatio="none" aria-hidden="true">
               <defs>
                 <linearGradient id="arch-tech-line" x1="0" x2="1">
-                  <stop offset="0" stop-color="#3157ff" stop-opacity=".28"/>
-                  <stop offset=".55" stop-color="#3157ff" stop-opacity=".82"/>
-                  <stop offset="1" stop-color="#c9ff4a" stop-opacity=".62"/>
+                  <stop offset="0" stop-color="#3157ff" stop-opacity=".24"/>
+                  <stop offset=".58" stop-color="#3157ff" stop-opacity=".82"/>
+                  <stop offset="1" stop-color="#c9ff4a" stop-opacity=".58"/>
                 </linearGradient>
                 <linearGradient id="arch-ops-line" x1="0" x2="1">
-                  <stop offset="0" stop-color="#c9ff4a" stop-opacity=".26"/>
-                  <stop offset=".5" stop-color="#78d7a2" stop-opacity=".72"/>
-                  <stop offset="1" stop-color="#c9ff4a" stop-opacity=".78"/>
+                  <stop offset="0" stop-color="#3157ff" stop-opacity=".28"/>
+                  <stop offset=".6" stop-color="#79d7aa" stop-opacity=".72"/>
+                  <stop offset="1" stop-color="#c9ff4a" stop-opacity=".82"/>
+                </linearGradient>
+                <linearGradient id="arch-feedback-line" x1="0" x2="1">
+                  <stop offset="0" stop-color="#c9ff4a" stop-opacity=".64"/>
+                  <stop offset="1" stop-color="#3157ff" stop-opacity=".38"/>
                 </linearGradient>
                 <filter id="arch-soft-glow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="2.2" result="blur"/>
+                  <feGaussianBlur stdDeviation="1.8" result="blur"/>
                   <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
                 </filter>
               </defs>
 
-              <path id="path-sheets-script" class="architecture-path tech-path" d="M105 92 H270"/>
-              <path id="path-script-webapp" class="architecture-path tech-path" d="M330 92 H470"/>
-              <path id="path-webapp-erp" class="architecture-path tech-path" d="M530 92 H670"/>
-              <path id="path-erp-dashboard" class="architecture-path tech-path" d="M730 92 H895"/>
+              <path id="path-sheets-script" class="architecture-path tech-path" d="M110 86 C165 86 215 104 275 112"/>
+              <path id="path-script-webapp" class="architecture-path tech-path" d="M335 112 C390 112 430 132 485 142"/>
+              <path id="path-webapp-erp" class="architecture-path tech-path" d="M545 142 C600 142 640 125 695 112"/>
+              <path id="path-erp-dashboard" class="architecture-path tech-path" d="M755 112 C810 105 850 86 902 76"/>
 
-              <path id="path-stock-expedition" class="architecture-path ops-path" d="M170 266 H350"/>
-              <path id="path-expedition-transport" class="architecture-path ops-path" d="M410 266 H590"/>
-              <path id="path-transport-delivery" class="architecture-path ops-path" d="M650 266 H820"/>
+              <path id="path-dashboard-stock" class="architecture-path cycle-path" d="M902 99 C885 164 760 192 608 209 S330 220 175 246"/>
+              <path id="path-stock-expedition" class="architecture-path ops-path" d="M190 275 C270 276 320 284 365 286"/>
+              <path id="path-expedition-transport" class="architecture-path ops-path" d="M425 286 C500 286 550 281 610 275"/>
+              <path id="path-transport-delivery" class="architecture-path ops-path" d="M670 275 C742 270 790 262 842 250"/>
 
-              <path id="path-erp-stock" class="architecture-path cycle-path" d="M700 118 C700 168 520 180 420 194 S220 214 170 240"/>
-              <path id="path-delivery-webapp" class="architecture-path feedback-path" d="M850 240 C850 192 748 176 650 166 S535 132 500 118"/>
+              <path id="path-delivery-dashboard" class="architecture-path feedback-path" d="M872 230 C925 188 937 139 916 99"/>
 
+              <g id="architecture-trail-layer"></g>
               <g id="architecture-packet-layer" filter="url(#arch-soft-glow)"></g>
             </svg>
 
-            <div class="architecture-lane-title architecture-lane-title-tech">FLUXO DIGITAL</div>
-            <div class="architecture-lane-title architecture-lane-title-ops">FLUXO OPERACIONAL</div>
+            <div class="architecture-depth-label depth-data">DADOS</div>
+            <div class="architecture-depth-label depth-processing">PROCESSAMENTO</div>
+            <div class="architecture-depth-label depth-intelligence">INTELIGÊNCIA</div>
+            <div class="architecture-depth-label depth-operation">OPERAÇÃO</div>
 
-            <button class="iso-node node-sheets" type="button" data-architecture-node="sheets" data-arch-pos="sheets" aria-label="Google Sheets: entrada de dados">
+            <button class="iso-node node-sheets depth-layer-data" type="button"
+              data-architecture-node="sheets" data-arch-pos="sheets" data-demo-key="sheet-system"
+              aria-label="Google Sheets: entrada de dados. Abrir demonstração Planilha para Sistema">
               <span class="iso-node-top">Sheets</span>
               <small>Entrada de dados</small>
-              <span class="node-microstate" data-node-state="sheets">Novo pedido</span>
+              <span class="node-microstate" data-node-state="sheets">Nova entrada</span>
             </button>
 
-            <button class="iso-node node-script" type="button" data-architecture-node="automation" data-arch-pos="automation" aria-label="Apps Script: validação e automação">
+            <button class="iso-node node-script depth-layer-processing" type="button"
+              data-architecture-node="automation" data-arch-pos="automation" data-demo-key="automation"
+              aria-label="Apps Script: automação e validação. Abrir demonstração">
               <span class="iso-node-top">Apps Script</span>
-              <small>Validação</small>
+              <small>Automação</small>
               <span class="node-microstate" data-node-state="automation">Aguardando</span>
             </button>
 
-            <button class="iso-node node-webapp" type="button" data-architecture-node="webapp" data-arch-pos="webapp" aria-label="Web App: interface operacional">
+            <button class="iso-node node-webapp depth-layer-processing" type="button"
+              data-architecture-node="webapp" data-arch-pos="webapp" data-demo-key="deliveries"
+              aria-label="Web App: interface operacional. Abrir demonstração de Entregas">
               <span class="iso-node-top">Web App</span>
               <small>Interface</small>
-              <span class="node-microstate" data-node-state="webapp">Operação</span>
+              <span class="node-microstate" data-node-state="webapp">Aguardando</span>
             </button>
 
-            <button class="iso-node node-erp" type="button" data-architecture-node="erp" data-arch-pos="erp" aria-label="ERP: centralização da gestão">
+            <button class="iso-node node-erp depth-layer-processing" type="button"
+              data-architecture-node="erp" data-arch-pos="erp" data-demo-key="erp"
+              aria-label="ERP: gestão centralizada. Abrir demonstração ERP">
               <span class="iso-node-top">ERP</span>
               <small>Centralização</small>
-              <span class="node-microstate" data-node-state="erp">Sincronizado</span>
+              <span class="node-microstate" data-node-state="erp">Aguardando</span>
             </button>
 
-            <button class="iso-node node-dashboard" type="button" data-architecture-node="dashboard" data-arch-pos="dashboard" aria-label="Dashboard: indicadores e decisão">
+            <button class="iso-node node-dashboard depth-layer-intelligence" type="button"
+              data-architecture-node="dashboard" data-arch-pos="dashboard" data-demo-key="dashboard"
+              aria-label="Dashboard: inteligência operacional. Abrir demonstração Dashboard">
               <span class="iso-node-top">Dashboard</span>
-              <small>Decisão</small>
+              <small>Inteligência</small>
               <span class="node-kpi"><b id="architecture-orders-kpi">127</b><em>pedidos</em></span>
+              <span class="node-kpi-bar"><i id="architecture-kpi-bar"></i></span>
             </button>
 
-            <button class="iso-node node-stock" type="button" data-architecture-node="estoque" data-arch-pos="estoque" aria-label="Estoque: pedido recebido e saldo">
+            <button class="iso-node node-stock depth-layer-operation" type="button"
+              data-architecture-node="estoque" data-arch-pos="estoque" data-demo-key="stock"
+              aria-label="Estoque: entradas, saídas e saldo. Abrir demonstração Estoque">
               <span class="iso-node-top">Estoque</span>
               <small>Entrada & saldo</small>
-              <span class="node-microstate" data-node-state="estoque">Pedido recebido</span>
+              <span class="node-microstate" data-node-state="estoque">Aguardando</span>
             </button>
 
-            <button class="iso-node node-expedition" type="button" data-architecture-node="expedicao" data-arch-pos="expedicao" aria-label="Expedição: separação e conferência">
+            <button class="iso-node node-expedition depth-layer-operation" type="button"
+              data-architecture-node="expedicao" data-arch-pos="expedicao" data-demo-key="deliveries"
+              aria-label="Expedição: separação e conferência. Abrir demonstração Entregas">
               <span class="iso-node-top">Expedição</span>
               <small>Conferência</small>
-              <span class="node-microstate" data-node-state="expedicao">Separando</span>
+              <span class="node-microstate" data-node-state="expedicao">Aguardando</span>
             </button>
 
-            <button class="iso-node node-transport" type="button" data-architecture-node="transporte" data-arch-pos="transporte" aria-label="Transporte: rota em execução">
+            <button class="iso-node node-transport depth-layer-operation" type="button"
+              data-architecture-node="transporte" data-arch-pos="transporte" data-demo-key="routing"
+              aria-label="Transporte: rotas e operação. Abrir demonstração Roteirizador">
               <span class="iso-node-top">Transporte</span>
               <small>Rota</small>
               <span class="node-microstate" data-node-state="transporte">Aguardando</span>
             </button>
 
-            <button class="iso-node node-delivery" type="button" data-architecture-node="entrega" data-arch-pos="entrega" aria-label="Entrega: comprovação e finalização">
+            <button class="iso-node node-delivery depth-layer-operation" type="button"
+              data-architecture-node="entrega" data-arch-pos="entrega" data-demo-key="deliveries"
+              aria-label="Entrega: comprovação e finalização. Abrir demonstração Entregas">
               <span class="iso-node-top">Entrega</span>
-              <small>Comprovação</small>
+              <small>Resultado</small>
               <span class="node-microstate" data-node-state="entrega">Pendente</span>
             </button>
 
-            <div class="architecture-cycle-label" aria-hidden="true">
-              <span>OPERAÇÃO</span><i>→</i><span>DADOS</span><i>→</i><span>AUTOMAÇÃO</span><i>→</i><span>SISTEMA</span><i>→</i><span>DECISÃO</span>
+            <div class="architecture-module-info" id="architecture-module-info" aria-live="polite">
+              <strong id="architecture-module-title">Arquitetura interativa</strong>
+              <span id="architecture-module-features">Passe o mouse sobre um módulo para explorar.</span>
+              <a id="architecture-module-demo" href="demonstracoes.html">Explorar sistema →</a>
             </div>
           </div>
 
-          <div class="architecture-caption" id="architecture-caption" aria-live="polite">
-            <strong id="architecture-caption-title">Novo pedido recebido.</strong>
-            <span id="architecture-caption-text">O dado entra no Sheets e inicia o ciclo operacional.</span>
+          <div class="architecture-caption architecture-caption-v4" id="architecture-caption" aria-live="polite">
+            <div class="architecture-step-badge" id="architecture-step-badge">01 — ENTRADA</div>
+            <div class="architecture-caption-copy">
+              <strong id="architecture-caption-title">Novo pedido recebido.</strong>
+              <span id="architecture-caption-text">O dado entra pelo Google Sheets.</span>
+            </div>
+            <a class="architecture-discovery-cta" href="demonstracoes.html">
+              <span>● Arquitetura interativa</span>
+              <strong>Explorar sistema →</strong>
+            </a>
           </div>
         </div>
 
