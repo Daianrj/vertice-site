@@ -1,4 +1,4 @@
-import {clone,esc,uid,money,statusClass,wait} from './shared.js?v=20260922-showroom3';
+import {clone,esc,uid,money,statusClass,wait} from './shared.js?v=20260922-showroom4';
 const initial={
 clients:[{id:'CLI-001',name:'Mercado Horizonte',city:'Campo Grande',status:'Ativo'},{id:'CLI-002',name:'Drogaria Central',city:'Bangu',status:'Ativo'}],
 products:[{id:'PRD-101',name:'Caixa reforçada',stock:36,price:18.9},{id:'PRD-102',name:'Filme stretch',stock:23,price:42.5}],
