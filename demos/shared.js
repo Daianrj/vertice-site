@@ -12,3 +12,5 @@ export const barChart = (items) => {
   const max=Math.max(1,...items.map(x=>Number(x.value)||0));
   return '<div class="mini-chart">'+items.map(x=>'<div class="mini-chart-bar" style="height:'+Math.max(6,(Number(x.value)||0)/max*100)+'%"><span>'+esc(x.label)+'</span></div>').join('')+'</div>';
 };
+
+export const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
