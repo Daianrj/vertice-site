@@ -3751,3 +3751,71 @@ body:not([data-page="home"]) main > .logistics {
     display: block !important;
   }
 }
+
+
+/* DEFINITIVE DROPDOWN UX — whole item opens submenu */
+.nav-dropdown .nav-dropdown-main {
+  width: auto;
+  height: 38px;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 11px;
+  border-radius: 10px;
+  color: #344054;
+  font-size: 13.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  transform: none !important;
+}
+
+.nav-dropdown .nav-dropdown-main:hover,
+.nav-dropdown .nav-dropdown-main:focus-visible,
+.nav-dropdown.open .nav-dropdown-main,
+.nav-dropdown.group-active .nav-dropdown-main {
+  color: var(--blue);
+  background: rgba(49,87,255,.07);
+  outline: none;
+}
+
+.nav-dropdown-label {
+  display: inline !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+.nav-chevron {
+  flex: 0 0 auto;
+  transition: transform .18s ease;
+  transform: rotate(0deg);
+}
+
+.nav-dropdown.open .nav-chevron {
+  transform: rotate(180deg);
+}
+
+/* neutralize the old span rotation rule after markup upgrade */
+.nav-dropdown.open .nav-dropdown-toggle span {
+  transform: none !important;
+}
+
+@media (max-width: 820px) {
+  .nav-dropdown {
+    display: block;
+  }
+
+  .nav-dropdown .nav-dropdown-main {
+    width: 100%;
+    height: auto;
+    min-height: 46px;
+    justify-content: space-between;
+    padding: 13px 16px;
+    font-size: 15px;
+  }
+
+  .nav-dropdown-menu {
+    width: 100%;
+  }
+}
