@@ -125,3 +125,11 @@ document.addEventListener('keydown',e=>{
     else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
   }
 });
+
+
+// HERO 4.0 deep-link support: demonstracoes.html?demo=<key>
+const requestedDemo = new URLSearchParams(window.location.search).get('demo');
+if (requestedDemo && modules[requestedDemo]) {
+  const requestedButton = document.querySelector('[data-demo="' + CSS.escape(requestedDemo) + '"]');
+  if (requestedButton) requestAnimationFrame(() => open(requestedButton));
+}
