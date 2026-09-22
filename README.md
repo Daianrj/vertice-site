@@ -1,38 +1,42 @@
 # VÉRTICE — Tecnologia aplicada a problemas reais
 
-Site institucional da VÉRTICE, desenvolvido como landing page estática de alta performance para apresentar serviços de desenvolvimento, automação e tecnologia aplicada à operação.
+Site institucional multipáginas da VÉRTICE, desenvolvido com HTML, CSS e JavaScript puro, sem dependência de build ou framework.
 
-## O que o site apresenta
+## Arquitetura atual
 
-- Google Sheets e Google Apps Script
-- Web Apps e ERPs sob medida
-- Dashboards e indicadores
-- Automação de processos e integrações
-- Soluções para estoque, transporte, expedição e entregas
-- Diagnóstico operacional interativo
-- Laboratório de maturidade e construtor de solução
-- Demonstrações interativas com dados fictícios
-- Briefing integrado ao WhatsApp
+A Home foi reduzida para uma visão geral objetiva. O conteúdo completo foi preservado e distribuído em páginas dedicadas:
 
-## Estrutura
+- `index.html` — Home / visão geral
+- `solucoes.html` — Sites, sistemas, automação e soluções para operação
+- `tecnologia.html` — Google Sheets, Apps Script, Web Apps, ERP, dashboards, integrações e demonstrações
+- `laboratorio.html` — Diagnóstico de maturidade, construtor de solução e jornada de evolução
+- `diagnostico.html` — Gargalos operacionais e simulador de necessidade
+- `mais.html` — Hub das áreas complementares
+- `logistica.html` — Especialidade logística
+- `processo.html` — Processo de trabalho
+- `diferenciais.html` — Por que VÉRTICE
+- `contato.html` — FAQ, briefing e contato
+- `styles.css` — identidade visual e responsividade compartilhadas
+- `script.js` — interações compartilhadas
+- `robots.txt` e `sitemap.xml` — indexação
 
-- `index.html` — conteúdo e estrutura da página
-- `styles.css` — identidade visual, layout e responsividade
-- `script.js` — interações, diagnósticos, demos e geração de mensagens
-- `robots.txt` — orientação básica para mecanismos de busca
-- `sitemap.xml` — URL principal para indexação
+## Navegação
+
+O header é consistente entre todas as páginas. Diagnóstico e Mais possuem acesso direto à página principal e submenus para atalhos específicos. Todas as páginas internas possuem retorno rápido para a Home.
+
+## Responsividade
+
+A navegação foi projetada para desktop e mobile. No celular, os submenus abrem abaixo do item principal e a navegação rápida das páginas pode ser rolada horizontalmente.
+
+## Demonstrações
+
+As demonstrações da página Tecnologia utilizam dados fictícios e servem apenas para mostrar possibilidades de interface e fluxo. Não representam clientes, operações ou resultados reais.
 
 ## Publicação
 
-O projeto é compatível com GitHub Pages e não depende de build, framework ou backend para a página institucional.
-
-URL prevista do GitHub Pages:
+Compatível com GitHub Pages:
 
 https://daianrj.github.io/vertice-site/
-
-## Observação sobre as demonstrações
-
-Os dados exibidos nas demonstrações são fictícios e existem apenas para mostrar possibilidades de interface e fluxo. Eles não representam clientes, operações ou resultados reais.
 
 ---
 
