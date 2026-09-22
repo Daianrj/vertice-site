@@ -2590,3 +2590,116 @@ body.modal-open {
     font-size: 14px;
   }
 }
+
+
+/* PORTFÓLIO / PROVA INTERATIVA */
+.proof-showcase {
+  margin-top: 54px;
+  padding: clamp(26px, 4vw, 44px);
+  border-radius: 28px;
+  background: var(--ink);
+  color: #fff;
+  overflow: hidden;
+  position: relative;
+}
+.proof-showcase::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 85% 10%, rgba(201,255,74,.10), transparent 34%);
+  pointer-events: none;
+}
+.proof-showcase-head {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  gap: 32px;
+  align-items: end;
+  margin-bottom: 26px;
+}
+.proof-kicker,
+.proof-type {
+  display: block;
+  color: var(--lime);
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: .13em;
+}
+.proof-showcase-head h3 {
+  margin: 10px 0 0;
+  font-size: clamp(2rem, 3.7vw, 3.8rem);
+  line-height: 1;
+  letter-spacing: -.055em;
+}
+.proof-showcase-head p {
+  margin: 0;
+  color: #aab5c5;
+  line-height: 1.7;
+  max-width: 580px;
+}
+.proof-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.proof-card {
+  text-align: left;
+  padding: 24px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 18px;
+  background: rgba(255,255,255,.045);
+  transition: transform .18s ease, border-color .18s ease, background .18s ease;
+}
+.proof-card:hover,
+.proof-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: rgba(201,255,74,.55);
+  background: rgba(255,255,255,.075);
+  outline: none;
+}
+.proof-card strong {
+  display: block;
+  font-size: 21px;
+  margin: 28px 0 8px;
+}
+.proof-card p {
+  margin: 0 0 24px;
+  color: #9eabba;
+  line-height: 1.6;
+  font-size: 14px;
+}
+.proof-card i {
+  color: #fff;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 13px;
+}
+.proof-note {
+  position: relative;
+  display: block;
+  margin-top: 18px;
+  color: #7f8da0;
+  line-height: 1.5;
+}
+.form-error {
+  min-height: 20px;
+  color: #b42318;
+  font-size: 13px;
+  font-weight: 700;
+}
+.form-group input[aria-invalid="true"] {
+  border-color: #d92d20;
+  background: #fff7f6;
+  box-shadow: 0 0 0 4px rgba(217,45,32,.08);
+}
+
+@media (max-width: 900px) {
+  .proof-showcase-head,
+  .proof-grid {
+    grid-template-columns: 1fr;
+  }
+  .proof-showcase-head {
+    gap: 16px;
+  }
+}
