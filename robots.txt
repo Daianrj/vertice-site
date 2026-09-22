@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://daianrj.github.io/vertice-site/sitemap.xml
