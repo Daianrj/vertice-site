@@ -1,4 +1,4 @@
-import {esc,wait} from './shared.js';
+import {esc,wait} from './shared.js?v=20260922-showroom3';
 const steps=['Nova linha detectada','Validando dados','Dados válidos ✓','Apps Script executando','Pedido processado','Relatório atualizado','Notificação enviada ✓'];
 let rootRef=null,running=false,active=-1,guideText='',guideToken=0;
 const logs=()=>{const l=['18:31:02 Entrada detectada','18:31:02 Validando registro','18:31:03 Dados válidos','18:31:03 Processamento iniciado','18:31:03 Dashboard atualizado','18:31:04 Relatório atualizado','18:31:04 Processo concluído'];return l.slice(0,Math.max(1,active+1)).map((x,i)=>i===active?'<b>'+x+'</b>':x).join('<br>')};
