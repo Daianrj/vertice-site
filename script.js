@@ -964,37 +964,96 @@ document.addEventListener('keydown', (event) => {
 });
 
 // =========================================================
-// STRATEGIC 3D — HERO ARCHITECTURE + SHEET → SYSTEM
+// HERO ARCHITECTURE — LIVE OPERATIONAL CYCLE
+// CSS 3D + SVG + JS. No decorative WebGL.
 // =========================================================
 (() => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // HERO: accessible DOM architecture with subtle pointer depth.
   const architectureShell = document.getElementById('hero-architecture-shell');
   const architectureScene = document.getElementById('hero-iso-scene');
   const architectureCaption = document.getElementById('architecture-caption');
-  const heroVisual3d = architectureShell ? architectureShell.closest('.hero-visual') : null;
+  const captionTitle = document.getElementById('architecture-caption-title');
+  const captionText = document.getElementById('architecture-caption-text');
+  const packetLayer = document.getElementById('architecture-packet-layer');
+  const ordersKpi = document.getElementById('architecture-orders-kpi');
 
   const architectureCopy = {
-    sheets: ['Google Sheets organiza a base.', 'Dados estruturados criam uma fonte operacional confiável para as próximas etapas.'],
-    automation: ['Apps Script automatiza as regras.', 'Validações, gatilhos e rotinas reduzem digitação e trabalho repetitivo.'],
-    webapp: ['Web App simplifica a operação.', 'A equipe usa uma interface objetiva sem depender de trabalhar diretamente na planilha.'],
-    erp: ['ERP conecta os processos.', 'Cadastros, permissões e fluxos passam a funcionar em uma experiência integrada.'],
-    dashboard: ['Dashboard transforma dados em decisão.', 'Indicadores deixam pendências, volumes e desempenho visíveis para gestão.'],
-    estoque: ['Estoque inicia o fluxo físico.', 'Entradas, posições e saldos alimentam uma operação com informação rastreável.'],
-    expedicao: ['Expedição valida a saída.', 'Separação e conferência conectam estoque ao transporte com menos ruído.'],
-    transporte: ['Transporte leva o plano para a rua.', 'Rotas, motoristas e ocorrências passam a fazer parte do mesmo fluxo de informação.'],
-    entrega: ['Entrega fecha o ciclo.', 'Status e comprovação retornam ao sistema e atualizam a visão operacional.']
+    sheets: ['Sheets recebe o dado.', 'Um novo pedido entra na base e inicia o fluxo digital.'],
+    automation: ['Apps Script processa.', 'Validação, regras e automação transformam dado bruto em ação confiável.'],
+    webapp: ['Web App leva a ação para a operação.', 'A equipe recebe uma interface simples para executar e atualizar o processo.'],
+    erp: ['ERP centraliza o processo.', 'Pedido, estoque, entrega e histórico passam a compartilhar o mesmo contexto.'],
+    dashboard: ['Dashboard fecha o ciclo de gestão.', 'O resultado operacional volta como indicador para apoiar a próxima decisão.'],
+    estoque: ['Estoque recebe a demanda.', 'O pedido gera necessidade real de separação e movimentação de saldo.'],
+    expedicao: ['Expedição prepara a saída.', 'Separação e conferência transformam demanda em carga pronta.'],
+    transporte: ['Transporte executa a rota.', 'A carga deixa a expedição e passa a ser acompanhada em campo.'],
+    entrega: ['Entrega comprova o resultado.', 'A finalização retorna ao sistema como dado confiável e rastreável.']
+  };
+
+  const nodeMap = {
+    sheets: document.querySelector('[data-architecture-node="sheets"]'),
+    automation: document.querySelector('[data-architecture-node="automation"]'),
+    webapp: document.querySelector('[data-architecture-node="webapp"]'),
+    erp: document.querySelector('[data-architecture-node="erp"]'),
+    dashboard: document.querySelector('[data-architecture-node="dashboard"]'),
+    estoque: document.querySelector('[data-architecture-node="estoque"]'),
+    expedicao: document.querySelector('[data-architecture-node="expedicao"]'),
+    transporte: document.querySelector('[data-architecture-node="transporte"]'),
+    entrega: document.querySelector('[data-architecture-node="entrega"]')
+  };
+
+  const stateEls = {};
+  document.querySelectorAll('[data-node-state]').forEach((el) => {
+    stateEls[el.getAttribute('data-node-state')] = el;
+  });
+
+  const pathMap = {
+    sheets: ['path-sheets-script'],
+    automation: ['path-sheets-script', 'path-script-webapp'],
+    webapp: ['path-script-webapp', 'path-webapp-erp', 'path-delivery-webapp'],
+    erp: ['path-webapp-erp', 'path-erp-dashboard', 'path-erp-stock'],
+    dashboard: ['path-erp-dashboard'],
+    estoque: ['path-erp-stock', 'path-stock-expedition'],
+    expedicao: ['path-stock-expedition', 'path-expedition-transport'],
+    transporte: ['path-expedition-transport', 'path-transport-delivery'],
+    entrega: ['path-transport-delivery', 'path-delivery-webapp']
+  };
+
+  const setCaption = (title, text) => {
+    if (captionTitle) captionTitle.textContent = title;
+    if (captionText) captionText.textContent = text;
+  };
+
+  const setNodeState = (key, text) => {
+    if (stateEls[key]) stateEls[key].textContent = text;
+  };
+
+  const clearNodeClasses = () => {
+    Object.values(nodeMap).forEach((node) => {
+      if (!node) return;
+      node.classList.remove('is-active', 'is-processing', 'is-success');
+    });
+    document.querySelectorAll('.architecture-path').forEach((path) => {
+      path.classList.remove('is-active-path', 'is-hover-path');
+    });
+  };
+
+  const activateNode = (key, mode = 'active') => {
+    Object.values(nodeMap).forEach((node) => node?.classList.remove('is-active', 'is-processing', 'is-success'));
+    const node = nodeMap[key];
+    if (!node) return;
+    node.classList.add(mode === 'processing' ? 'is-processing' : mode === 'success' ? 'is-success' : 'is-active');
   };
 
   const setArchitectureNode = (key, sourceButton = null) => {
     const copy = architectureCopy[key];
     if (!copy || !architectureCaption) return;
-    architectureCaption.innerHTML = '<strong>' + copy[0] + '</strong><span>' + copy[1] + '</span>';
+    setCaption(copy[0], copy[1]);
 
     document.querySelectorAll('[data-architecture-node]').forEach((node) => {
-      node.classList.toggle('is-active', node === sourceButton);
+      node.classList.toggle('is-hovered', node === sourceButton);
     });
+    document.querySelectorAll('.architecture-path').forEach((path) => path.classList.remove('is-hover-path'));
+    (pathMap[key] || []).forEach((id) => document.getElementById(id)?.classList.add('is-hover-path'));
 
     const tabMap = { estoque: 'estoque', expedicao: 'expedicao', transporte: 'transporte', automation: 'automacao' };
     const tabKey = tabMap[key];
@@ -1004,9 +1063,15 @@ document.addEventListener('keydown', (event) => {
     }
   };
 
-  document.querySelectorAll('[data-architecture-node]').forEach((button) => {
-    button.addEventListener('click', () => setArchitectureNode(button.getAttribute('data-architecture-node'), button));
-    button.addEventListener('focus', () => setArchitectureNode(button.getAttribute('data-architecture-node'), button));
+  Object.entries(nodeMap).forEach(([key, button]) => {
+    if (!button) return;
+    button.addEventListener('mouseenter', () => setArchitectureNode(key, button));
+    button.addEventListener('focus', () => setArchitectureNode(key, button));
+    button.addEventListener('click', () => setArchitectureNode(key, button));
+    button.addEventListener('mouseleave', () => {
+      button.classList.remove('is-hovered');
+      document.querySelectorAll('.architecture-path').forEach((path) => path.classList.remove('is-hover-path'));
+    });
   });
 
   const finePointer = window.matchMedia('(pointer: fine)').matches;
@@ -1015,8 +1080,8 @@ document.addEventListener('keydown', (event) => {
       const rect = architectureShell.getBoundingClientRect();
       const x = (event.clientX - rect.left) / rect.width - 0.5;
       const y = (event.clientY - rect.top) / rect.height - 0.5;
-      architectureShell.style.setProperty('--tilt-x', (-y * 2.8).toFixed(2) + 'deg');
-      architectureShell.style.setProperty('--tilt-y', (x * 3.8).toFixed(2) + 'deg');
+      architectureShell.style.setProperty('--tilt-x', (-y * 1.7).toFixed(2) + 'deg');
+      architectureShell.style.setProperty('--tilt-y', (x * 2.2).toFixed(2) + 'deg');
     }, { passive: true });
 
     architectureShell.addEventListener('pointerleave', () => {
@@ -1025,144 +1090,185 @@ document.addEventListener('keydown', (event) => {
     });
   }
 
-  // Lazy-load Three.js only for capable desktop devices and only when hero enters viewport.
-  const canUseWebGL = () => {
-    try {
-      const canvas = document.createElement('canvas');
-      return Boolean(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
-    } catch {
-      return false;
+  let architectureVisible = false;
+  let cycleToken = 0;
+  let orders = Number(ordersKpi?.textContent || 127);
+
+  const sleep = (ms, token) => new Promise((resolve) => {
+    const started = performance.now();
+    const tick = () => {
+      if (token !== cycleToken || !architectureVisible) return resolve(false);
+      if (performance.now() - started >= ms) return resolve(true);
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+
+  const animatePacket = (pathId, duration, token, options = {}) => new Promise((resolve) => {
+    if (!packetLayer || token !== cycleToken || !architectureVisible) return resolve(false);
+    const path = document.getElementById(pathId);
+    if (!path || typeof path.getTotalLength !== 'function') return resolve(false);
+
+    const length = path.getTotalLength();
+    const packet = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    packet.setAttribute('r', options.size || '5.5');
+    packet.setAttribute('class', 'architecture-packet ' + (options.kind || 'data'));
+    packetLayer.appendChild(packet);
+
+    path.classList.add('is-active-path');
+    let last = null;
+    let elapsed = 0;
+
+    const frame = (time) => {
+      if (token !== cycleToken || !architectureVisible) {
+        packet.remove();
+        path.classList.remove('is-active-path');
+        return resolve(false);
+      }
+      if (last !== null) elapsed += Math.min(34, time - last);
+      last = time;
+      const progress = Math.min(1, elapsed / duration);
+      const distance = options.reverse ? length * (1 - progress) : length * progress;
+      const point = path.getPointAtLength(distance);
+      packet.setAttribute('cx', point.x);
+      packet.setAttribute('cy', point.y);
+
+      if (progress >= 1) {
+        packet.remove();
+        path.classList.remove('is-active-path');
+        return resolve(true);
+      }
+      requestAnimationFrame(frame);
+    };
+
+    requestAnimationFrame(frame);
+  });
+
+  const runOperationalCycle = async (token) => {
+    clearNodeClasses();
+    setNodeState('sheets', 'Novo pedido');
+    setNodeState('automation', 'Aguardando');
+    setNodeState('webapp', 'Operação');
+    setNodeState('erp', 'Sincronizado');
+    setNodeState('estoque', 'Pedido recebido');
+    setNodeState('expedicao', 'Aguardando');
+    setNodeState('transporte', 'Aguardando');
+    setNodeState('entrega', 'Pendente');
+
+    activateNode('sheets');
+    setCaption('Novo pedido recebido.', 'O dado nasce no Sheets e inicia o ciclo.');
+    if (!(await sleep(700, token))) return;
+
+    if (!(await animatePacket('path-sheets-script', 950, token, { kind: 'data' }))) return;
+    activateNode('automation', 'processing');
+    setNodeState('automation', 'Validando…');
+    setCaption('Apps Script validando.', 'Regras verificam o pedido antes de liberar a próxima etapa.');
+    if (!(await sleep(850, token))) return;
+    setNodeState('automation', 'Validado ✓');
+    nodeMap.automation?.classList.remove('is-processing');
+    nodeMap.automation?.classList.add('is-success');
+
+    if (!(await animatePacket('path-script-webapp', 900, token, { kind: 'data' }))) return;
+    activateNode('webapp');
+    setNodeState('webapp', 'Pedido disponível');
+    setCaption('Web App recebeu a operação.', 'A equipe agora enxerga e executa o pedido em uma interface operacional.');
+    if (!(await sleep(650, token))) return;
+
+    if (!(await animatePacket('path-webapp-erp', 900, token, { kind: 'data' }))) return;
+    activateNode('erp', 'processing');
+    setNodeState('erp', 'Registrando…');
+    setCaption('ERP centralizando.', 'O pedido entra no contexto de gestão e gera demanda para a operação física.');
+    if (!(await sleep(700, token))) return;
+    setNodeState('erp', 'Pedido registrado ✓');
+
+    if (!(await animatePacket('path-erp-stock', 1250, token, { kind: 'operation', size: '6' }))) return;
+    activateNode('estoque');
+    setNodeState('estoque', 'Pedido recebido');
+    setCaption('Estoque recebeu a demanda.', 'O dado digital agora movimenta uma etapa física da operação.');
+    if (!(await sleep(700, token))) return;
+
+    if (!(await animatePacket('path-stock-expedition', 1000, token, { kind: 'operation', size: '6' }))) return;
+    activateNode('expedicao', 'processing');
+    setNodeState('expedicao', 'Separando…');
+    setCaption('Expedição em processamento.', 'Separação e conferência preparam o pedido para saída.');
+    if (!(await sleep(850, token))) return;
+    setNodeState('expedicao', 'Expedido ✓');
+
+    if (!(await animatePacket('path-expedition-transport', 1000, token, { kind: 'operation', size: '6' }))) return;
+    activateNode('transporte');
+    setNodeState('transporte', 'Em rota');
+    setCaption('Transporte iniciado.', 'A entrega passa a ser acompanhada em campo.');
+    if (!(await sleep(700, token))) return;
+
+    if (!(await animatePacket('path-transport-delivery', 1000, token, { kind: 'operation', size: '6' }))) return;
+    activateNode('entrega', 'success');
+    setNodeState('entrega', 'Entregue ✓');
+    setCaption('Entrega concluída.', 'A comprovação agora precisa voltar ao sistema como informação de gestão.');
+    if (!(await sleep(850, token))) return;
+
+    if (!(await animatePacket('path-delivery-webapp', 1350, token, { kind: 'feedback', size: '5.5' }))) return;
+    activateNode('webapp', 'success');
+    setNodeState('webapp', 'Comprovante recebido');
+    setCaption('Resultado voltou ao Web App.', 'A operação de campo devolve evidência e status ao fluxo digital.');
+    if (!(await sleep(550, token))) return;
+
+    if (!(await animatePacket('path-webapp-erp', 850, token, { kind: 'feedback' }))) return;
+    activateNode('erp', 'success');
+    setNodeState('erp', 'Atualizado ✓');
+    setCaption('ERP atualizado.', 'A entrega finalizada passa a fazer parte do histórico central.');
+    if (!(await sleep(550, token))) return;
+
+    if (!(await animatePacket('path-erp-dashboard', 950, token, { kind: 'feedback' }))) return;
+    activateNode('dashboard', 'success');
+    orders += 1;
+    if (ordersKpi) {
+      ordersKpi.textContent = String(orders);
+      ordersKpi.closest('.node-kpi')?.classList.add('kpi-updated');
+      setTimeout(() => ordersKpi.closest('.node-kpi')?.classList.remove('kpi-updated'), 850);
+    }
+    setCaption('Dashboard atualizado.', 'O resultado operacional virou informação para decisão: pedidos ' + (orders - 1) + ' → ' + orders + '.');
+    if (!(await sleep(1700, token))) return;
+
+    clearNodeClasses();
+    setCaption('Ciclo concluído.', 'OPERAÇÃO → DADOS → AUTOMAÇÃO → SISTEMA → DECISÃO → OPERAÇÃO');
+    await sleep(1900, token);
+  };
+
+  const startCycle = async () => {
+    if (!architectureShell || reducedMotion || !architectureVisible) return;
+    const token = ++cycleToken;
+    while (architectureVisible && token === cycleToken) {
+      await runOperationalCycle(token);
+      if (token !== cycleToken || !architectureVisible) break;
     }
   };
 
-  const canLoadHeroWebGL = () => {
-    if (!architectureShell || reducedMotion || window.innerWidth < 900 || !canUseWebGL()) return false;
-    const memory = Number(navigator.deviceMemory || 8);
-    const saveData = Boolean(navigator.connection && navigator.connection.saveData);
-    return memory >= 4 && !saveData;
+  const stopCycle = () => {
+    cycleToken += 1;
+    packetLayer?.querySelectorAll('.architecture-packet').forEach((packet) => packet.remove());
+    clearNodeClasses();
   };
 
-  let heroWebGLStarted = false;
-
-  const initHeroWebGL = async () => {
-    if (heroWebGLStarted || !canLoadHeroWebGL()) return;
-    heroWebGLStarted = true;
-
-    const canvas = document.getElementById('hero-webgl');
-    if (!canvas) return;
-
-    try {
-      const THREE = await import('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js');
-
-      const renderer = new THREE.WebGLRenderer({
-        canvas,
-        alpha: true,
-        antialias: false,
-        powerPreference: 'low-power'
-      });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-      camera.position.z = 7;
-
-      const pointCount = 28;
-      const positions = new Float32Array(pointCount * 3);
-      const speeds = new Float32Array(pointCount);
-
-      for (let i = 0; i < pointCount; i += 1) {
-        const ix = i * 3;
-        positions[ix] = (Math.random() - 0.5) * 8.5;
-        positions[ix + 1] = (Math.random() - 0.5) * 4.2;
-        positions[ix + 2] = (Math.random() - 0.5) * 2;
-        speeds[i] = 0.0015 + Math.random() * 0.0025;
-      }
-
-      const geometry = new THREE.BufferGeometry();
-      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      const material = new THREE.PointsMaterial({
-        size: 0.035,
-        color: 0xc9ff4a,
-        transparent: true,
-        opacity: 0.58,
-        depthWrite: false
-      });
-      const points = new THREE.Points(geometry, material);
-      scene.add(points);
-
-      const lineGeometry = new THREE.BufferGeometry().setFromPoints([
-        new THREE.Vector3(-3.7, 1.15, -0.8),
-        new THREE.Vector3(3.6, 1.15, -0.8),
-        new THREE.Vector3(2.8, -1.35, -0.8),
-        new THREE.Vector3(-2.9, -1.35, -0.8)
-      ]);
-      const lineMaterial = new THREE.LineBasicMaterial({
-        color: 0x3157ff,
-        transparent: true,
-        opacity: 0.14
-      });
-      scene.add(new THREE.Line(lineGeometry, lineMaterial));
-
-      const resize = () => {
-        const width = Math.max(1, architectureShell.clientWidth);
-        const height = Math.max(1, architectureShell.clientHeight);
-        renderer.setSize(width, height, false);
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-      };
-
-      let visible = true;
-      let rafId = 0;
-      let lastTime = 0;
-
-      const animate = (time) => {
-        if (!visible) return;
-        const delta = Math.min(32, time - lastTime || 16);
-        lastTime = time;
-
-        const attr = geometry.getAttribute('position');
-        for (let i = 0; i < pointCount; i += 1) {
-          const ix = i * 3;
-          attr.array[ix] += speeds[i] * delta;
-          if (attr.array[ix] > 4.4) attr.array[ix] = -4.4;
+  if (architectureShell) {
+    if (reducedMotion) {
+      architectureShell.classList.add('architecture-static');
+      setCaption('Arquitetura integrada.', 'Dados, automação, sistema e operação conectados em um único ciclo.');
+    } else if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        const visible = entries.some((entry) => entry.isIntersecting);
+        if (visible && !architectureVisible) {
+          architectureVisible = true;
+          startCycle();
+        } else if (!visible && architectureVisible) {
+          architectureVisible = false;
+          stopCycle();
         }
-        attr.needsUpdate = true;
-        points.rotation.z = Math.sin(time * 0.00018) * 0.025;
-
-        renderer.render(scene, camera);
-        rafId = requestAnimationFrame(animate);
-      };
-
-      const visibilityObserver = new IntersectionObserver((entries) => {
-        visible = entries.some((entry) => entry.isIntersecting);
-        if (visible && !rafId) rafId = requestAnimationFrame(animate);
-        if (!visible && rafId) {
-          cancelAnimationFrame(rafId);
-          rafId = 0;
-        }
-      }, { threshold: 0.02 });
-
-      resize();
-      visibilityObserver.observe(architectureShell);
-      window.addEventListener('resize', resize, { passive: true });
-      rafId = requestAnimationFrame(animate);
-      if (heroVisual3d) heroVisual3d.classList.add('webgl-ready');
-    } catch {
-      // DOM/CSS architecture is the intentional fallback.
-      if (heroVisual3d) heroVisual3d.classList.add('webgl-fallback');
+      }, { threshold: 0.12 });
+      observer.observe(architectureShell);
+    } else {
+      architectureVisible = true;
+      startCycle();
     }
-  };
-
-  if (canLoadHeroWebGL()) {
-    const lazyObserver = new IntersectionObserver((entries, observer) => {
-      if (entries.some((entry) => entry.isIntersecting)) {
-        observer.disconnect();
-        initHeroWebGL();
-      }
-    }, { rootMargin: '180px 0px', threshold: 0.01 });
-    lazyObserver.observe(architectureShell);
-  } else if (heroVisual3d) {
-    heroVisual3d.classList.add('webgl-fallback');
   }
 
   // SHEET → SYSTEM: scroll-driven DOM/CSS evolution (no WebGL needed here).
