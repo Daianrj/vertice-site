@@ -1,4 +1,4 @@
-import {clone,esc,statusClass,wait} from './shared.js?v=20260922-showroom3';
+import {clone,esc,statusClass,wait} from './shared.js?v=20260922-showroom4';
 const initial=[
 {id:1,nf:'45821',client:'Mercado Horizonte',address:'Campo Grande — RJ',status:'Pendente',gps:false,proof:false},
 {id:2,nf:'45834',client:'Drogaria Central',address:'Bangu — RJ',status:'Pendente',gps:false,proof:false},
