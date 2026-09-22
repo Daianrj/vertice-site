@@ -30,6 +30,20 @@ document.querySelectorAll('[data-demo-filter]').forEach(btn=>btn.addEventListene
   });
 }));
 
+const enhanceResponsiveTables=()=>{
+  stage.querySelectorAll('table').forEach(table=>{
+    const headers=[...table.querySelectorAll('thead th')].map(th=>th.textContent.trim());
+    if(!headers.length)return;
+    table.classList.add('responsive-demo-table');
+    table.querySelectorAll('tbody tr').forEach(row=>{
+      [...row.children].forEach((cell,index)=>{
+        if(headers[index]) cell.setAttribute('data-label',headers[index]);
+      });
+    });
+  });
+  stage.querySelectorAll('.demo-result-panel,.demo-guide-banner').forEach(el=>el.setAttribute('aria-live','polite'));
+};
+
 const stopActive=()=>{
   if(active?.cancelGuide) active.cancelGuide();
   if(active?.destroy) active.destroy();
@@ -62,6 +76,7 @@ const open=async(btn)=>{
   try{
     const mod=await import(meta.path+'?v=20260922-showroom4');
     active=await mod.mount(stage,{toast});
+    enhanceResponsiveTables();
     guide.disabled=typeof active?.guide!=='function';
   }catch(err){
     stage.innerHTML='<div class="miniapp"><div class="mini-panel"><strong>Não foi possível carregar esta demonstração.</strong><p class="miniapp-muted">Tente novamente em instantes.</p></div></div>';
