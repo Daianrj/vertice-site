@@ -1,4 +1,4 @@
-import {clone,esc,uid,barChart,wait} from './shared.js';
+import {clone,esc,uid,barChart,wait} from './shared.js?v=20260922-showroom3';
 const initial=[
 {id:'SKU-1001',name:'Caixa reforçada 40x30',category:'Embalagens',stock:36,min:20},
 {id:'SKU-1002',name:'Filme stretch 50cm',category:'Embalagens',stock:23,min:18},
