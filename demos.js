@@ -1,4 +1,4 @@
-import { toast } from './demos/shared.js?v=20260922-showroom3';
+import { toast } from './demos/shared.js?v=20260922-showroom4';
 
 const modules = {
   stock:{title:'Controle de Estoque',path:'./demos/stock.js',cta:'QUERO UM CONTROLE DE ESTOQUE ASSIM',message:'Olá! Vi a demonstração de Controle de Estoque no site da VÉRTICE e gostaria de entender como uma solução semelhante poderia funcionar na minha empresa.'},
@@ -60,7 +60,7 @@ const open=async(btn)=>{
   wa.textContent=meta.cta+' ↗';
   wa.href='https://wa.me/5521993836880?text='+encodeURIComponent(meta.message);
   try{
-    const mod=await import(meta.path+'?v=20260922-showroom3');
+    const mod=await import(meta.path+'?v=20260922-showroom4');
     active=await mod.mount(stage,{toast});
     guide.disabled=typeof active?.guide!=='function';
   }catch(err){
