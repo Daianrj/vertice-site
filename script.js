@@ -894,36 +894,49 @@ evolutionButtons.forEach(button => {
 });
 
 
-// DROPDOWNS DO MENU COMPACTO
+// DROPDOWNS DO MENU COMPACTO — CONTROLE ROBUSTO
 const navDropdowns = document.querySelectorAll('.nav-dropdown');
 
-const closeAllNavDropdowns = (except = null) => {
-  navDropdowns.forEach((dropdown) => {
-    if (dropdown === except) return;
-    dropdown.classList.remove('open');
-    const toggle = dropdown.querySelector('.nav-dropdown-toggle');
-    if (toggle) toggle.setAttribute('aria-expanded', 'false');
-  });
-};
-
-navDropdowns.forEach((dropdown) => {
+const setDropdownState = (dropdown, open) => {
+  if (!dropdown) return;
   const toggle = dropdown.querySelector('.nav-dropdown-toggle');
   const menu = dropdown.querySelector('.nav-dropdown-menu');
   if (!toggle || !menu) return;
 
+  dropdown.classList.toggle('open', open);
+  toggle.setAttribute('aria-expanded', String(open));
+  menu.hidden = !open;
+};
+
+const closeAllNavDropdowns = (except = null) => {
+  navDropdowns.forEach((dropdown) => {
+    if (dropdown === except) return;
+    setDropdownState(dropdown, false);
+  });
+};
+
+navDropdowns.forEach((dropdown, index) => {
+  const toggle = dropdown.querySelector('.nav-dropdown-toggle');
+  const menu = dropdown.querySelector('.nav-dropdown-menu');
+  if (!toggle || !menu) return;
+
+  const menuId = menu.id || ('nav-submenu-' + index);
+  menu.id = menuId;
+  toggle.setAttribute('aria-controls', menuId);
+
+  // Estado inicial sempre fechado, independentemente de CSS antigo/cacheado.
+  setDropdownState(dropdown, false);
+
   toggle.addEventListener('click', (event) => {
+    event.preventDefault();
     event.stopPropagation();
-    const willOpen = !dropdown.classList.contains('open');
+    const willOpen = menu.hidden;
     closeAllNavDropdowns(dropdown);
-    dropdown.classList.toggle('open', willOpen);
-    toggle.setAttribute('aria-expanded', String(willOpen));
+    setDropdownState(dropdown, willOpen);
   });
 
   menu.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      dropdown.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-    });
+    link.addEventListener('click', () => setDropdownState(dropdown, false));
   });
 });
 
@@ -941,7 +954,6 @@ document.addEventListener('keydown', (event) => {
     }
   }
 });
-
 
 // =========================================================
 // STRATEGIC 3D — HERO ARCHITECTURE + SHEET → SYSTEM
