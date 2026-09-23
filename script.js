@@ -1060,6 +1060,10 @@ document.addEventListener('keydown', (event) => {
     const node = nodeMap[key];
     if (!node) return;
     node.classList.add(mode === 'processing' ? 'is-processing' : mode === 'success' ? 'is-success' : 'is-active');
+    node.classList.remove('is-arrived');
+    void node.offsetWidth;
+    node.classList.add('is-arrived');
+    window.setTimeout(() => node.classList.remove('is-arrived'), 760);
   };
 
   const highlightPathTo = (key) => {
@@ -1336,13 +1340,14 @@ document.addEventListener('keydown', (event) => {
 
   if (architectureShell) {
     if (reducedMotion || window.matchMedia('(max-width:620px)').matches) {
-      architectureShell.classList.add('architecture-static');
+      architectureShell.classList.add('architecture-static','is-presented');
       resetStates();
     } else if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
         const visible = entries.some((entry) => entry.isIntersecting);
         if (visible && !architectureVisible) {
           architectureVisible = true;
+          architectureShell.classList.add('is-presented');
           startCycle();
         } else if (!visible && architectureVisible) {
           architectureVisible = false;
@@ -1352,6 +1357,7 @@ document.addEventListener('keydown', (event) => {
       observer.observe(architectureShell);
     } else {
       architectureVisible = true;
+      architectureShell.classList.add('is-presented');
       startCycle();
     }
   }

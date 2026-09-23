@@ -3634,6 +3634,8 @@ body:not([data-page="home"]) main > .logistics {
 .hero-architecture-v4 .iso-node{
   --node-z:17px;
   --focus-z:0px;
+  --intro-y:12px;
+  --intro-z:-20px;
   position:absolute;
   z-index:4;
   width:clamp(76px,7vw,94px);
@@ -3652,14 +3654,72 @@ body:not([data-page="home"]) main > .logistics {
     inset 0 1px rgba(255,255,255,.065);
   transform:
     translate(-50%,-50%)
-    translate3d(calc(var(--parallax-x) * .22),calc(var(--parallax-y) * .18),calc(var(--node-z) + var(--focus-z)));
+    translate3d(
+      calc(var(--parallax-x) * .22),
+      calc((var(--parallax-y) * .18) + var(--intro-y)),
+      calc(var(--node-z) + var(--focus-z) + var(--intro-z))
+    );
   transform-style:preserve-3d;
   transition:
     transform .24s cubic-bezier(.2,.8,.2,1),
     border-color .18s ease,
     box-shadow .18s ease,
-    opacity .18s ease,
+    opacity .42s ease,
     filter .18s ease;
+  opacity:0;
+}
+
+.hero-architecture-v4.is-presented .iso-node{
+  --intro-y:0px;
+  --intro-z:0px;
+  opacity:1;
+}
+
+.hero-architecture-v4.is-presented [data-arch-pos="sheets"]{transition-delay:.02s}
+.hero-architecture-v4.is-presented [data-arch-pos="automation"]{transition-delay:.08s}
+.hero-architecture-v4.is-presented [data-arch-pos="webapp"]{transition-delay:.14s}
+.hero-architecture-v4.is-presented [data-arch-pos="erp"]{transition-delay:.20s}
+.hero-architecture-v4.is-presented [data-arch-pos="dashboard"]{transition-delay:.26s}
+.hero-architecture-v4.is-presented [data-arch-pos="estoque"]{transition-delay:.32s}
+.hero-architecture-v4.is-presented [data-arch-pos="expedicao"]{transition-delay:.38s}
+.hero-architecture-v4.is-presented [data-arch-pos="transporte"]{transition-delay:.44s}
+.hero-architecture-v4.is-presented [data-arch-pos="entrega"]{transition-delay:.50s}
+
+.hero-architecture-v4 .iso-node .iso-node-top,
+.hero-architecture-v4 .iso-node .node-microstate,
+.hero-architecture-v4 .iso-node .node-kpi,
+.hero-architecture-v4 .iso-node .node-kpi-bar{
+  transform:translateY(3px);
+  opacity:.72;
+  transition:transform .24s ease,opacity .24s ease;
+}
+
+.hero-architecture-v4.is-presented .iso-node .iso-node-top,
+.hero-architecture-v4.is-presented .iso-node .node-microstate,
+.hero-architecture-v4.is-presented .iso-node .node-kpi,
+.hero-architecture-v4.is-presented .iso-node .node-kpi-bar{
+  transform:none;
+  opacity:1;
+}
+
+.hero-architecture-v4 .iso-node.is-arrived{
+  --focus-z:15px;
+  border-color:rgba(201,255,74,.78);
+  box-shadow:
+    0 28px 42px rgba(0,0,0,.46),
+    0 0 0 1px rgba(201,255,74,.10),
+    0 0 24px rgba(201,255,74,.10),
+    inset 0 1px rgba(255,255,255,.08);
+}
+
+.hero-architecture-v4 .iso-node.is-arrived::before{
+  animation:arch-card-scan .72s ease both;
+}
+
+@keyframes arch-card-scan{
+  0%{filter:brightness(.9);opacity:.55}
+  45%{filter:brightness(1.8);opacity:1}
+  100%{filter:brightness(1);opacity:1}
 }
 
 .hero-architecture-v4 .iso-node::before,
@@ -4013,6 +4073,8 @@ body:not([data-page="home"]) main > .logistics {
 }
 
 @media (prefers-reduced-motion:reduce){
+  .hero-architecture-v4 .iso-node{--intro-y:0px;--intro-z:0px;opacity:1!important}
+  .hero-architecture-v4 .iso-node.is-arrived::before{animation:none!important}
   .hero-architecture-v4 .hero-iso-scene,
   .hero-architecture-v4 .architecture-grid3d,
   .hero-architecture-v4 .architecture-network,
