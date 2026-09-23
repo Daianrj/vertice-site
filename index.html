@@ -17,7 +17,7 @@
   <meta name="twitter:description" content="VÉRTICE — Google Sheets, Apps Script, Web Apps, ERP, automações, dashboards, integrações e sistemas sob medida para logística e eficiência operacional.">
   <link rel="canonical" href="https://daianrj.github.io/vertice-site/">
   <title>VÉRTICE — Apps Script, ERP, Automação & Logística</title>
-  <link rel="stylesheet" href="styles.css?v=hero-mobile-v3a">
+  <link rel="stylesheet" href="styles.css?v=hero-showcase-3d-v1">
 </head>
 <body data-page="home">
   <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
@@ -97,140 +97,94 @@
         </div>
       </div>
 
-      <!-- HERO INTERACTIVE OPERATIONAL DASHBOARD -->
-      <div class="hero-visual reveal" aria-label="Simulador de fluxo operacional da VÉRTICE">
+      <!-- HERO 3D SYSTEM SHOWCASE -->
+      <div class="hero-visual reveal hero-showcase" id="hero-system-showcase" aria-label="Vitrine 3D de soluções digitais da VÉRTICE">
         <div class="visual-grid" aria-hidden="true"></div>
-        
         <div class="visual-header">
-          <div class="visual-status">
-            <span class="status-pulse" aria-hidden="true"></span>
-            <span class="status-label">Operação Ativa</span>
-          </div>
+          <div class="visual-status"><span class="status-pulse" aria-hidden="true"></span><span class="status-label">Operação Ativa</span></div>
           <span class="visual-badge">VÉRTICE / ARQUITETURA</span>
         </div>
 
-        <div class="hero-architecture-shell hero-architecture-v4" id="hero-architecture-shell">
-          <div class="architecture-grid3d" aria-hidden="true"></div>
+        <div class="showcase-stage" id="showcase-stage">
+          <div class="showcase-orbit" id="showcase-orbit">
+            <article class="system-model is-active" data-model="0" aria-hidden="false">
+              <div class="model-window sheet-model">
+                <div class="model-topbar"><span></span><span></span><span></span><b>Google Sheets operacional</b></div>
+                <div class="sheet-toolbar"><i></i><i></i><i></i><strong>Controle operacional</strong></div>
+                <div class="mini-sheet">
+                  <b>Pedido</b><b>Cliente</b><b>Status</b><b>Estoque</b><b>Entrega</b><b>Responsável</b>
+                  <span>#8841</span><span>Cliente A</span><span class="ok">Liberado</span><span>42 un.</span><span>Hoje</span><span>Operação</span>
+                  <span>#8842</span><span>Cliente B</span><span class="warn">Separação</span><span>18 un.</span><span>14:30</span><span>Expedição</span>
+                  <span>#8843</span><span>Cliente C</span><span class="info">Em rota</span><span>27 un.</span><span>16:10</span><span>Transporte</span>
+                </div>
+              </div>
+            </article>
 
-          <div class="hero-iso-scene" id="hero-iso-scene" aria-label="Arquitetura digital 3D viva da VÉRTICE">
-            <div class="architecture-track" id="architecture-track">
-            <svg class="architecture-network" viewBox="0 0 1000 420" preserveAspectRatio="none" aria-hidden="true">
-              <defs>
-                <linearGradient id="arch-tech-line" x1="0" x2="1">
-                  <stop offset="0" stop-color="#3157ff" stop-opacity=".3"/>
-                  <stop offset=".62" stop-color="#6f8cff" stop-opacity=".78"/>
-                  <stop offset="1" stop-color="#c9ff4a" stop-opacity=".55"/>
-                </linearGradient>
-                <linearGradient id="arch-ops-line" x1="0" x2="1">
-                  <stop offset="0" stop-color="#3157ff" stop-opacity=".32"/>
-                  <stop offset=".64" stop-color="#79d7aa" stop-opacity=".76"/>
-                  <stop offset="1" stop-color="#c9ff4a" stop-opacity=".84"/>
-                </linearGradient>
-                <filter id="arch-soft-glow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="1.6" result="blur"/>
-                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                </filter>
-              </defs>
+            <article class="system-model" data-model="1" aria-hidden="true">
+              <div class="model-window automation-model">
+                <div class="model-topbar"><span></span><span></span><span></span><b>Apps Script / Automação</b></div>
+                <div class="automation-flow">
+                  <div><i>01</i><strong>Entrada</strong><small>Novo dado</small></div><em>→</em>
+                  <div><i>02</i><strong>Validação</strong><small>Regras</small></div><em>→</em>
+                  <div class="flow-active"><i>03</i><strong>Processamento</strong><small>Automático</small></div><em>→</em>
+                  <div><i>04</i><strong>Atualização</strong><small>Concluída</small></div>
+                </div>
+                <div class="automation-log"><span>Gatilho detectado</span><span>Dados validados</span><span class="log-live">Sincronizando sistema…</span></div>
+              </div>
+            </article>
 
-              <path id="path-sheets-script" class="architecture-path tech-path" d="M100 104 H300"/>
-              <path id="path-script-webapp" class="architecture-path tech-path" d="M300 104 H500"/>
-              <path id="path-webapp-erp" class="architecture-path tech-path" d="M500 104 H700"/>
-              <path id="path-erp-dashboard" class="architecture-path tech-path" d="M700 104 H900"/>
-              <path id="path-dashboard-stock" class="architecture-path bridge-path" d="M900 130 V184 H165 V282"/>
-              <path id="path-stock-expedition" class="architecture-path ops-path" d="M165 304 H395"/>
-              <path id="path-expedition-transport" class="architecture-path ops-path" d="M395 304 H635"/>
-              <path id="path-transport-delivery" class="architecture-path ops-path" d="M635 304 H865"/>
+            <article class="system-model" data-model="2" aria-hidden="true">
+              <div class="model-window webapp-model">
+                <div class="model-sidebar"><b>V/</b><i></i><i></i><i></i><i></i></div>
+                <div class="model-appbody">
+                  <div class="appbar"><strong>Operação</strong><span>Buscar pedido…</span></div>
+                  <div class="app-kpis"><div><small>Pedidos</small><b>128</b></div><div><small>Em processo</small><b>34</b></div><div><small>Concluídos</small><b>94</b></div></div>
+                  <div class="app-table"><b>Últimas movimentações</b><span>#8841 · Separação <i>Em andamento</i></span><span>#8839 · Entrega <i class="done">Concluída</i></span><span>#8837 · Expedição <i class="done">Concluída</i></span></div>
+                </div>
+              </div>
+            </article>
 
-              <g id="architecture-trail-layer"></g>
-              <g id="architecture-packet-layer" filter="url(#arch-soft-glow)"></g>
-            </svg>
+            <article class="system-model" data-model="3" aria-hidden="true">
+              <div class="model-window erp-model">
+                <div class="erp-nav"><b>ERP VÉRTICE</b><span class="sel">Visão geral</span><span>Cadastros</span><span>Processos</span><span>Permissões</span></div>
+                <div class="erp-main"><div class="erp-head"><strong>Central de gestão</strong><small>Operação integrada</small></div>
+                  <div class="erp-grid"><div><small>Processos ativos</small><b>24</b><i></i></div><div><small>Usuários</small><b>18</b><i></i></div><div class="erp-wide"><small>Acompanhamento operacional</small><p><span style="--w:82%"></span></p><p><span style="--w:64%"></span></p><p><span style="--w:91%"></span></p></div></div>
+                </div>
+              </div>
+            </article>
 
-            <button class="iso-node node-sheets depth-layer-data" type="button"
-              data-architecture-node="sheets" data-arch-pos="sheets"
-              aria-label="Sheets. Entrada de dados">
-              <span class="iso-node-top">Sheets</span>
-              <span class="node-microstate" data-node-state="sheets">Nova entrada</span>
-            </button>
+            <article class="system-model" data-model="4" aria-hidden="true">
+              <div class="model-window dashboard-model">
+                <div class="dash-head"><strong>Dashboard operacional</strong><small>Atualizado agora</small></div>
+                <div class="dash-kpis"><div><small>Produtividade</small><b>94%</b><i>+6,2%</i></div><div><small>Pedidos</small><b>1.248</b><i>+8,4%</i></div><div><small>Alertas</small><b>03</b><i class="alert">Atenção</i></div></div>
+                <div class="dash-chart"><span style="--h:36%"></span><span style="--h:52%"></span><span style="--h:45%"></span><span style="--h:68%"></span><span style="--h:61%"></span><span style="--h:82%"></span><span style="--h:76%"></span><span style="--h:92%"></span></div>
+              </div>
+            </article>
 
-            <button class="iso-node node-script depth-layer-processing" type="button"
-              data-architecture-node="automation" data-arch-pos="automation"
-              aria-label="Apps Script. Automação e validação">
-              <span class="iso-node-top">Apps Script</span>
-              <span class="node-microstate" data-node-state="automation">Aguardando</span>
-            </button>
-
-            <button class="iso-node node-webapp depth-layer-processing" type="button"
-              data-architecture-node="webapp" data-arch-pos="webapp"
-              aria-label="Web App. Interface operacional">
-              <span class="iso-node-top">Web App</span>
-              <span class="node-microstate" data-node-state="webapp">Aguardando</span>
-            </button>
-
-            <button class="iso-node node-erp depth-layer-processing" type="button"
-              data-architecture-node="erp" data-arch-pos="erp"
-              aria-label="ERP. Centralização operacional">
-              <span class="iso-node-top">ERP</span>
-              <span class="node-microstate" data-node-state="erp">Aguardando</span>
-            </button>
-
-            <button class="iso-node node-dashboard depth-layer-intelligence" type="button"
-              data-architecture-node="dashboard" data-arch-pos="dashboard"
-              aria-label="Dashboard. KPIs e decisão">
-              <span class="iso-node-top">Dashboard</span>
-              <span class="node-kpi"><b id="architecture-orders-kpi">127</b><em>pedidos</em></span>
-              <span class="node-kpi-bar"><i id="architecture-kpi-bar"></i></span>
-            </button>
-
-            <button class="iso-node node-stock depth-layer-operation" type="button"
-              data-architecture-node="estoque" data-arch-pos="estoque"
-              aria-label="Estoque. Entrada, saída e saldo">
-              <span class="iso-node-top">Estoque</span>
-              <span class="node-microstate" data-node-state="estoque">Aguardando</span>
-            </button>
-
-            <button class="iso-node node-expedition depth-layer-operation" type="button"
-              data-architecture-node="expedicao" data-arch-pos="expedicao"
-              aria-label="Expedição. Separação e conferência">
-              <span class="iso-node-top">Expedição</span>
-              <span class="node-microstate" data-node-state="expedicao">Aguardando</span>
-            </button>
-
-            <button class="iso-node node-transport depth-layer-operation" type="button"
-              data-architecture-node="transporte" data-arch-pos="transporte"
-              aria-label="Transporte. Rotas e execução">
-              <span class="iso-node-top">Transporte</span>
-              <span class="node-microstate" data-node-state="transporte">Aguardando</span>
-            </button>
-
-            <button class="iso-node node-delivery depth-layer-operation" type="button"
-              data-architecture-node="entrega" data-arch-pos="entrega"
-              aria-label="Entrega. Comprovação e finalização">
-              <span class="iso-node-top">Entrega</span>
-              <span class="node-microstate" data-node-state="entrega">Pendente</span>
-            </button>
-
-            <div class="architecture-mobile-packet" id="architecture-mobile-packet" aria-hidden="true">PED-8841</div>
-            </div>
-
-            <div class="architecture-tooltip" id="architecture-module-info" role="tooltip" aria-hidden="true">
-              <strong id="architecture-module-title"></strong>
-              <span id="architecture-module-features"></span>
-            </div>
-            <div class="architecture-touch-info" id="architecture-touch-info" hidden>
-              <strong id="architecture-touch-title"></strong>
-              <span id="architecture-touch-text"></span>
-            </div>
+            <article class="system-model" data-model="5" aria-hidden="true">
+              <div class="model-window logistics-model">
+                <div class="log-head"><strong>Logística / Operação</strong><small>Fluxo em tempo real</small></div>
+                <div class="log-route"><div><i>01</i><b>Estoque</b><small>Separado</small></div><span></span><div><i>02</i><b>Expedição</b><small>Conferido</small></div><span></span><div class="route-live"><i>03</i><b>Transporte</b><small>Em rota</small></div><span></span><div><i>04</i><b>Entrega</b><small>Prevista</small></div></div>
+                <div class="log-map"><i class="route-line"></i><b class="map-point p1"></b><b class="map-point p2"></b><b class="map-point p3"></b><span class="truck">▰</span></div>
+              </div>
+            </article>
           </div>
 
-          <div class="architecture-caption architecture-caption-v4" id="architecture-caption" aria-live="polite">
-            <div class="architecture-step-badge" id="architecture-step-badge">01 — ENTRADA</div>
-            <div class="architecture-caption-copy">
-              <strong id="architecture-caption-title">Novo pedido recebido.</strong>
-              <span id="architecture-caption-text">O dado entrou pelo Google Sheets.</span>
-            </div>
+          <div class="showcase-depth depth-one" aria-hidden="true"></div>
+          <div class="showcase-depth depth-two" aria-hidden="true"></div>
+          <div class="showcase-controls" role="group" aria-label="Selecionar modelo de sistema">
+            <button type="button" class="is-active" data-showcase-go="0" aria-label="Google Sheets operacional"></button>
+            <button type="button" data-showcase-go="1" aria-label="Apps Script e automação"></button>
+            <button type="button" data-showcase-go="2" aria-label="Web App"></button>
+            <button type="button" data-showcase-go="3" aria-label="ERP sob medida"></button>
+            <button type="button" data-showcase-go="4" aria-label="Dashboard"></button>
+            <button type="button" data-showcase-go="5" aria-label="Logística e operação"></button>
           </div>
+        </div>
 
-          <a class="architecture-panel-cta" href="demonstracoes.html">Explorar demonstrações →</a>
+        <div class="showcase-footer" aria-live="polite">
+          <div class="showcase-copy"><span id="showcase-counter">01 / 06</span><div><strong id="showcase-title">Google Sheets operacional</strong><small id="showcase-description">Controle de pedidos, status e operação em tempo real.</small></div></div>
+          <a class="architecture-panel-cta showcase-cta" href="demonstracoes.html">Explorar demonstrações →</a>
         </div>
       </div>
     </section><section class="trust-strip" aria-label="Princípios da VÉRTICE">
@@ -299,6 +253,6 @@
     <span>WhatsApp</span>
   </a>
   
-  <script src="script.js?v=hero-mobile-v3" defer></script>
+  <script src="script.js?v=hero-showcase-3d-v1" defer></script>
 </body>
 </html>

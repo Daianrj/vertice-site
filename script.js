@@ -1537,3 +1537,62 @@ document.addEventListener('keydown', (event) => {
     updateByScroll();
   }
 })();
+
+
+/* HOME HERO — rotating 3D system showcase */
+(() => {
+  const root=document.getElementById('hero-system-showcase');
+  if(!root) return;
+  const stage=root.querySelector('#showcase-stage');
+  const orbit=root.querySelector('#showcase-orbit');
+  const models=[...root.querySelectorAll('.system-model')];
+  const controls=[...root.querySelectorAll('[data-showcase-go]')];
+  const counter=root.querySelector('#showcase-counter');
+  const title=root.querySelector('#showcase-title');
+  const description=root.querySelector('#showcase-description');
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const coarse=window.matchMedia('(pointer: coarse)').matches;
+  const content=[
+    ['Google Sheets operacional','Controle de pedidos, status e operação em tempo real.'],
+    ['Apps Script / Automação','Entrada, validação e processamento automático sem trabalho repetitivo.'],
+    ['Web App / Sistema interno','Interface prática com filtros, indicadores e rotina operacional centralizada.'],
+    ['ERP sob medida','Cadastros, permissões e processos reunidos em uma gestão feita para a empresa.'],
+    ['Dashboard e indicadores','KPIs, produtividade e alertas para uma leitura gerencial objetiva.'],
+    ['Logística / Operação','Estoque, expedição, transporte e entrega acompanhados ponta a ponta.']
+  ];
+  let current=0,timer=0,visible=true,hovered=false,startX=null;
+  const pad=n=>String(n).padStart(2,'0');
+  const show=(next,user=false)=>{
+    next=(next+models.length)%models.length;
+    if(next===current && !user) return;
+    const old=models[current];
+    old.classList.remove('is-active'); old.classList.add('is-leaving'); old.setAttribute('aria-hidden','true');
+    window.setTimeout(()=>old.classList.remove('is-leaving'),900);
+    current=next;
+    models.forEach((m,i)=>{if(i!==current)m.setAttribute('aria-hidden','true')});
+    models[current].classList.add('is-active'); models[current].setAttribute('aria-hidden','false');
+    controls.forEach((b,i)=>b.classList.toggle('is-active',i===current));
+    counter.textContent=pad(current+1)+' / '+pad(models.length);
+    title.textContent=content[current][0]; description.textContent=content[current][1];
+  };
+  const stop=()=>{if(timer){window.clearInterval(timer);timer=0}};
+  const start=()=>{stop();if(reduced||!visible||hovered)return;timer=window.setInterval(()=>show(current+1),5200)};
+  controls.forEach((b,i)=>b.addEventListener('click',()=>{show(i,true);start()}));
+  if(!coarse){
+    root.addEventListener('mouseenter',()=>{hovered=true;root.classList.add('is-paused');stop()});
+    root.addEventListener('mouseleave',()=>{hovered=false;root.classList.remove('is-paused');if(orbit)orbit.style.transform='';start()});
+    stage?.addEventListener('pointermove',e=>{
+      if(reduced||!orbit)return;
+      const r=stage.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+      orbit.style.transform='rotateY('+(x*3.5)+'deg) rotateX('+(-y*2.5)+'deg)';
+    });
+  }
+  stage?.addEventListener('pointerdown',e=>{if(coarse)startX=e.clientX},{passive:true});
+  stage?.addEventListener('pointerup',e=>{if(startX===null)return;const d=e.clientX-startX;startX=null;if(Math.abs(d)>45){show(current+(d<0?1:-1),true);start()}},{passive:true});
+  if('IntersectionObserver' in window){
+    const io=new IntersectionObserver(entries=>{visible=entries.some(e=>e.isIntersecting);visible?start():stop()},{threshold:.18});
+    io.observe(root);
+  }
+  document.addEventListener('visibilitychange',()=>{visible=!document.hidden;visible?start():stop()});
+  show(0,true);start();
+})();
