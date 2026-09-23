@@ -982,6 +982,12 @@ document.addEventListener('keydown', (event) => {
   const moduleInfo = document.getElementById('architecture-module-info');
   const moduleTitle = document.getElementById('architecture-module-title');
   const moduleFeatures = document.getElementById('architecture-module-features');
+  const architectureTrack = document.getElementById('architecture-track');
+  const mobilePacket = document.getElementById('architecture-mobile-packet');
+  const touchInfo = document.getElementById('architecture-touch-info');
+  const touchTitle = document.getElementById('architecture-touch-title');
+  const touchText = document.getElementById('architecture-touch-text');
+  const mobileArchitecture = window.matchMedia('(max-width: 820px), (pointer: coarse)').matches;
 
   const architectureCopy = {
     sheets: ['Sheets', 'Entrada e organização de dados'],
@@ -1017,6 +1023,22 @@ document.addEventListener('keydown', (event) => {
     expedicao: ['sheets','automation','webapp','erp','dashboard','estoque','expedicao'],
     transporte: ['sheets','automation','webapp','erp','dashboard','estoque','expedicao','transporte'],
     entrega: ['sheets','automation','webapp','erp','dashboard','estoque','expedicao','transporte','entrega']
+  };
+
+  const mobilePositions = {
+    sheets:45, automation:135, webapp:225, erp:315, dashboard:405,
+    estoque:515, expedicao:605, transporte:695, entrega:785
+  };
+  const mobileOrder = ['sheets','automation','webapp','erp','dashboard','estoque','expedicao','transporte','entrega'];
+  const pathEndpoints = {
+    'path-sheets-script':['sheets','automation'],
+    'path-script-webapp':['automation','webapp'],
+    'path-webapp-erp':['webapp','erp'],
+    'path-erp-dashboard':['erp','dashboard'],
+    'path-dashboard-stock':['dashboard','estoque'],
+    'path-stock-expedition':['estoque','expedicao'],
+    'path-expedition-transport':['expedicao','transporte'],
+    'path-transport-delivery':['transporte','entrega']
   };
 
   const nodeMap = {};
@@ -1055,6 +1077,21 @@ document.addEventListener('keydown', (event) => {
     architectureShell?.classList.remove('has-node-hover');
   };
 
+  const focusMobileNode = (key) => {
+    if (!mobileArchitecture || !architectureTrack) return;
+    const index = mobileOrder.indexOf(key);
+    if (index < 0) return;
+    const y = mobilePositions[key];
+    const viewportCenter = 154;
+    architectureTrack.style.setProperty('--mobile-track-y',(viewportCenter - y) + 'px');
+    mobileOrder.forEach((nodeKey,nodeIndex) => {
+      const node = nodeMap[nodeKey];
+      if (!node) return;
+      node.classList.toggle('is-mobile-current',nodeKey === key);
+      node.classList.toggle('is-mobile-near',Math.abs(nodeIndex-index) === 1);
+    });
+  };
+
   const activateNode = (key, mode = 'active') => {
     Object.values(nodeMap).forEach((node) => node?.classList.remove('is-active','is-processing','is-success'));
     const node = nodeMap[key];
@@ -1064,6 +1101,7 @@ document.addEventListener('keydown', (event) => {
     void node.offsetWidth;
     node.classList.add('is-arrived');
     window.setTimeout(() => node.classList.remove('is-arrived'), 760);
+    focusMobileNode(key);
   };
 
   const highlightPathTo = (key) => {
@@ -1120,6 +1158,22 @@ document.addEventListener('keydown', (event) => {
     node.addEventListener('mouseleave',leave);
     node.addEventListener('focus',enter);
     node.addEventListener('blur',leave);
+
+    node.addEventListener('click',(event) => {
+      if (!mobileArchitecture) return;
+      event.stopPropagation();
+      const copy = architectureCopy[key];
+      if (!copy || !touchInfo) return;
+      focusMobileNode(key);
+      if (touchTitle) touchTitle.textContent = copy[0];
+      if (touchText) touchText.textContent = copy[1];
+      touchInfo.hidden = false;
+    });
+  });
+
+  document.addEventListener('click',(event) => {
+    if (!mobileArchitecture || !touchInfo || touchInfo.hidden) return;
+    if (!event.target.closest('[data-architecture-node]')) touchInfo.hidden = true;
   });
 
   if (architectureShell && architectureScene && finePointer && !reducedMotion) {
@@ -1179,7 +1233,42 @@ document.addEventListener('keydown', (event) => {
     return group;
   };
 
-  const animatePacket = (pathId,duration,token,kind = 'data') => new Promise((resolve) => {
+  const animateMobilePacket = (pathId,duration,token,kind='data') => new Promise((resolve) => {
+    if (!mobilePacket || token !== cycleToken || !architectureVisible) return resolve(false);
+    const pair = pathEndpoints[pathId];
+    if (!pair) return resolve(false);
+    const [fromKey,toKey] = pair;
+    const fromY = mobilePositions[fromKey];
+    const toY = mobilePositions[toKey];
+    mobilePacket.classList.toggle('operation',kind === 'operation');
+    mobilePacket.style.display = 'flex';
+
+    let elapsed = 0;
+    let last = performance.now();
+    const frame = (time) => {
+      if (token !== cycleToken || !architectureVisible) {
+        mobilePacket.style.display='none';
+        return resolve(false);
+      }
+      if (!interactionPaused) elapsed += Math.min(34,time-last);
+      last = time;
+      const progress = Math.min(1,elapsed/duration);
+      const eased = .5 - Math.cos(progress * Math.PI) / 2;
+      const y = fromY + (toY-fromY) * eased;
+      const glow = Math.sin(progress * Math.PI);
+      mobilePacket.style.transform = 'translate(-50%,' + (y-14).toFixed(2) + 'px) translateZ(' + (45 + glow*8).toFixed(1) + 'px)';
+      if (progress >= 1) {
+        focusMobileNode(toKey);
+        return resolve(true);
+      }
+      requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+  });
+
+  const animatePacket = (pathId,duration,token,kind = 'data') => {
+    if (mobileArchitecture) return animateMobilePacket(pathId,duration,token,kind);
+    return new Promise((resolve) => {
     if (!packetLayer || token !== cycleToken || !architectureVisible) return resolve(false);
     const path = document.getElementById(pathId);
     if (!path || typeof path.getTotalLength !== 'function') return resolve(false);
@@ -1231,7 +1320,8 @@ document.addEventListener('keydown', (event) => {
       requestAnimationFrame(frame);
     };
     requestAnimationFrame(frame);
-  });
+    });
+  };
 
   const updateDashboard = () => {
     const before = orders;
@@ -1260,6 +1350,12 @@ document.addEventListener('keydown', (event) => {
     setNodeState('transporte','Aguardando');
     setNodeState('entrega','Pendente');
     setCaption('01 — ENTRADA','Novo pedido recebido.','O dado entrou pelo Google Sheets.');
+    if (mobileArchitecture && mobilePacket) {
+      mobilePacket.style.display='flex';
+      mobilePacket.classList.remove('operation');
+      mobilePacket.style.transform='translate(-50%,31px) translateZ(45px)';
+      focusMobileNode('sheets');
+    }
   };
 
   const runCycle = async (token) => {
@@ -1316,7 +1412,16 @@ document.addEventListener('keydown', (event) => {
     activateNode('entrega');
     setNodeState('entrega','Pendente');
     setCaption('09 — ENTREGA','Entrega pendente.','PED-8841 chegou à etapa final da operação.');
-    if (!(await sleep(2200,token))) return;
+
+    if (mobileArchitecture) {
+      if (!(await sleep(800,token))) return;
+      activateNode('entrega','success');
+      setNodeState('entrega','✓ Fluxo atualizado');
+      setCaption('09 — ENTREGA','✓ Fluxo atualizado.','PED-8841 concluiu o ciclo operacional.');
+      if (!(await sleep(1600,token))) return;
+    } else {
+      if (!(await sleep(2200,token))) return;
+    }
 
     resetStates();
     await sleep(1800,token);
@@ -1336,12 +1441,20 @@ document.addEventListener('keydown', (event) => {
     packetLayer?.querySelectorAll('*').forEach((el) => el.remove());
     clearTrails();
     clearNodeClasses();
+    if (mobilePacket) mobilePacket.style.display='none';
   };
 
   if (architectureShell) {
-    if (reducedMotion || window.matchMedia('(max-width:620px)').matches) {
+    if (reducedMotion) {
       architectureShell.classList.add('architecture-static','is-presented');
       resetStates();
+      if (mobileArchitecture && architectureTrack) {
+        architectureTrack.style.setProperty('--mobile-track-y','0px');
+        Object.values(nodeMap).forEach((node) => {
+          node?.classList.add('is-mobile-near');
+          node?.classList.remove('is-mobile-current');
+        });
+      }
     } else if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
         const visible = entries.some((entry) => entry.isIntersecting);
