@@ -17,7 +17,7 @@
   <meta name="twitter:description" content="VÉRTICE — Google Sheets, Apps Script, Web Apps, ERP, automações, dashboards, integrações e sistemas sob medida para logística e eficiência operacional.">
   <link rel="canonical" href="https://daianrj.github.io/vertice-site/">
   <title>VÉRTICE — Apps Script, ERP, Automação & Logística</title>
-  <link rel="stylesheet" href="styles.css?v=20260922-hero-final">
+  <link rel="stylesheet" href="styles.css?v=hero-final-v2">
 </head>
 <body data-page="home">
   <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
@@ -113,113 +113,104 @@
           <div class="architecture-grid3d" aria-hidden="true"></div>
 
           <div class="hero-iso-scene" id="hero-iso-scene" aria-label="Arquitetura digital 3D viva da VÉRTICE">
-            <svg class="architecture-network" viewBox="0 0 1000 390" preserveAspectRatio="none" aria-hidden="true">
+            <svg class="architecture-network" viewBox="0 0 1000 420" preserveAspectRatio="none" aria-hidden="true">
               <defs>
                 <linearGradient id="arch-tech-line" x1="0" x2="1">
-                  <stop offset="0" stop-color="#3157ff" stop-opacity=".24"/>
-                  <stop offset=".58" stop-color="#3157ff" stop-opacity=".82"/>
-                  <stop offset="1" stop-color="#c9ff4a" stop-opacity=".58"/>
+                  <stop offset="0" stop-color="#3157ff" stop-opacity=".3"/>
+                  <stop offset=".62" stop-color="#6f8cff" stop-opacity=".78"/>
+                  <stop offset="1" stop-color="#c9ff4a" stop-opacity=".55"/>
                 </linearGradient>
                 <linearGradient id="arch-ops-line" x1="0" x2="1">
-                  <stop offset="0" stop-color="#3157ff" stop-opacity=".28"/>
-                  <stop offset=".6" stop-color="#79d7aa" stop-opacity=".72"/>
-                  <stop offset="1" stop-color="#c9ff4a" stop-opacity=".82"/>
+                  <stop offset="0" stop-color="#3157ff" stop-opacity=".32"/>
+                  <stop offset=".64" stop-color="#79d7aa" stop-opacity=".76"/>
+                  <stop offset="1" stop-color="#c9ff4a" stop-opacity=".84"/>
                 </linearGradient>
-<filter id="arch-soft-glow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="1.8" result="blur"/>
+                <filter id="arch-soft-glow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="1.6" result="blur"/>
                   <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
                 </filter>
               </defs>
 
-              <path id="path-sheets-script" class="architecture-path tech-path" d="M112 98 C165 98 218 98 272 98"/>
-              <path id="path-script-webapp" class="architecture-path tech-path" d="M332 98 C385 98 438 98 488 98"/>
-              <path id="path-webapp-erp" class="architecture-path tech-path" d="M548 98 C600 98 650 98 688 98"/>
-              <path id="path-erp-dashboard" class="architecture-path tech-path" d="M748 98 C800 98 850 98 888 98"/>
+              <path id="path-sheets-script" class="architecture-path tech-path" d="M100 104 H300"/>
+              <path id="path-script-webapp" class="architecture-path tech-path" d="M300 104 H500"/>
+              <path id="path-webapp-erp" class="architecture-path tech-path" d="M500 104 H700"/>
+              <path id="path-erp-dashboard" class="architecture-path tech-path" d="M700 104 H900"/>
+              <path id="path-dashboard-stock" class="architecture-path bridge-path" d="M900 130 V184 H165 V282"/>
+              <path id="path-stock-expedition" class="architecture-path ops-path" d="M165 304 H395"/>
+              <path id="path-expedition-transport" class="architecture-path ops-path" d="M395 304 H635"/>
+              <path id="path-transport-delivery" class="architecture-path ops-path" d="M635 304 H865"/>
 
-              <path id="path-dashboard-stock" class="architecture-path cycle-path" d="M900 120 C900 182 785 208 650 224 S350 230 170 260"/>
-              <path id="path-stock-expedition" class="architecture-path ops-path" d="M190 285 C250 285 305 285 355 285"/>
-              <path id="path-expedition-transport" class="architecture-path ops-path" d="M425 285 C490 285 545 285 615 285"/>
-              <path id="path-transport-delivery" class="architecture-path ops-path" d="M675 285 C735 285 790 285 835 285"/>
-<g id="architecture-trail-layer"></g>
+              <g id="architecture-trail-layer"></g>
               <g id="architecture-packet-layer" filter="url(#arch-soft-glow)"></g>
             </svg>
-<button class="iso-node node-sheets depth-layer-data" type="button"
-              data-architecture-node="sheets" data-arch-pos="sheets" data-demo-key="sheet-system"
-              aria-label="Google Sheets: entrada de dados. Abrir demonstração Planilha para Sistema">
+
+            <button class="iso-node node-sheets depth-layer-data" type="button"
+              data-architecture-node="sheets" data-arch-pos="sheets"
+              aria-label="Sheets. Entrada de dados">
               <span class="iso-node-top">Sheets</span>
-              <small>Entrada de dados</small>
               <span class="node-microstate" data-node-state="sheets">Nova entrada</span>
             </button>
 
             <button class="iso-node node-script depth-layer-processing" type="button"
-              data-architecture-node="automation" data-arch-pos="automation" data-demo-key="automation"
-              aria-label="Apps Script: automação e validação. Abrir demonstração">
+              data-architecture-node="automation" data-arch-pos="automation"
+              aria-label="Apps Script. Automação e validação">
               <span class="iso-node-top">Apps Script</span>
-              <small>Automação</small>
               <span class="node-microstate" data-node-state="automation">Aguardando</span>
             </button>
 
             <button class="iso-node node-webapp depth-layer-processing" type="button"
-              data-architecture-node="webapp" data-arch-pos="webapp" data-demo-key="deliveries"
-              aria-label="Web App: interface operacional. Abrir demonstração de Entregas">
+              data-architecture-node="webapp" data-arch-pos="webapp"
+              aria-label="Web App. Interface operacional">
               <span class="iso-node-top">Web App</span>
-              <small>Interface</small>
               <span class="node-microstate" data-node-state="webapp">Aguardando</span>
             </button>
 
             <button class="iso-node node-erp depth-layer-processing" type="button"
-              data-architecture-node="erp" data-arch-pos="erp" data-demo-key="erp"
-              aria-label="ERP: gestão centralizada. Abrir demonstração ERP">
+              data-architecture-node="erp" data-arch-pos="erp"
+              aria-label="ERP. Centralização operacional">
               <span class="iso-node-top">ERP</span>
-              <small>Centralização</small>
               <span class="node-microstate" data-node-state="erp">Aguardando</span>
             </button>
 
             <button class="iso-node node-dashboard depth-layer-intelligence" type="button"
-              data-architecture-node="dashboard" data-arch-pos="dashboard" data-demo-key="dashboard"
-              aria-label="Dashboard: inteligência operacional. Abrir demonstração Dashboard">
+              data-architecture-node="dashboard" data-arch-pos="dashboard"
+              aria-label="Dashboard. KPIs e decisão">
               <span class="iso-node-top">Dashboard</span>
-              <small>Inteligência</small>
               <span class="node-kpi"><b id="architecture-orders-kpi">127</b><em>pedidos</em></span>
               <span class="node-kpi-bar"><i id="architecture-kpi-bar"></i></span>
             </button>
 
             <button class="iso-node node-stock depth-layer-operation" type="button"
-              data-architecture-node="estoque" data-arch-pos="estoque" data-demo-key="stock"
-              aria-label="Estoque: entradas, saídas e saldo. Abrir demonstração Estoque">
+              data-architecture-node="estoque" data-arch-pos="estoque"
+              aria-label="Estoque. Entrada, saída e saldo">
               <span class="iso-node-top">Estoque</span>
-              <small>Entrada & saldo</small>
               <span class="node-microstate" data-node-state="estoque">Aguardando</span>
             </button>
 
             <button class="iso-node node-expedition depth-layer-operation" type="button"
-              data-architecture-node="expedicao" data-arch-pos="expedicao" data-demo-key="deliveries"
-              aria-label="Expedição: separação e conferência. Abrir demonstração Entregas">
+              data-architecture-node="expedicao" data-arch-pos="expedicao"
+              aria-label="Expedição. Separação e conferência">
               <span class="iso-node-top">Expedição</span>
-              <small>Conferência</small>
               <span class="node-microstate" data-node-state="expedicao">Aguardando</span>
             </button>
 
             <button class="iso-node node-transport depth-layer-operation" type="button"
-              data-architecture-node="transporte" data-arch-pos="transporte" data-demo-key="routing"
-              aria-label="Transporte: rotas e operação. Abrir demonstração Roteirizador">
+              data-architecture-node="transporte" data-arch-pos="transporte"
+              aria-label="Transporte. Rotas e execução">
               <span class="iso-node-top">Transporte</span>
-              <small>Rota</small>
               <span class="node-microstate" data-node-state="transporte">Aguardando</span>
             </button>
 
             <button class="iso-node node-delivery depth-layer-operation" type="button"
-              data-architecture-node="entrega" data-arch-pos="entrega" data-demo-key="deliveries"
-              aria-label="Entrega: comprovação e finalização. Abrir demonstração Entregas">
+              data-architecture-node="entrega" data-arch-pos="entrega"
+              aria-label="Entrega. Comprovação e finalização">
               <span class="iso-node-top">Entrega</span>
-              <small>Resultado</small>
               <span class="node-microstate" data-node-state="entrega">Pendente</span>
             </button>
 
-            <div class="architecture-module-info architecture-tooltip" id="architecture-module-info" role="tooltip" aria-hidden="true">
+            <div class="architecture-tooltip" id="architecture-module-info" role="tooltip" aria-hidden="true">
               <strong id="architecture-module-title"></strong>
               <span id="architecture-module-features"></span>
-              <span class="architecture-tooltip-link" id="architecture-module-demo">Ver demonstração →</span>
             </div>
           </div>
 
@@ -230,44 +221,8 @@
               <span id="architecture-caption-text">O dado entrou pelo Google Sheets.</span>
             </div>
           </div>
+
           <a class="architecture-panel-cta" href="demonstracoes.html">Explorar demonstrações →</a>
-        </div>
-
-        <div class="visual-panel panel-main">
-          <div class="visual-flow-label">Fluxo contínuo de trabalho</div>
-          <strong id="visual-headline">Problema → Solução → Eficiência</strong>
-          
-          <div class="visual-flow" id="visual-flow-steps">
-            <span class="flow-step active" id="flow-step-1">Entrada & Recebimento</span>
-            <span class="flow-arrow" aria-hidden="true">→</span>
-            <span class="flow-step active" id="flow-step-2">Conferência de Saldo</span>
-            <span class="flow-arrow" aria-hidden="true">→</span>
-            <span class="flow-step active" id="flow-step-3">Armazenagem & Posição</span>
-          </div>
-        </div>
-
-        <!-- Interactive Module Switcher -->
-        <div class="visual-tabs" role="tablist" aria-label="Visões operacionais">
-          <button class="vtab-btn active" role="tab" aria-selected="true" data-tab="estoque" type="button">Estoque</button>
-          <button class="vtab-btn" role="tab" aria-selected="false" data-tab="expedicao" type="button">Expedição</button>
-          <button class="vtab-btn" role="tab" aria-selected="false" data-tab="transporte" type="button">Transporte</button>
-          <button class="vtab-btn" role="tab" aria-selected="false" data-tab="automacao" type="button">Automação</button>
-        </div>
-
-        <!-- Dynamic Context Cards -->
-        <div class="visual-cards-container">
-          <div class="visual-card card-a" id="card-detail-a">
-            <small id="card-label-a">ESTOQUE & SALDOS</small>
-            <strong id="card-text-a">Controle de entradas e saídas</strong>
-          </div>
-          <div class="visual-card card-b" id="card-detail-b">
-            <small id="card-label-b">VISIBILIDADE</small>
-            <strong id="card-text-b">Dados sem ruído operacional</strong>
-          </div>
-          <div class="visual-card card-c" id="card-detail-c">
-            <small id="card-label-c">PROCESSOS</small>
-            <strong id="card-text-c">Menos digitação e retrabalho</strong>
-          </div>
         </div>
       </div>
     </section><section class="trust-strip" aria-label="Princípios da VÉRTICE">
@@ -336,6 +291,6 @@
     <span>WhatsApp</span>
   </a>
   
-  <script src="script.js?v=20260922-hero-final" defer></script>
+  <script src="script.js?v=hero-final-v2" defer></script>
 </body>
 </html>

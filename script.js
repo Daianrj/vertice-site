@@ -964,15 +964,14 @@ document.addEventListener('keydown', (event) => {
 });
 
 // =========================================================
-// HERO 4.0 — LIVING 3D DIGITAL ARCHITECTURE
-// CSS 3D + SVG + vanilla JS. Infrastructure stays stable.
-// The data packet is what moves.
+// HERO 4.1 — VÉRTICE / ARQUITETURA
+// CSS 3D + SVG + vanilla JS. The environment stays stable; PED-8841 travels.
 // =========================================================
 (() => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = window.matchMedia('(pointer: fine)').matches;
   const architectureShell = document.getElementById('hero-architecture-shell');
   const architectureScene = document.getElementById('hero-iso-scene');
-  const architectureCaption = document.getElementById('architecture-caption');
   const captionTitle = document.getElementById('architecture-caption-title');
   const captionText = document.getElementById('architecture-caption-text');
   const stepBadge = document.getElementById('architecture-step-badge');
@@ -983,63 +982,41 @@ document.addEventListener('keydown', (event) => {
   const moduleInfo = document.getElementById('architecture-module-info');
   const moduleTitle = document.getElementById('architecture-module-title');
   const moduleFeatures = document.getElementById('architecture-module-features');
-  const moduleDemo = document.getElementById('architecture-module-demo');
 
   const architectureCopy = {
-    sheets: {
-      title: 'SHEETS',
-      caption: ['Entrada de dados.', 'Uma nova linha operacional nasce e inicia o ciclo.'],
-      features: 'Base operacional · cadastros · pedidos · dados',
-      demo: 'sheet-system'
-    },
-    automation: {
-      title: 'APPS SCRIPT',
-      caption: ['Automação e validação.', 'Regras verificam, tratam e processam os dados antes de seguir.'],
-      features: 'Automação · validação · integrações · processamento',
-      demo: 'automation'
-    },
-    webapp: {
-      title: 'WEB APP',
-      caption: ['Interface operacional.', 'O registro processado chega a uma interface utilizável pela equipe.'],
-      features: 'Interface · operação · status · execução',
-      demo: 'deliveries'
-    },
-    erp: {
-      title: 'ERP',
-      caption: ['Gestão centralizada.', 'Clientes, estoque, pedidos e operação compartilham o mesmo contexto.'],
-      features: 'Gestão centralizada · clientes · estoque · pedidos',
-      demo: 'erp'
-    },
-    dashboard: {
-      title: 'DASHBOARD',
-      caption: ['Inteligência operacional.', 'O dado processado vira indicador para apoiar a decisão.'],
-      features: 'KPIs · indicadores · performance · decisão',
-      demo: 'dashboard'
-    },
-    estoque: {
-      title: 'ESTOQUE',
-      caption: ['Operação iniciada.', 'O pedido digital gera uma demanda física de separação e saldo.'],
-      features: 'Entradas · saídas · saldo · estoque mínimo',
-      demo: 'stock'
-    },
-    expedicao: {
-      title: 'EXPEDIÇÃO',
-      caption: ['Separação e conferência.', 'Volumes são preparados e liberados para transporte.'],
-      features: 'Separação · conferência · expedição · volumes',
-      demo: 'deliveries'
-    },
-    transporte: {
-      title: 'TRANSPORTE',
-      caption: ['Execução em campo.', 'O pedido entra em rota e passa a ser acompanhado operacionalmente.'],
-      features: 'Rotas · motoristas · paradas · status',
-      demo: 'routing'
-    },
-    entrega: {
-      title: 'ENTREGA',
-      caption: ['Resultado comprovado.', 'A entrega concluída fecha a operação e registra o resultado.'],
-      features: 'Entrega · comprovante · finalização · resultado',
-      demo: 'deliveries'
-    }
+    sheets: ['Sheets', 'Entrada e organização de dados'],
+    automation: ['Apps Script', 'Automação e validação'],
+    webapp: ['Web App', 'Interface operacional'],
+    erp: ['ERP', 'Centralização operacional'],
+    dashboard: ['Dashboard', 'KPIs e decisão'],
+    estoque: ['Estoque', 'Entrada, saída e saldo'],
+    expedicao: ['Expedição', 'Separação e conferência'],
+    transporte: ['Transporte', 'Rotas e execução'],
+    entrega: ['Entrega', 'Comprovação e finalização']
+  };
+
+  const pathMap = {
+    sheets: [],
+    automation: ['path-sheets-script'],
+    webapp: ['path-sheets-script','path-script-webapp'],
+    erp: ['path-sheets-script','path-script-webapp','path-webapp-erp'],
+    dashboard: ['path-sheets-script','path-script-webapp','path-webapp-erp','path-erp-dashboard'],
+    estoque: ['path-sheets-script','path-script-webapp','path-webapp-erp','path-erp-dashboard','path-dashboard-stock'],
+    expedicao: ['path-sheets-script','path-script-webapp','path-webapp-erp','path-erp-dashboard','path-dashboard-stock','path-stock-expedition'],
+    transporte: ['path-sheets-script','path-script-webapp','path-webapp-erp','path-erp-dashboard','path-dashboard-stock','path-stock-expedition','path-expedition-transport'],
+    entrega: ['path-sheets-script','path-script-webapp','path-webapp-erp','path-erp-dashboard','path-dashboard-stock','path-stock-expedition','path-expedition-transport','path-transport-delivery']
+  };
+
+  const pathNodes = {
+    sheets: ['sheets'],
+    automation: ['sheets','automation'],
+    webapp: ['sheets','automation','webapp'],
+    erp: ['sheets','automation','webapp','erp'],
+    dashboard: ['sheets','automation','webapp','erp','dashboard'],
+    estoque: ['sheets','automation','webapp','erp','dashboard','estoque'],
+    expedicao: ['sheets','automation','webapp','erp','dashboard','estoque','expedicao'],
+    transporte: ['sheets','automation','webapp','erp','dashboard','estoque','expedicao','transporte'],
+    entrega: ['sheets','automation','webapp','erp','dashboard','estoque','expedicao','transporte','entrega']
   };
 
   const nodeMap = {};
@@ -1052,41 +1029,16 @@ document.addEventListener('keydown', (event) => {
     stateEls[el.getAttribute('data-node-state')] = el;
   });
 
-  const pathMap = {
-    sheets: [],
-    automation: ['path-sheets-script'],
-    webapp: ['path-sheets-script', 'path-script-webapp'],
-    erp: ['path-sheets-script', 'path-script-webapp', 'path-webapp-erp'],
-    dashboard: ['path-sheets-script', 'path-script-webapp', 'path-webapp-erp', 'path-erp-dashboard'],
-    estoque: ['path-sheets-script', 'path-script-webapp', 'path-webapp-erp', 'path-erp-dashboard', 'path-dashboard-stock'],
-    expedicao: ['path-sheets-script', 'path-script-webapp', 'path-webapp-erp', 'path-erp-dashboard', 'path-dashboard-stock', 'path-stock-expedition'],
-    transporte: ['path-sheets-script', 'path-script-webapp', 'path-webapp-erp', 'path-erp-dashboard', 'path-dashboard-stock', 'path-stock-expedition', 'path-expedition-transport'],
-    entrega: ['path-sheets-script', 'path-script-webapp', 'path-webapp-erp', 'path-erp-dashboard', 'path-dashboard-stock', 'path-stock-expedition', 'path-expedition-transport', 'path-transport-delivery']
-  };
-
-  const legends = {
-    input: ['01 — ENTRADA', 'Novo pedido recebido.', 'O dado entra pelo Google Sheets.'],
-    automation: ['02 — AUTOMAÇÃO', 'Validando informações.', 'Apps Script verifica, trata e processa os dados.'],
-    system: ['03 — SISTEMA', 'Registro criado.', 'O Web App recebe a operação.'],
-    central: ['04 — CENTRALIZAÇÃO', 'Pedido sincronizado.', 'O ERP centraliza os processos.'],
-    intelligence: ['05 — INTELIGÊNCIA', 'Dashboard atualizado.', 'O dado virou informação para decisão.'],
-    operation: ['06 — OPERAÇÃO', 'Pedido liberado para execução.', 'A gestão digital movimenta a operação física.'],
-    result: ['07 — RESULTADO', 'Entrega concluída.', 'Operação registrada de ponta a ponta.']
-  };
-
   let architectureVisible = false;
   let interactionPaused = false;
   let cycleToken = 0;
-  let cycleIndex = 0;
-  let orders = Number(ordersKpi?.textContent || 127);
-  let currentPacketId = 'PED-8841';
+  let orders = 127;
+  const packetId = 'PED-8841';
 
-  const setLegend = (key, titleOverride = '', textOverride = '') => {
-    const item = legends[key];
-    if (!item) return;
-    if (stepBadge) stepBadge.textContent = item[0];
-    if (captionTitle) captionTitle.textContent = titleOverride || item[1];
-    if (captionText) captionText.textContent = textOverride || item[2];
+  const setCaption = (badge, title, text) => {
+    if (stepBadge) stepBadge.textContent = badge;
+    if (captionTitle) captionTitle.textContent = title;
+    if (captionText) captionText.textContent = text;
   };
 
   const setNodeState = (key, text) => {
@@ -1095,142 +1047,101 @@ document.addEventListener('keydown', (event) => {
 
   const clearNodeClasses = () => {
     Object.values(nodeMap).forEach((node) => {
-      if (!node) return;
-      node.classList.remove('is-active', 'is-processing', 'is-success', 'is-error', 'is-hovered');
+      node?.classList.remove('is-active','is-processing','is-success','is-hovered','is-path-node');
     });
     document.querySelectorAll('.architecture-path').forEach((path) => {
-      path.classList.remove('is-active-path', 'is-hover-path');
+      path.classList.remove('is-active-path','is-hover-path');
     });
+    architectureShell?.classList.remove('has-node-hover');
   };
 
   const activateNode = (key, mode = 'active') => {
-    Object.values(nodeMap).forEach((node) => {
-      node?.classList.remove('is-active', 'is-processing', 'is-success', 'is-error');
-    });
+    Object.values(nodeMap).forEach((node) => node?.classList.remove('is-active','is-processing','is-success'));
     const node = nodeMap[key];
     if (!node) return;
-    const className =
-      mode === 'processing' ? 'is-processing' :
-      mode === 'success' ? 'is-success' :
-      mode === 'error' ? 'is-error' :
-      'is-active';
-    node.classList.add(className);
+    node.classList.add(mode === 'processing' ? 'is-processing' : mode === 'success' ? 'is-success' : 'is-active');
   };
 
-  const highlightPaths = (key) => {
+  const highlightPathTo = (key) => {
     document.querySelectorAll('.architecture-path').forEach((path) => path.classList.remove('is-hover-path'));
+    Object.values(nodeMap).forEach((node) => node?.classList.remove('is-path-node'));
     (pathMap[key] || []).forEach((id) => document.getElementById(id)?.classList.add('is-hover-path'));
+    (pathNodes[key] || []).forEach((nodeKey) => nodeMap[nodeKey]?.classList.add('is-path-node'));
   };
 
-  const setModuleDiscovery = (key, node) => {
-    const meta = architectureCopy[key];
-    if (!meta || !moduleInfo || !architectureScene || !node) return;
-
-    if (moduleTitle) moduleTitle.textContent = meta.title;
-    if (moduleFeatures) moduleFeatures.textContent = meta.features;
-    if (moduleDemo) moduleDemo.textContent = key === 'erp' ? 'Testar ERP →' : 'Ver demonstração →';
-
-    moduleInfo.setAttribute('aria-hidden', 'false');
+  const showTooltip = (key, node) => {
+    const copy = architectureCopy[key];
+    if (!copy || !moduleInfo || !architectureScene || !node) return;
+    moduleTitle.textContent = copy[0];
+    moduleFeatures.textContent = copy[1];
+    moduleInfo.setAttribute('aria-hidden','false');
     moduleInfo.classList.add('visible');
 
-    // Position tooltip outside the card and clamp it inside the architecture.
     requestAnimationFrame(() => {
       const sceneRect = architectureScene.getBoundingClientRect();
       const nodeRect = node.getBoundingClientRect();
-      const tooltipWidth = moduleInfo.offsetWidth || 220;
-      const tooltipHeight = moduleInfo.offsetHeight || 54;
-
-      let left = nodeRect.left - sceneRect.left + nodeRect.width / 2 - tooltipWidth / 2;
-      const lowerHalf = (nodeRect.top - sceneRect.top) > sceneRect.height * 0.52;
-      let top = lowerHalf
-        ? nodeRect.top - sceneRect.top - tooltipHeight - 10
-        : nodeRect.bottom - sceneRect.top + 10;
-
-      left = Math.max(8, Math.min(sceneRect.width - tooltipWidth - 8, left));
-      top = Math.max(8, Math.min(sceneRect.height - tooltipHeight - 8, top));
-
+      const width = moduleInfo.offsetWidth || 190;
+      const height = moduleInfo.offsetHeight || 46;
+      let left = nodeRect.left - sceneRect.left + nodeRect.width / 2 - width / 2;
+      const lower = nodeRect.top - sceneRect.top > sceneRect.height * .52;
+      let top = lower ? nodeRect.top - sceneRect.top - height - 10 : nodeRect.bottom - sceneRect.top + 10;
+      left = Math.max(8, Math.min(sceneRect.width - width - 8, left));
+      top = Math.max(8, Math.min(sceneRect.height - height - 8, top));
       moduleInfo.style.left = left + 'px';
       moduleInfo.style.top = top + 'px';
     });
   };
 
-  const hideModuleDiscovery = () => {
+  const hideTooltip = () => {
     if (!moduleInfo) return;
     moduleInfo.classList.remove('visible');
-    moduleInfo.setAttribute('aria-hidden', 'true');
+    moduleInfo.setAttribute('aria-hidden','true');
   };
 
-  Object.entries(nodeMap).forEach(([key, node]) => {
-    if (!node) return;
-    node.addEventListener('mouseenter', () => {
+  Object.entries(nodeMap).forEach(([key,node]) => {
+    const enter = () => {
       interactionPaused = true;
       architectureShell?.classList.add('has-node-hover');
       node.classList.add('is-hovered');
-      highlightPaths(key);
-      const meta = architectureCopy[key];
-      if (meta) {
-        if (captionTitle) captionTitle.textContent = meta.caption[0];
-        if (captionText) captionText.textContent = meta.caption[1];
-      }
-      setModuleDiscovery(key, node);
-    });
-
-    node.addEventListener('mouseleave', () => {
+      highlightPathTo(key);
+      showTooltip(key,node);
+    };
+    const leave = () => {
       interactionPaused = false;
-      architectureShell?.classList.remove('has-node-hover');
       node.classList.remove('is-hovered');
-      document.querySelectorAll('.architecture-path').forEach((path) => path.classList.remove('is-hover-path'));
-      hideModuleDiscovery();
-    });
-
-    node.addEventListener('focus', () => {
-      interactionPaused = true;
-      architectureShell?.classList.add('has-node-hover');
-      node.classList.add('is-hovered');
-      highlightPaths(key);
-      setModuleDiscovery(key, node);
-    });
-
-    node.addEventListener('blur', () => {
-      interactionPaused = false;
-      architectureShell?.classList.remove('has-node-hover');
-      node.classList.remove('is-hovered');
-      hideModuleDiscovery();
-    });
-
-    node.addEventListener('click', () => {
-      const demoKey = node.getAttribute('data-demo-key');
-      if (demoKey) window.location.href = 'demonstracoes.html?demo=' + encodeURIComponent(demoKey);
-    });
+      clearNodeClasses();
+      hideTooltip();
+    };
+    node.addEventListener('mouseenter',enter);
+    node.addEventListener('mouseleave',leave);
+    node.addEventListener('focus',enter);
+    node.addEventListener('blur',leave);
   });
 
-  // 1–2 degree scene movement on desktop only.
-  const finePointer = window.matchMedia('(pointer: fine)').matches;
   if (architectureShell && architectureScene && finePointer && !reducedMotion) {
-    architectureShell.addEventListener('pointermove', (event) => {
+    architectureShell.addEventListener('pointermove',(event) => {
       const rect = architectureShell.getBoundingClientRect();
-      const x = (event.clientX - rect.left) / rect.width - 0.5;
-      const y = (event.clientY - rect.top) / rect.height - 0.5;
-      architectureShell.style.setProperty('--tilt-x', (-y * 1.55).toFixed(2) + 'deg');
-      architectureShell.style.setProperty('--tilt-y', (x * 1.85).toFixed(2) + 'deg');
-      architectureShell.style.setProperty('--parallax-x', (x * 4).toFixed(2) + 'px');
-      architectureShell.style.setProperty('--parallax-y', (y * 3).toFixed(2) + 'px');
-    }, { passive: true });
-
-    architectureShell.addEventListener('pointerleave', () => {
-      architectureShell.style.setProperty('--tilt-x', '0deg');
-      architectureShell.style.setProperty('--tilt-y', '0deg');
-      architectureShell.style.setProperty('--parallax-x', '0px');
-      architectureShell.style.setProperty('--parallax-y', '0px');
+      const x = (event.clientX - rect.left) / rect.width - .5;
+      const y = (event.clientY - rect.top) / rect.height - .5;
+      architectureShell.style.setProperty('--tilt-x',(-y * 1.5).toFixed(2) + 'deg');
+      architectureShell.style.setProperty('--tilt-y',(x * 2).toFixed(2) + 'deg');
+      architectureShell.style.setProperty('--parallax-x',(x * 3.5).toFixed(2) + 'px');
+      architectureShell.style.setProperty('--parallax-y',(y * 2.8).toFixed(2) + 'px');
+    },{passive:true});
+    architectureShell.addEventListener('pointerleave',() => {
+      architectureShell.style.setProperty('--tilt-x','0deg');
+      architectureShell.style.setProperty('--tilt-y','0deg');
+      architectureShell.style.setProperty('--parallax-x','0px');
+      architectureShell.style.setProperty('--parallax-y','0px');
     });
   }
 
-  const sleep = (ms, token) => new Promise((resolve) => {
+  const sleep = (ms,token) => new Promise((resolve) => {
     let elapsed = 0;
     let last = performance.now();
     const tick = (time) => {
       if (token !== cycleToken || !architectureVisible) return resolve(false);
-      if (!interactionPaused) elapsed += Math.min(34, time - last);
+      if (!interactionPaused) elapsed += Math.min(34,time-last);
       last = time;
       if (elapsed >= ms) return resolve(true);
       requestAnimationFrame(tick);
@@ -1238,62 +1149,51 @@ document.addEventListener('keydown', (event) => {
     requestAnimationFrame(tick);
   });
 
-  const clearTrails = () => {
-    trailLayer?.querySelectorAll('*').forEach((el) => el.remove());
-  };
+  const clearTrails = () => trailLayer?.querySelectorAll('*').forEach((el) => el.remove());
 
-  const createPacketGroup = (label, kind = 'data') => {
+  const createPacket = (kind = 'data') => {
     const ns = 'http://www.w3.org/2000/svg';
-    const group = document.createElementNS(ns, 'g');
-    group.setAttribute('class', 'architecture-data-packet ' + kind);
+    const group = document.createElementNS(ns,'g');
+    group.setAttribute('class','architecture-data-packet ' + kind);
 
-    const shadow = document.createElementNS(ns, 'rect');
-    shadow.setAttribute('x', '-39');
-    shadow.setAttribute('y', '-13');
-    shadow.setAttribute('width', '78');
-    shadow.setAttribute('height', '26');
-    shadow.setAttribute('rx', '8');
-    shadow.setAttribute('class', 'packet-shadow');
+    const shadow = document.createElementNS(ns,'rect');
+    shadow.setAttribute('x','-40'); shadow.setAttribute('y','-12');
+    shadow.setAttribute('width','80'); shadow.setAttribute('height','26');
+    shadow.setAttribute('rx','7'); shadow.setAttribute('class','packet-shadow');
 
-    const body = document.createElementNS(ns, 'rect');
-    body.setAttribute('x', '-39');
-    body.setAttribute('y', '-15');
-    body.setAttribute('width', '78');
-    body.setAttribute('height', '26');
-    body.setAttribute('rx', '8');
-    body.setAttribute('class', 'packet-body');
+    const body = document.createElementNS(ns,'rect');
+    body.setAttribute('x','-40'); body.setAttribute('y','-15');
+    body.setAttribute('width','80'); body.setAttribute('height','26');
+    body.setAttribute('rx','7'); body.setAttribute('class','packet-body');
 
-    const text = document.createElementNS(ns, 'text');
-    text.setAttribute('x', '0');
-    text.setAttribute('y', '2');
-    text.setAttribute('text-anchor', 'middle');
-    text.setAttribute('class', 'packet-label');
-    text.textContent = label;
+    const text = document.createElementNS(ns,'text');
+    text.setAttribute('x','0'); text.setAttribute('y','2');
+    text.setAttribute('text-anchor','middle'); text.setAttribute('class','packet-label');
+    text.textContent = packetId;
 
-    group.append(shadow, body, text);
+    group.append(shadow,body,text);
     return group;
   };
 
-  const animatePacket = (pathId, duration, token, options = {}) => new Promise((resolve) => {
+  const animatePacket = (pathId,duration,token,kind = 'data') => new Promise((resolve) => {
     if (!packetLayer || token !== cycleToken || !architectureVisible) return resolve(false);
     const path = document.getElementById(pathId);
     if (!path || typeof path.getTotalLength !== 'function') return resolve(false);
 
     const length = path.getTotalLength();
-    const packet = createPacketGroup(options.label || currentPacketId, options.kind || 'data');
+    const packet = createPacket(kind);
     packetLayer.appendChild(packet);
     path.classList.add('is-active-path');
 
-    const trail = [];
     const ns = 'http://www.w3.org/2000/svg';
-    for (let i = 0; i < 3; i += 1) {
-      const dot = document.createElementNS(ns, 'circle');
-      dot.setAttribute('r', String(3.2 - i * 0.65));
-      dot.setAttribute('class', 'architecture-trail-dot');
-      dot.style.opacity = String(0.42 - i * 0.11);
+    const trail = Array.from({length:3},(_,i) => {
+      const dot = document.createElementNS(ns,'circle');
+      dot.setAttribute('r',String(3.1 - i * .65));
+      dot.setAttribute('class','architecture-trail-dot');
+      dot.style.opacity = String(.4 - i * .1);
       trailLayer?.appendChild(dot);
-      trail.push(dot);
-    }
+      return dot;
+    });
 
     const history = [];
     let elapsed = 0;
@@ -1306,53 +1206,39 @@ document.addEventListener('keydown', (event) => {
         path.classList.remove('is-active-path');
         return resolve(false);
       }
-
-      if (!interactionPaused) elapsed += Math.min(34, time - last);
+      if (!interactionPaused) elapsed += Math.min(34,time-last);
       last = time;
-      const progress = Math.min(1, elapsed / duration);
-      const distance = options.reverse ? length * (1 - progress) : length * progress;
-      const point = path.getPointAtLength(distance);
-
-      packet.setAttribute('transform', 'translate(' + point.x.toFixed(2) + ' ' + point.y.toFixed(2) + ')');
-      history.unshift({ x: point.x, y: point.y });
+      const progress = Math.min(1,elapsed/duration);
+      const point = path.getPointAtLength(length * progress);
+      packet.setAttribute('transform','translate(' + point.x.toFixed(2) + ' ' + point.y.toFixed(2) + ')');
+      history.unshift({x:point.x,y:point.y});
       if (history.length > 12) history.pop();
-
-      trail.forEach((dot, index) => {
-        const p = history[Math.min(history.length - 1, (index + 1) * 3)] || point;
-        dot.setAttribute('cx', p.x.toFixed(2));
-        dot.setAttribute('cy', p.y.toFixed(2));
+      trail.forEach((dot,i) => {
+        const p = history[Math.min(history.length-1,(i+1)*3)] || point;
+        dot.setAttribute('cx',p.x.toFixed(2));
+        dot.setAttribute('cy',p.y.toFixed(2));
       });
-
       if (progress >= 1) {
         packet.remove();
-        trail.forEach((dot) => {
-          dot.classList.add('fade');
-          setTimeout(() => dot.remove(), 360);
-        });
+        trail.forEach((dot) => {dot.classList.add('fade');setTimeout(() => dot.remove(),320);});
         path.classList.remove('is-active-path');
         return resolve(true);
       }
       requestAnimationFrame(frame);
     };
-
     requestAnimationFrame(frame);
   });
 
   const updateDashboard = () => {
     const before = orders;
-    orders += 1;
+    orders = 128;
     if (ordersKpi) {
       ordersKpi.textContent = String(orders);
       ordersKpi.closest('.node-kpi')?.classList.add('kpi-updated');
-      setTimeout(() => ordersKpi.closest('.node-kpi')?.classList.remove('kpi-updated'), 700);
+      setTimeout(() => ordersKpi.closest('.node-kpi')?.classList.remove('kpi-updated'),650);
     }
-    if (kpiBar) {
-      const pct = 54 + ((orders - 127) % 5) * 7;
-      kpiBar.style.setProperty('--kpi-width', Math.min(88, pct) + '%');
-      kpiBar.classList.add('updated');
-      setTimeout(() => kpiBar.classList.remove('updated'), 700);
-    }
-    return [before, orders];
+    if (kpiBar) kpiBar.style.setProperty('--kpi-width','68%');
+    return [before,orders];
   };
 
   const resetStates = () => {
@@ -1360,89 +1246,83 @@ document.addEventListener('keydown', (event) => {
     clearTrails();
     orders = 127;
     if (ordersKpi) ordersKpi.textContent = '127';
-    if (kpiBar) kpiBar.style.setProperty('--kpi-width', '54%');
-    setNodeState('sheets', 'Nova entrada');
-    setNodeState('automation', 'Aguardando');
-    setNodeState('webapp', 'Aguardando');
-    setNodeState('erp', 'Aguardando');
-    setNodeState('estoque', 'Aguardando');
-    setNodeState('expedicao', 'Aguardando');
-    setNodeState('transporte', 'Aguardando');
-    setNodeState('entrega', 'Pendente');
+    if (kpiBar) kpiBar.style.setProperty('--kpi-width','54%');
+    setNodeState('sheets','Nova entrada');
+    setNodeState('automation','Aguardando');
+    setNodeState('webapp','Aguardando');
+    setNodeState('erp','Aguardando');
+    setNodeState('estoque','Aguardando');
+    setNodeState('expedicao','Aguardando');
+    setNodeState('transporte','Aguardando');
+    setNodeState('entrega','Pendente');
+    setCaption('01 — ENTRADA','Novo pedido recebido.','O dado entrou pelo Google Sheets.');
   };
 
-  const runOperationalCycle = async (token) => {
+  const runCycle = async (token) => {
     resetStates();
-    currentPacketId = 'PED-8841';
-
     activateNode('sheets');
-    setNodeState('sheets', 'Nova entrada');
-    setLegend('input', 'Novo pedido recebido.', 'O dado entrou pelo Google Sheets.');
-    if (!(await sleep(700, token))) return;
+    if (!(await sleep(700,token))) return;
 
-    if (!(await animatePacket('path-sheets-script', 1050, token, { label: currentPacketId, kind: 'data' }))) return;
-    activateNode('automation', 'processing');
-    setNodeState('automation', 'Validando…');
-    setLegend('automation', 'Validando...', 'Apps Script está processando PED-8841.');
-    if (!(await sleep(720, token))) return;
-    activateNode('automation', 'success');
-    setNodeState('automation', '✓ Validado');
-    if (!(await sleep(480, token))) return;
+    if (!(await animatePacket('path-sheets-script',980,token))) return;
+    activateNode('automation','processing');
+    setNodeState('automation','Validando...');
+    setCaption('02 — VALIDAÇÃO','Validando...','Apps Script está processando PED-8841.');
+    if (!(await sleep(650,token))) return;
+    activateNode('automation','success');
+    setNodeState('automation','✓ Validado');
+    if (!(await sleep(420,token))) return;
 
-    if (!(await animatePacket('path-script-webapp', 980, token, { label: currentPacketId, kind: 'data' }))) return;
-    activateNode('webapp', 'processing');
-    setNodeState('webapp', 'Sincronizando…');
-    setLegend('system', 'Sincronizando...', 'O Web App recebeu o pedido processado.');
-    if (!(await sleep(620, token))) return;
+    if (!(await animatePacket('path-script-webapp',900,token))) return;
+    activateNode('webapp','processing');
+    setNodeState('webapp','Sincronizando...');
+    setCaption('03 — SINCRONIZAÇÃO','Sincronizando...','O Web App recebeu o pedido processado.');
+    if (!(await sleep(560,token))) return;
 
-    if (!(await animatePacket('path-webapp-erp', 980, token, { label: currentPacketId, kind: 'data' }))) return;
-    activateNode('erp', 'success');
-    setNodeState('erp', 'Pedido criado');
-    setLegend('central', 'Pedido criado.', 'O ERP centralizou PED-8841.');
-    if (!(await sleep(620, token))) return;
+    if (!(await animatePacket('path-webapp-erp',900,token))) return;
+    activateNode('erp','success');
+    setNodeState('erp','Pedido criado');
+    setCaption('04 — REGISTRO','Pedido criado.','O ERP centralizou PED-8841.');
+    if (!(await sleep(560,token))) return;
 
-    if (!(await animatePacket('path-erp-dashboard', 1000, token, { label: currentPacketId, kind: 'data' }))) return;
-    activateNode('dashboard', 'success');
-    const [before, after] = updateDashboard();
-    setLegend('intelligence', 'Dashboard atualizado.', before + ' → ' + after + ' pedidos.');
-    if (!(await sleep(1000, token))) return;
+    if (!(await animatePacket('path-erp-dashboard',900,token))) return;
+    activateNode('dashboard','success');
+    const [before,after] = updateDashboard();
+    setCaption('05 — INDICADOR','Dashboard atualizado.',before + ' → ' + after + ' pedidos.');
+    if (!(await sleep(900,token))) return;
 
-    if (!(await animatePacket('path-dashboard-stock', 1250, token, { label: currentPacketId, kind: 'operation' }))) return;
-    activateNode('estoque', 'success');
-    setNodeState('estoque', 'Saldo atualizado');
-    setLegend('operation', 'Saldo atualizado.', 'O pedido chegou ao estoque.');
-    if (!(await sleep(700, token))) return;
+    if (!(await animatePacket('path-dashboard-stock',1250,token,'operation'))) return;
+    activateNode('estoque','success');
+    setNodeState('estoque','Saldo atualizado');
+    setCaption('06 — ESTOQUE','Saldo atualizado.','PED-8841 entrou no fluxo físico.');
+    if (!(await sleep(650,token))) return;
 
-    if (!(await animatePacket('path-stock-expedition', 980, token, { label: currentPacketId, kind: 'operation' }))) return;
-    activateNode('expedicao', 'processing');
-    setNodeState('expedicao', 'Separação iniciada');
-    if (captionTitle) captionTitle.textContent = 'Separação iniciada.';
-    if (captionText) captionText.textContent = 'A expedição começou a preparar PED-8841.';
-    if (!(await sleep(760, token))) return;
+    if (!(await animatePacket('path-stock-expedition',900,token,'operation'))) return;
+    activateNode('expedicao','processing');
+    setNodeState('expedicao','Separação iniciada');
+    setCaption('07 — EXPEDIÇÃO','Separação iniciada.','A expedição está preparando PED-8841.');
+    if (!(await sleep(650,token))) return;
 
-    if (!(await animatePacket('path-expedition-transport', 980, token, { label: currentPacketId, kind: 'operation' }))) return;
-    activateNode('transporte', 'success');
-    setNodeState('transporte', 'Rota atribuída');
-    if (captionTitle) captionTitle.textContent = 'Rota atribuída.';
-    if (captionText) captionText.textContent = 'PED-8841 foi encaminhado ao transporte.';
-    if (!(await sleep(720, token))) return;
+    if (!(await animatePacket('path-expedition-transport',900,token,'operation'))) return;
+    activateNode('transporte','success');
+    setNodeState('transporte','Rota atribuída');
+    setCaption('08 — TRANSPORTE','Rota atribuída.','PED-8841 foi encaminhado ao transporte.');
+    if (!(await sleep(650,token))) return;
 
-    if (!(await animatePacket('path-transport-delivery', 1000, token, { label: currentPacketId, kind: 'operation' }))) return;
+    if (!(await animatePacket('path-transport-delivery',900,token,'operation'))) return;
     activateNode('entrega');
-    setNodeState('entrega', 'Pendente');
-    setLegend('result', 'Entrega pendente.', 'PED-8841 chegou à etapa final da operação.');
-    if (!(await sleep(1800, token))) return;
+    setNodeState('entrega','Pendente');
+    setCaption('09 — ENTREGA','Entrega pendente.','PED-8841 chegou à etapa final da operação.');
+    if (!(await sleep(2200,token))) return;
 
-    clearNodeClasses();
-    setLegend('input', 'Novo pedido recebido.', 'O dado entrou pelo Google Sheets.');
-    await sleep(2400, token);
+    resetStates();
+    await sleep(1800,token);
   };
 
   const startCycle = async () => {
     if (!architectureShell || reducedMotion || !architectureVisible) return;
     const token = ++cycleToken;
     while (architectureVisible && token === cycleToken) {
-      await runOperationalCycle(token);
+      await runCycle(token);
       if (token !== cycleToken || !architectureVisible) break;
     }
   };
@@ -1455,10 +1335,9 @@ document.addEventListener('keydown', (event) => {
   };
 
   if (architectureShell) {
-    if (reducedMotion) {
+    if (reducedMotion || window.matchMedia('(max-width:620px)').matches) {
       architectureShell.classList.add('architecture-static');
       resetStates();
-      setLegend('input', 'Arquitetura integrada.', 'Dados, automação, sistema e operação conectados em um único ciclo.');
     } else if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
         const visible = entries.some((entry) => entry.isIntersecting);
@@ -1469,7 +1348,7 @@ document.addEventListener('keydown', (event) => {
           architectureVisible = false;
           stopCycle();
         }
-      }, { threshold: 0.12 });
+      },{threshold:.14});
       observer.observe(architectureShell);
     } else {
       architectureVisible = true;
